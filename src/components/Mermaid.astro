@@ -1,0 +1,33 @@
+---
+/**
+ * Mermaid図解の表示コンポーネント（ビルド時SVG方式・実行時JSゼロ）。
+ * ops/render_diagrams.mjs が src/diagrams/<name>.mmd を public/diagrams/<name>.svg に
+ * 事前変換しておく前提で、生成済みSVGを <img> で参照するだけ。
+ * name: src/diagrams 内の .mmd ファイル名（拡張子なし）
+ * caption: 任意のキャプション（figcaption に表示。alt テキストにも流用）
+ */
+const { name, caption } = Astro.props;
+const alt = caption ?? `${name} の図解`;
+---
+<figure class="mermaid-figure">
+  <img src={`/diagrams/${name}.svg`} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+<style>
+  .mermaid-figure {
+    margin: 1.75rem 0;
+    text-align: center;
+  }
+  .mermaid-figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+  .mermaid-figure figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+</style>

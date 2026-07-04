@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "validate": "node ops/validate_content.mjs",
     "lint:jp": "node ops/jp_style_lint.mjs",
+    "diagrams": "node ops/render_diagrams.mjs",
     "draft:local": "node ops/local/pipeline.mjs",
     "draft:dry": "node ops/local/pipeline.mjs --dry-run --no-polish"
   },

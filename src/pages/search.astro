@@ -1,0 +1,63 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="検索｜投資の学び場" description="サイト内の記事・用語集・チャート図解を全文検索します。">
+  <h1>検索</h1>
+  <div id="search">
+    <p id="search-fallback">検索は本番ビルドでのみ利用できます（<code>npm run build</code> 後の配信環境でお試しください）。</p>
+  </div>
+
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <script is:inline>
+    (function () {
+      // pagefind-ui.js はビルド時（npm run build）にのみ dist/pagefind/ へ生成される。
+      // astro dev ではファイルが存在せず読込失敗するため、フォールバック文言を残したままにする。
+      var script = document.createElement("script");
+      script.src = "/pagefind/pagefind-ui.js";
+      script.onload = function () {
+        if (typeof PagefindUI === "undefined") return;
+        var fallback = document.getElementById("search-fallback");
+        if (fallback) fallback.remove();
+        new PagefindUI({
+          element: "#search",
+          showSubResults: true,
+          showImages: false,
+          translations: {
+            placeholder: "サイト内を検索",
+            clear_search: "クリア",
+            load_more: "もっと見る",
+            search_label: "サイト内検索",
+            filters_label: "絞り込み",
+            zero_results: "「[SEARCH_TERM]」に一致する結果がありませんでした",
+            many_results: "「[SEARCH_TERM]」の検索結果：[COUNT]件",
+            one_result: "「[SEARCH_TERM]」の検索結果：[COUNT]件",
+            alt_search: "「[SEARCH_TERM]」に一致する結果がなかったため、「[DIFFERENT_TERM]」の結果を表示しています",
+            search_suggestion: "「[SEARCH_TERM]」に一致する結果がありませんでした。以下を試してください：[SUGGESTIONS]",
+            searching: "「[SEARCH_TERM]」を検索中...",
+          },
+        });
+      };
+      // onerror はそのまま：フォールバック文言（#search-fallback）が表示され続ける
+      document.head.appendChild(script);
+    })();
+  </script>
+
+  <style>
+    #search {
+      margin-top: 1.5rem;
+    }
+    :global(.pagefind-ui) {
+      --pagefind-ui-scale: 1;
+      --pagefind-ui-primary: var(--color-accent);
+      --pagefind-ui-text: var(--color-text);
+      --pagefind-ui-background: var(--color-bg);
+      --pagefind-ui-border: var(--color-border);
+      --pagefind-ui-tag: var(--color-surface-muted);
+      --pagefind-ui-border-width: 1px;
+      --pagefind-ui-border-radius: var(--radius);
+      --pagefind-ui-image-border-radius: var(--radius);
+      --pagefind-ui-image-box-ratio: 3 / 2;
+      --pagefind-ui-font: var(--font-sans);
+    }
+  </style>
+</Base>

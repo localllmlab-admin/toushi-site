@@ -1,0 +1,40 @@
+---
+/**
+ * 目次。entry.render() が返す headings（見出し配列）を depth 2〜3 のみで表示する。
+ * 該当見出しが2件未満（目次として意味が薄い）の場合は何も描画しない。
+ */
+const { headings = [] } = Astro.props;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+{items.length >= 2 && (
+  <nav class="toc" aria-label="目次">
+    <p class="toc-title">目次</p>
+    <ul>
+      {items.map((h) => (
+        <li class={`toc-depth-${h.depth}`}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+<style>
+  .toc {
+    margin: 1.5rem 0 2rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.92rem;
+  }
+  .toc-title {
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+  .toc ul { margin: 0; padding-left: 1.1rem; }
+  .toc li { margin: 0.25rem 0; }
+  .toc-depth-3 { margin-left: 1rem; list-style-type: circle; }
+  .toc a { color: var(--color-accent-soft); }
+</style>

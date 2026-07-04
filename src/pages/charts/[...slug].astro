@@ -7,6 +7,6 @@ export async function getStaticPaths() {
   return items.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
 }
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 ---
-<Article entry={entry}><Content /></Article>
+<Article entry={entry} headings={headings}><Content /></Article>

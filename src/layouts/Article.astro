@@ -1,7 +1,8 @@
 ---
 import Base from "./Base.astro";
 import Disclaimer from "../components/Disclaimer.astro";
-const { entry } = Astro.props;
+import Toc from "../components/Toc.astro";
+const { entry, headings = [] } = Astro.props;
 const { title, description, updated, reviewedAt, sources = [] } = entry.data;
 const upd = new Date(updated).toLocaleDateString("ja-JP");
 const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
@@ -24,6 +25,7 @@ const jsonLd = {
     <p class="meta">
       最終更新: {upd}{rev && <>　/　レビュー日: {rev} ✓</>}
     </p>
+    <Toc headings={headings} />
     <div class="body"><slot /></div>
 
     {sources.length > 0 && (
