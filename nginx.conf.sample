@@ -1,0 +1,10 @@
+server {
+  listen 80;
+  server_name example.jp;
+  root /var/www/toushi-site/dist;
+  index index.html;
+  location / { try_files $uri $uri/ =404; }
+  location = /404.html { internal; }
+  # 静的資産のキャッシュ
+  location ~* \.(css|js|svg|woff2?)$ { expires 30d; add_header Cache-Control "public, immutable"; }
+}

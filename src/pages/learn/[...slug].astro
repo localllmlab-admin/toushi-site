@@ -1,0 +1,12 @@
+---
+import Article from "../../layouts/Article.astro";
+import { getCollection } from "astro:content";
+export async function getStaticPaths() {
+  // reviewed:true のみ公開（未レビュー自動生成物を除外）
+  const items = (await getCollection("learn")).filter((e) => e.data.reviewed);
+  return items.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<Article entry={entry}><Content /></Article>

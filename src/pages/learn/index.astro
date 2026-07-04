@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const CHAPTERS = [
+  "お金と市場の基礎", "商品と制度", "リスク管理", "分析手法",
+  "法規制とルール", "行動と心理", "テクノロジーと自動化",
+];
+const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+
+const all = (await getCollection("learn")).filter((e) => e.data.reviewed);
+const byChapter = CHAPTERS.map((ch) => ({
+  chapter: ch,
+  items: all.filter((e) => e.data.chapter === ch)
+    .sort((a, b) => a.data.level - b.data.level || a.data.order - b.data.order),
+}));
+---
+<Base title="学習マップ｜投資の学び場" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。">
+  <h1>学習マップ</h1>
+  <p>7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
+
+  {byChapter.map((c, i) => (
+    <section class="chapter">
+      <h2>{i + 1}. {c.chapter}</h2>
+      {c.items.length === 0 ? <p class="empty">準備中です。</p> : (
+        <ul>{c.items.map((e) => (
+          <li>
+            <span class={`lv lv-${e.data.level}`}>{LEVELS[e.data.level]}</span>
+            <a href={`/learn/${e.slug}/`}>{e.data.title}</a>
+          </li>
+        ))}</ul>
+      )}
+    </section>
+  ))}
+  <style>
+    .chapter { margin-top: 2rem; }
+    .chapter ul { list-style: none; padding: 0; }
+    .chapter li { padding: .45rem 0; border-bottom: 1px solid var(--color-border); }
+    .lv { display: inline-block; font-size: .72rem; padding: .1em .55em; border-radius: 4px;
+      margin-right: .6em; background: var(--color-surface-muted); border: 1px solid var(--color-border); }
+    .lv-1 { color: #7fd4a0; } .lv-2 { color: var(--color-accent-soft); }
+    .lv-3 { color: #e0b56f; } .lv-4 { color: #e08f8f; }
+    .empty { color: var(--color-text-muted); }
+  </style>
+</Base>

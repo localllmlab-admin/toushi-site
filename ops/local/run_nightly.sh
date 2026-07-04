@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# EVO-X1 夜間バッチ：ローカル生成 → 検証 → ブランチ → PR
+# cron 例（WSL2）: 0 2 * * * cd /path/to/toushi-site && ops/local/run_nightly.sh >> ops/local/nightly.log 2>&1
+set -euo pipefail
+cd "$(dirname "$0")/../.."
+
+git checkout main && git pull --ff-only
+
+# 1. ローカル生成（API磨きを止めたい日は --no-polish を付ける）
+OUT=$(node ops/local/pipeline.mjs) || { echo "生成失敗/品質未達: $(date -Is)"; exit 0; }
+
+# 2. 全体検証（コンプラ・出典等級・再現性・鮮度）
+node ops/validate_content.mjs || { echo "validate失敗。生成物を退避"; mkdir -p ops/local/rejected; mv "$OUT" ops/local/rejected/; git checkout .; exit 0; }
+
+# 3. ブランチ + PR（reviewed:false のまま。人間が承認して reviewed:true で merge）
+SLUG=$(basename "$OUT" .md)
+BRANCH="draft/${SLUG}-$(date +%Y%m%d)"
+git checkout -b "$BRANCH"
+git add "$OUT"
+git commit -m "draft: ${SLUG}（ローカル生成・要レビュー）"
+git push -u origin "$BRANCH"
+command -v gh >/dev/null && gh pr create --fill --label draft || echo "gh 未導入: 手動でPR作成"
+git checkout main
+echo "PR作成完了: $BRANCH $(date -Is)"

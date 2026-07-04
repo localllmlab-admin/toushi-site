@@ -1,0 +1,19 @@
+/* デザイントークン：信頼・安心・落ち着き。読みやすさ最優先。 */
+:root {
+  --color-bg: #0f1420;
+  --color-surface: #161c2b;
+  --color-surface-muted: #1c2333;
+  --color-text: #e7ecf5;
+  --color-text-muted: #9aa7bd;
+  --color-accent: #4a90d9;
+  --color-accent-soft: #6faee0;
+  --color-border: #26304a;
+  --font-sans: system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --maxw: 760px;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body { margin:0; background:var(--color-bg); color:var(--color-text); font-family:var(--font-sans); line-height:1.85; font-size:17px; -webkit-font-smoothing:antialiased; }
+a { color: var(--color-accent-soft); text-underline-offset:3px; }
+h1,h2,h3 { line-height:1.35; }
+code { background:var(--color-surface-muted); padding:.15em .4em; border-radius:4px; font-size:.9em; }

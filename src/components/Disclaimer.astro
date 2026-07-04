@@ -1,0 +1,25 @@
+---
+// 免責。Article.astro が全記事末に必ず描画する（frontmatter で消せない）。
+---
+<aside class="disclaimer" role="note" aria-label="免責事項">
+  <p><strong>免責事項</strong></p>
+  <p>
+    本記事は投資・トレードに関する一般的な教育・情報提供を目的としたものであり、
+    特定の金融商品の売買を推奨・勧誘するものではありません。将来の成果を保証するものでもありません。
+    投資判断はご自身の責任で行ってください。掲載内容の正確性には努めていますが、
+    最新性・完全性を保証しません。必ず一次情報および公的機関の情報をご確認ください。
+  </p>
+</aside>
+
+<style>
+  .disclaimer {
+    margin-top: 3rem;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-surface-muted);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    border-radius: 6px;
+  }
+  .disclaimer p { margin: 0.4rem 0; }
+</style>

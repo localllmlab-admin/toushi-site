@@ -1,0 +1,18 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+const TYPES = ["反転", "継続", "プライスアクション", "インジケーター"];
+const all = (await getCollection("charts")).filter((e) => e.data.reviewed);
+---
+<Base title="チャート図解｜投資の学び場" description="チャートパターン・プライスアクションの図解リファレンス。">
+  <h1>チャート図解</h1>
+  {TYPES.map((t) => {
+    const items = all.filter((e) => e.data.patternType === t);
+    return items.length > 0 && (
+      <section><h2>{t}</h2>
+        <ul>{items.map((e) => <li><a href={`/charts/${e.slug}/`}>{e.data.title}</a></li>)}</ul>
+      </section>
+    );
+  })}
+  <style>ul{list-style:none;padding:0} li{padding:.45rem 0;border-bottom:1px solid var(--color-border)} section{margin-top:1.6rem}</style>
+</Base>

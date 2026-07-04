@@ -1,0 +1,24 @@
+{
+  "name": "toushi-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "validate": "node ops/validate_content.mjs",
+    "lint:jp": "node ops/jp_style_lint.mjs",
+    "draft:local": "node ops/local/pipeline.mjs",
+    "draft:dry": "node ops/local/pipeline.mjs --dry-run --no-polish"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.1.0",
+    "astro": "^4.15.0"
+  },
+  "devDependencies": {
+    "pagefind": "^1.1.0"
+  }
+}

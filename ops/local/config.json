@@ -1,0 +1,25 @@
+{
+  "ollama": {
+    "baseUrl": "http://localhost:11434",
+    "draftModel": "qwen3:14b",
+    "judgeModel": "qwen3:14b",
+    "options": { "temperature": 0.7, "num_ctx": 8192 }
+  },
+  "polish": {
+    "enabled": true,
+    "provider": "openrouter",
+    "baseUrl": "https://openrouter.ai/api/v1/chat/completions",
+    "model": "deepseek/deepseek-chat",
+    "apiKeyEnv": "OPENROUTER_API_KEY",
+    "maxTokens": 4096
+  },
+  "quality": {
+    "judgePassScore": 7,
+    "maxSelfRefineLoops": 2,
+    "styleLintPassScore": 70
+  },
+  "output": {
+    "contentDir": "src/content",
+    "branchPrefix": "draft/"
+  }
+}

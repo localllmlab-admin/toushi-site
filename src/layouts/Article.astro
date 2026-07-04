@@ -1,0 +1,57 @@
+---
+import Base from "./Base.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+const { entry } = Astro.props;
+const { title, description, updated, reviewedAt, sources = [] } = entry.data;
+const upd = new Date(updated).toLocaleDateString("ja-JP");
+const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
+const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道" };
+
+// JSON-LD（Article 構造化データ：信頼シグナル・発見性）
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  dateModified: new Date(updated).toISOString(),
+  inLanguage: "ja",
+  publisher: { "@type": "Organization", name: "投資の学び場" },
+};
+---
+<Base title={`${title}｜投資の学び場`} description={description}>
+  <article>
+    <h1>{title}</h1>
+    <p class="meta">
+      最終更新: {upd}{rev && <>　/　レビュー日: {rev} ✓</>}
+    </p>
+    <div class="body"><slot /></div>
+
+    {sources.length > 0 && (
+      <section class="sources">
+        <h2>出典・参考</h2>
+        <ul>{sources.map((s) => (
+          <li>
+            <span class={`grade grade-${s.grade}`}>{s.grade}: {gradeLabel[s.grade]}</span>
+            <a href={s.url} rel="noopener nofollow">{s.title}</a>
+          </li>
+        ))}</ul>
+        <p class="grade-note"><a href="/policy/">出典等級について（編集方針）</a></p>
+      </section>
+    )}
+
+    <!-- 免責は常に機械描画。frontmatter では消せない。 -->
+    <Disclaimer />
+  </article>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <style>
+    .meta { color: var(--color-text-muted); font-size: .85rem; }
+    .body :global(h2) { margin-top: 2.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
+    .sources { margin-top: 2.5rem; font-size: .9rem; }
+    .sources li { margin: .4rem 0; }
+    .sources a { word-break: break-all; }
+    .grade { display: inline-block; font-size: .75rem; padding: .1em .5em; border-radius: 4px;
+      margin-right: .5em; background: var(--color-surface-muted); border: 1px solid var(--color-border); }
+    .grade-A { border-color: var(--color-accent); color: var(--color-accent-soft); }
+    .grade-note { font-size: .8rem; color: var(--color-text-muted); }
+  </style>
+</Base>

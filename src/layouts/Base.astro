@@ -1,0 +1,48 @@
+---
+import "../styles/tokens.css";
+const { title, description } = Astro.props;
+const nav = [
+  { href: "/learn/", label: "学ぶ" },
+  { href: "/playbook/", label: "手法・定石" },
+  { href: "/charts/", label: "チャート図解" },
+  { href: "/glossary/", label: "用語集" },
+  { href: "/policy/", label: "編集方針" },
+];
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="ja_JP" />
+    <link rel="alternate" type="application/rss+xml" title="投資の学び場" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <header class="site-head">
+      <a class="brand" href="/">投資の学び場</a>
+      <nav>{nav.map((n) => <a href={n.href}>{n.label}</a>)}</nav>
+    </header>
+    <main><slot /></main>
+    <footer class="site-foot">
+      <p>本サイトは教育・情報提供を目的とし、投資勧誘・助言を行いません。<a href="/policy/">編集方針</a></p>
+    </footer>
+    <style>
+      .site-head { display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;
+        max-width:var(--maxw); margin:0 auto; padding:1.2rem 1rem;
+        border-bottom:1px solid var(--color-border); }
+      .brand { font-weight:700; font-size:1.15rem; color:var(--color-text); text-decoration:none; }
+      .site-head nav { display:flex; gap:1.1rem; flex-wrap:wrap; }
+      .site-head nav a { text-decoration:none; color:var(--color-text-muted); }
+      .site-head nav a:hover { color:var(--color-accent-soft); }
+      main { max-width:var(--maxw); margin:0 auto; padding:2rem 1rem 3rem; }
+      .site-foot { max-width:var(--maxw); margin:0 auto; padding:2rem 1rem;
+        border-top:1px solid var(--color-border); color:var(--color-text-muted); font-size:.85rem; }
+    </style>
+  </body>
+</html>

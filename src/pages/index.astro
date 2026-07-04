@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const pub = (arr) => arr.filter((e) => e.data.reviewed);
+const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.data.order);
+const playbook = pub(await getCollection("playbook"));
+const charts = pub(await getCollection("charts"));
+
+const sections = [
+  { title: "学ぶ（体系的カリキュラム）", base: "/learn/", items: learn },
+  { title: "手法・定石・格言", base: "/playbook/", items: playbook },
+  { title: "チャート図解", base: "/charts/", items: charts },
+];
+---
+<Base title="投資の学び場｜誠実な投資・トレード教育" description="投資家・トレーダーのための、信頼できる教育・学習コンテンツ。">
+  <section class="hero">
+    <h1>投資の学び場</h1>
+    <p>投資家・トレーダーのための、誠実で信頼できる学習コンテンツ。<br />
+    煽らず、断定せず、一次情報に基づいて。</p>
+  </section>
+
+  {sections.map((s) => (
+    <section class="col">
+      <h2><a href={s.base}>{s.title}</a></h2>
+      {s.items.length === 0 ? <p class="empty">準備中です。</p> : (
+        <ul>{s.items.slice(0, 8).map((e) => (
+          <li><a href={`${s.base}${e.slug}/`}>{e.data.title}</a></li>
+        ))}</ul>
+      )}
+    </section>
+  ))}
+
+  <style>
+    .hero { padding: 1rem 0 2rem; }
+    .hero h1 { font-size: 2rem; margin-bottom:.5rem; }
+    .hero p { color: var(--color-text-muted); }
+    .col { margin-top: 2.2rem; }
+    .col h2 a { color: var(--color-text); text-decoration:none; }
+    .col ul { list-style:none; padding:0; }
+    .col li { padding:.5rem 0; border-bottom:1px solid var(--color-border); }
+    .empty { color: var(--color-text-muted); }
+  </style>
+</Base>

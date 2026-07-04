@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+const terms = (await getCollection("glossary"))
+  .filter((e) => e.data.reviewed)
+  .sort((a, b) => (a.data.reading || a.data.term).localeCompare(b.data.reading || b.data.term, "ja"));
+---
+<Base title="用語集｜投資の学び場" description="投資・トレード用語をやさしく解説。">
+  <h1>用語集</h1>
+  {terms.length === 0 ? <p>準備中です。</p> : (
+    <dl>{terms.map((e) => (<><dt>{e.data.term}</dt><dd>{e.data.description}</dd></>))}</dl>
+  )}
+  <style>dt{font-weight:700;margin-top:1rem}dd{margin:.2rem 0 0;color:var(--color-text-muted)}</style>
+</Base>
