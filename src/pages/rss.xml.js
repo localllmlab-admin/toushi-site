@@ -18,7 +18,7 @@ export async function GET(context) {
   return rss({
     title: "投資の学び場",
     description: "誠実な投資・トレード教育コンテンツの更新情報",
-    site: context.site ?? "https://example.jp",
+    site: context.site ?? "https://toushi-manabiya.jp",
     items,
   });
 }
