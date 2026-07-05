@@ -20,10 +20,11 @@ const jsonLd = {
 };
 ---
 <Base title={`${title}｜投資の学び場`} description={description}>
-  <article>
+  <article class="container">
     <h1>{title}</h1>
     <p class="meta">
-      最終更新: {upd}{rev && <>　/　レビュー日: {rev} ✓</>}
+      最終更新: <time datetime={new Date(updated).toISOString()}>{upd}</time>
+      {rev && <>　/　レビュー日: <time datetime={new Date(reviewedAt).toISOString()}>{rev}</time> 済</>}
     </p>
     <Toc headings={headings} />
     <div class="body"><slot /></div>
@@ -46,14 +47,35 @@ const jsonLd = {
   </article>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <style>
-    .meta { color: var(--color-text-muted); font-size: .85rem; }
+    .container { padding: 2.4rem 1.25rem 3.5rem; }
+    .meta {
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+    }
     .body :global(h2) { margin-top: 2.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
     .sources { margin-top: 2.5rem; font-size: .9rem; }
-    .sources li { margin: .4rem 0; }
+    .sources h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
+    .sources li { margin: .5rem 0; }
     .sources a { word-break: break-all; }
-    .grade { display: inline-block; font-size: .75rem; padding: .1em .5em; border-radius: 4px;
-      margin-right: .5em; background: var(--color-surface-muted); border: 1px solid var(--color-border); }
-    .grade-A { border-color: var(--color-accent); color: var(--color-accent-soft); }
+    .grade {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: .15em .55em;
+      border-radius: var(--radius-s);
+      margin-right: .6em;
+      border: 1px solid var(--color-border-strong);
+      color: var(--color-text);
+    }
+    /* A: 公的機関 = 墨紺地・白文字（最上位の信頼シグナル） */
+    .grade-A { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-on-ink); }
+    /* B/C: 学術・一次発表 = 罫線のみ（アクセント色） */
+    .grade-B, .grade-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }
+    /* D: 報道 = グレー（事実単独での根拠にしないため一段控えめ） */
+    .grade-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
     .grade-note { font-size: .8rem; color: var(--color-text-muted); }
   </style>
 </Base>

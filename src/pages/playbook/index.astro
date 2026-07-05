@@ -5,15 +5,24 @@ const KINDS = ["定石", "手法", "リスク管理", "心理", "格言"];
 const all = (await getCollection("playbook")).filter((e) => e.data.reviewed);
 ---
 <Base title="手法・定石・格言｜投資の学び場" description="取引手法・相場の定石・格言のリファレンス。前提と限界まで明示します。">
-  <h1>手法・定石・格言</h1>
-  <p>すべての手法・定石記事には「前提条件」「検証の考え方」「限界と注意」を必ず記載しています（<a href="/policy/">編集方針</a>）。</p>
-  {KINDS.map((k) => {
-    const items = all.filter((e) => e.data.kind === k);
-    return items.length > 0 && (
-      <section><h2>{k}</h2>
-        <ul>{items.map((e) => <li><a href={`/playbook/${e.slug}/`}>{e.data.title}</a></li>)}</ul>
-      </section>
-    );
-  })}
-  <style>ul{list-style:none;padding:0} li{padding:.45rem 0;border-bottom:1px solid var(--color-border)} section{margin-top:1.6rem}</style>
+  <div class="container">
+    <p class="section-label" style="color:var(--color-sec-playbook)">PLAYBOOK</p>
+    <h1>手法・定石・格言</h1>
+    <p>すべての手法・定石記事には「前提条件」「検証の考え方」「限界と注意」を必ず記載しています（<a href="/policy/">編集方針</a>）。</p>
+    {KINDS.map((k) => {
+      const items = all.filter((e) => e.data.kind === k);
+      return items.length > 0 && (
+        <section><h2>{k}</h2>
+          <ul>{items.map((e) => <li><a href={`/playbook/${e.slug}/`}>{e.data.title}</a></li>)}</ul>
+        </section>
+      );
+    })}
+  </div>
+  <style>
+    .container { padding: 2.4rem 1.25rem 3.5rem; }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
+    ul { list-style: none; padding: 0; }
+    li { padding: .5rem 0; border-bottom: 1px solid var(--color-border); }
+    section { margin-top: 1.8rem; }
+  </style>
 </Base>

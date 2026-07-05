@@ -6,39 +6,238 @@ const pub = (arr) => arr.filter((e) => e.data.reviewed);
 const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.data.order);
 const playbook = pub(await getCollection("playbook"));
 const charts = pub(await getCollection("charts"));
+const glossary = pub(await getCollection("glossary"));
 
-const sections = [
-  { title: "学ぶ（体系的カリキュラム）", base: "/learn/", items: learn },
-  { title: "手法・定石・格言", base: "/playbook/", items: playbook },
-  { title: "チャート図解", base: "/charts/", items: charts },
+// 4象限セクションカード
+const cardSections = [
+  { label: "LEARN", color: "var(--color-sec-learn)", title: "学ぶ", href: "/learn/",
+    desc: "7章×4レベルで体系的に学ぶカリキュラム。", count: learn.length },
+  { label: "PLAYBOOK", color: "var(--color-sec-playbook)", title: "手法・定石", href: "/playbook/",
+    desc: "前提条件・検証の考え方・限界までセットで解説。", count: playbook.length },
+  { label: "CHARTS", color: "var(--color-sec-charts)", title: "チャート図解", href: "/charts/",
+    desc: "代表的なチャートパターンの形と見方を図解。", count: charts.length },
+  { label: "GLOSSARY", color: "var(--color-sec-glossary)", title: "用語集", href: "/glossary/",
+    desc: "投資・トレード用語をやさしく解説。", count: glossary.length },
 ];
+
+// 学習マップ・ミニチュア（7章 × 4レベル）
+const CHAPTERS = [
+  "お金と市場の基礎", "商品と制度", "リスク管理", "分析手法",
+  "法規制とルール", "行動と心理", "テクノロジーと自動化",
+];
+const LEVEL_LABELS = ["入門", "基礎", "実践", "上級"];
+const mapRows = CHAPTERS.map((chapter) => {
+  const items = learn.filter((e) => e.data.chapter === chapter);
+  const levels = [1, 2, 3, 4].map((lv) => items.some((e) => e.data.level === lv));
+  return { chapter, levels, count: items.length };
+});
+
+// 新着記事（4コレクション横断・updated降順5件）
+const sections = [
+  { base: "/learn/", label: "LEARN", color: "var(--color-sec-learn)", items: learn },
+  { base: "/playbook/", label: "PLAYBOOK", color: "var(--color-sec-playbook)", items: playbook },
+  { base: "/charts/", label: "CHARTS", color: "var(--color-sec-charts)", items: charts },
+  { base: "/glossary/", label: "GLOSSARY", color: "var(--color-sec-glossary)", items: glossary },
+];
+const latest = sections
+  .flatMap((s) => s.items.map((entry) => ({ s, entry })))
+  .sort((a, b) => new Date(b.entry.data.updated) - new Date(a.entry.data.updated))
+  .slice(0, 5);
+
+// ヒーロー装飾：抽象ローソク足チャート（固定シード・ビルド再現性のため乱数不使用・aria-hidden）
+const CANDLE_H = [58, 74, 66, 92, 80, 108, 96, 124, 110, 142, 128, 160, 146, 178, 162, 196];
+const candles = CANDLE_H.map((h, i) => {
+  const x = 20 + i * 40;
+  const bodyTop = 300 - h;
+  const bodyH = 26;
+  return {
+    x,
+    bodyTop,
+    bodyH,
+    wickTop: bodyTop - 14,
+    wickBottom: bodyTop + bodyH + 14,
+    up: i === 0 ? true : h >= CANDLE_H[i - 1],
+  };
+});
+const gridYs = [40, 100, 160, 220, 280];
 ---
-<Base title="投資の学び場｜誠実な投資・トレード教育" description="投資家・トレーダーのための、信頼できる教育・学習コンテンツ。">
+<Base title="投資の学び場｜相場を、体系で学ぶ。" description="投資家・トレーダーのための教育サイト。煽らず、断定せず、一次情報に基づいて解説します。">
   <section class="hero">
-    <h1>投資の学び場</h1>
-    <p>投資家・トレーダーのための、誠実で信頼できる学習コンテンツ。<br />
-    煽らず、断定せず、一次情報に基づいて。</p>
+    <div class="hero-decor" aria-hidden="true">
+      <svg viewBox="0 0 660 320" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <g opacity="0.28">
+          {gridYs.map((y) => (
+            <line x1="0" y1={y} x2="660" y2={y} style="stroke:var(--color-on-ink-muted)" stroke-width="1" />
+          ))}
+          {candles.map((c) => (
+            <>
+              <line x1={c.x} y1={c.wickTop} x2={c.x} y2={c.wickBottom}
+                style={`stroke:var(--color-${c.up ? "up" : "accent"})`} stroke-width="2" />
+              <rect x={c.x - 7} y={c.bodyTop} width="14" height={c.bodyH} rx="2"
+                style={`fill:var(--color-${c.up ? "up" : "accent"})`} />
+            </>
+          ))}
+        </g>
+      </svg>
+    </div>
+    <div class="hero-inner">
+      <h1>相場を、体系で学ぶ。</h1>
+      <p class="hero-sub">投資家・トレーダーのための教育サイト。煽らず、断定せず、一次情報に基づいて解説します。</p>
+      <ul class="hero-principles">
+        <li>煽らない</li>
+        <li>断定しない</li>
+        <li>一次情報</li>
+      </ul>
+    </div>
   </section>
 
-  {sections.map((s) => (
-    <section class="col">
-      <h2><a href={s.base}>{s.title}</a></h2>
-      {s.items.length === 0 ? <p class="empty">準備中です。</p> : (
-        <ul>{s.items.slice(0, 8).map((e) => (
-          <li><a href={`${s.base}${e.slug}/`}>{e.data.title}</a></li>
-        ))}</ul>
-      )}
-    </section>
-  ))}
+  <section class="cards-wrap">
+    <div class="cards">
+      {cardSections.map((s) => (
+        <a class="card" href={s.href} style={`--card-color:${s.color}`}>
+          <p class="card-label">{s.label}</p>
+          <h2 class="card-title">{s.title}</h2>
+          <p class="card-desc">{s.desc}</p>
+          <p class="card-count">公開記事 {s.count}本</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="map-wrap">
+    <div class="section-head">
+      <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
+      <h2>学習マップ</h2>
+    </div>
+    <p class="section-desc">7つの章 × 4つのレベルで、投資・トレードを体系的に学べます。</p>
+    <div class="map-grid">
+      <div class="map-row map-header">
+        <span class="map-chapter"></span>
+        <span class="map-dots">
+          {LEVEL_LABELS.map((l) => <span class="lv-label">{l}</span>)}
+        </span>
+      </div>
+      {mapRows.map((r, i) => (
+        <div class={`map-row ${r.count === 0 ? "is-empty" : ""}`}>
+          <span class="map-chapter">{i + 1}. {r.chapter}</span>
+          <span class="map-dots">
+            {r.levels.map((has) => <span class={`dot ${has ? "dot-on" : ""}`} aria-hidden="true"></span>)}
+          </span>
+        </div>
+      ))}
+    </div>
+    <a class="map-link" href="/learn/">学習マップを見る →</a>
+  </section>
+
+  <section class="latest-wrap">
+    <div class="section-head"><h2>新着記事</h2></div>
+    {latest.length === 0 ? <p class="section-desc">準備中です。</p> : (
+      <ul class="latest-list">
+        {latest.map(({ s, entry }) => (
+          <li>
+            <span class="latest-label" style={`color:${s.color}`}>{s.label}</span>
+            <a href={`${s.base}${entry.slug}/`}>{entry.data.title}</a>
+            <time class="latest-date" datetime={new Date(entry.data.updated).toISOString()}>
+              {new Date(entry.data.updated).toLocaleDateString("ja-JP")}
+            </time>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <section class="trust-wrap">
+    <div class="section-head"><h2>このサイトの作り方</h2></div>
+    <p>すべての記事は、出典を4段階の等級で明示したうえで公開しています。事実の主張には、等級A〜Cの出典を最低1件必須としています。</p>
+    <ul class="grade-legend">
+      <li><span class="chip chip-A">A</span>公的機関・規制当局・取引所</li>
+      <li><span class="chip chip-B">B</span>学術論文・書籍</li>
+      <li><span class="chip chip-C">C</span>企業公式・一次発表</li>
+      <li><span class="chip chip-D">D</span>信頼できる報道</li>
+    </ul>
+    <p>公開後も「最終更新日」と「レビュー日」を記事ごとに明示し、レビューから1年を超えた記事は再確認の対象として管理しています。詳しい基準は<a href="/policy/">編集方針</a>をご覧ください。</p>
+  </section>
 
   <style>
-    .hero { padding: 1rem 0 2rem; }
-    .hero h1 { font-size: 2rem; margin-bottom:.5rem; }
-    .hero p { color: var(--color-text-muted); }
-    .col { margin-top: 2.2rem; }
-    .col h2 a { color: var(--color-text); text-decoration:none; }
-    .col ul { list-style:none; padding:0; }
-    .col li { padding:.5rem 0; border-bottom:1px solid var(--color-border); }
-    .empty { color: var(--color-text-muted); }
+    /* ヒーロー（墨紺反転面） */
+    .hero { position: relative; background: var(--color-ink); color: var(--color-on-ink); overflow: hidden; }
+    .hero-decor { position: absolute; inset: 0; }
+    .hero-decor svg { width: 100%; height: 100%; display: block; }
+    .hero-inner { position: relative; z-index: 1; max-width: var(--maxw-wide); margin: 0 auto; padding: 4.5rem 1.25rem 4rem; }
+    .hero h1 { font-size: clamp(1.9rem, 4.4vw, 2.7rem); font-weight: 800; margin: 0 0 1.1rem; color: var(--color-on-ink); }
+    .hero-sub { color: var(--color-on-ink-muted); max-width: 34em; font-size: 1.05rem; margin: 0; }
+    .hero-principles { display: flex; gap: .6rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 1.8rem 0 0; }
+    .hero-principles li {
+      font-family: var(--font-mono); font-size: .78rem; letter-spacing: .03em;
+      padding: .4em .85em; border: 1px solid var(--color-on-ink-muted); border-radius: 999px; color: var(--color-on-ink);
+    }
+
+    /* 共通セクション見出し */
+    .section-head { display: flex; align-items: baseline; gap: .7rem; margin-bottom: .4rem; }
+    .section-head h2 { margin: 0; font-size: 1.35rem; }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0; }
+    .section-desc { color: var(--color-text-muted); margin: .3rem 0 1.4rem; }
+
+    /* セクションカード4枚 */
+    .cards-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3.2rem 1.25rem 1rem; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+    .card {
+      display: block; background: var(--color-bg); border: 1px solid var(--color-border);
+      border-top: 3px solid var(--card-color); border-radius: var(--radius);
+      padding: 1.5rem 1.3rem; text-decoration: none; color: var(--color-text);
+      transition: border-color .15s;
+    }
+    .card:hover, .card:focus-visible { border-color: var(--color-border-strong); border-top-color: var(--card-color); }
+    .card-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; color: var(--card-color); margin: 0 0 .6rem; }
+    .card-title { font-size: 1.1rem; margin: 0; }
+    .card-desc { color: var(--color-text-muted); font-size: .92rem; margin: .5rem 0 1.1rem; line-height: 1.6; }
+    .card-count { font-family: var(--font-mono); font-size: .8rem; color: var(--color-text-muted); margin: 0; }
+    @media (max-width: 880px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+
+    /* 学習マップ・ミニチュア */
+    .map-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem; }
+    .map-grid { border-top: 1px solid var(--color-border-strong); }
+    .map-row {
+      display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 2.6rem);
+      align-items: center; gap: .4rem; padding: .55rem 0; border-bottom: 1px solid var(--color-border);
+    }
+    .map-header { font-family: var(--font-mono); font-size: .72rem; color: var(--color-text-muted); }
+    .map-chapter { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .95rem; }
+    .map-dots { display: contents; }
+    .lv-label { text-align: center; }
+    .dot {
+      display: block; width: .6rem; height: .6rem; margin: 0 auto; border-radius: 50%;
+      border: 1px solid var(--color-border-strong); background: transparent;
+    }
+    .dot-on { background: var(--color-sec-learn); border-color: var(--color-sec-learn); }
+    .is-empty { opacity: .5; }
+    /* モバイルはレベル列を詰めて章名の可読域を確保（横はみ出し防止と可読性の両立） */
+    @media (max-width: 480px) {
+      .map-row { grid-template-columns: minmax(0, 1fr) repeat(4, 2.1rem); gap: .3rem; }
+    }
+    .map-link { display: inline-block; margin-top: 1.2rem; color: var(--color-accent); text-decoration: none; font-weight: 700; }
+    .map-link:hover { color: var(--color-accent-soft); }
+
+    /* 新着記事 */
+    .latest-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem; }
+    .latest-list { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--color-border); }
+    .latest-list li { display: flex; gap: .9rem; align-items: baseline; padding: .8rem 0; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
+    .latest-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em; width: 5.6rem; flex-shrink: 0; }
+    .latest-list a { flex: 1; min-width: 12rem; color: var(--color-text); text-decoration: none; }
+    .latest-list a:hover { color: var(--color-accent-soft); text-decoration: underline; }
+    .latest-date { font-family: var(--font-mono); font-size: .8rem; color: var(--color-text-muted); margin-left: auto; }
+
+    /* 信頼ブロック */
+    .trust-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+    .trust-wrap p { max-width: 62em; }
+    .grade-legend { list-style: none; padding: 0; margin: 1.3rem 0; display: flex; flex-wrap: wrap; gap: 1rem 1.8rem; font-size: .92rem; color: var(--color-text-muted); }
+    .chip {
+      display: inline-block; font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
+      padding: .15em .55em; border-radius: var(--radius-s); margin-right: .5em; border: 1px solid var(--color-border-strong);
+    }
+    .chip-A { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-on-ink); }
+    .chip-B, .chip-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }
+    .chip-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
   </style>
 </Base>

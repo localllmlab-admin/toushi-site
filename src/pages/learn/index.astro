@@ -16,30 +16,36 @@ const byChapter = CHAPTERS.map((ch) => ({
 }));
 ---
 <Base title="学習マップ｜投資の学び場" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。">
-  <h1>学習マップ</h1>
-  <p>7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
+  <div class="container-wide">
+    <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
+    <h1>学習マップ</h1>
+    <p>7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
 
-  {byChapter.map((c, i) => (
-    <section class="chapter">
-      <h2>{i + 1}. {c.chapter}</h2>
-      {c.items.length === 0 ? <p class="empty">準備中です。</p> : (
-        <ul>{c.items.map((e) => (
-          <li>
-            <span class={`lv lv-${e.data.level}`}>{LEVELS[e.data.level]}</span>
-            <a href={`/learn/${e.slug}/`}>{e.data.title}</a>
-          </li>
-        ))}</ul>
-      )}
-    </section>
-  ))}
+    {byChapter.map((c, i) => (
+      <section class="chapter">
+        <h2>{i + 1}. {c.chapter}</h2>
+        {c.items.length === 0 ? <p class="empty">準備中です。</p> : (
+          <ul>{c.items.map((e) => (
+            <li>
+              <span class="lv">{LEVELS[e.data.level]}</span>
+              <a href={`/learn/${e.slug}/`}>{e.data.title}</a>
+            </li>
+          ))}</ul>
+        )}
+      </section>
+    ))}
+  </div>
   <style>
+    .container-wide { padding: 2.4rem 1.25rem 3.5rem; }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
     .chapter { margin-top: 2rem; }
     .chapter ul { list-style: none; padding: 0; }
-    .chapter li { padding: .45rem 0; border-bottom: 1px solid var(--color-border); }
-    .lv { display: inline-block; font-size: .72rem; padding: .1em .55em; border-radius: 4px;
-      margin-right: .6em; background: var(--color-surface-muted); border: 1px solid var(--color-border); }
-    .lv-1 { color: #7fd4a0; } .lv-2 { color: var(--color-accent-soft); }
-    .lv-3 { color: #e0b56f; } .lv-4 { color: #e08f8f; }
+    .chapter li { padding: .5rem 0; border-bottom: 1px solid var(--color-border); }
+    .lv {
+      display: inline-block; font-family: var(--font-mono); font-size: .72rem;
+      padding: .15em .6em; border-radius: var(--radius-s); margin-right: .7em;
+      border: 1px solid var(--color-border-strong); color: var(--color-text-muted);
+    }
     .empty { color: var(--color-text-muted); }
   </style>
 </Base>

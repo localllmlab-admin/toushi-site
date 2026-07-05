@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 ---
 <Base title="編集方針｜投資の学び場" description="本サイトの編集方針・出典基準・レビュー体制・免責について。">
+  <div class="container">
   <h1>編集方針</h1>
 
   <h2>私たちの約束</h2>
@@ -46,9 +47,11 @@ import Base from "../layouts/Base.astro";
   <h2>訂正について</h2>
   <p>誤りが判明した場合は速やかに訂正し、重要な訂正は記事内に訂正履歴を残します。</p>
 
+  </div>
   <style>
-    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    .container { padding: 2.4rem 1.25rem 3.5rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; border: 1px solid var(--color-border); border-radius: var(--radius-s); overflow: hidden; }
     th, td { border: 1px solid var(--color-border); padding: .5rem .7rem; text-align: left; }
-    th { background: var(--color-surface-muted); }
+    th { background: var(--color-surface-muted); font-family: var(--font-mono); font-size: .85rem; }
   </style>
 </Base>

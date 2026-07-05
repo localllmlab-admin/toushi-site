@@ -6,9 +6,19 @@ const terms = (await getCollection("glossary"))
   .sort((a, b) => (a.data.reading || a.data.term).localeCompare(b.data.reading || b.data.term, "ja"));
 ---
 <Base title="用語集｜投資の学び場" description="投資・トレード用語をやさしく解説。">
-  <h1>用語集</h1>
-  {terms.length === 0 ? <p>準備中です。</p> : (
-    <dl>{terms.map((e) => (<><dt>{e.data.term}</dt><dd>{e.data.description}</dd></>))}</dl>
-  )}
-  <style>dt{font-weight:700;margin-top:1rem}dd{margin:.2rem 0 0;color:var(--color-text-muted)}</style>
+  <div class="container">
+    <p class="section-label" style="color:var(--color-sec-glossary)">GLOSSARY</p>
+    <h1>用語集</h1>
+    {terms.length === 0 ? <p>準備中です。</p> : (
+      <dl>{terms.map((e) => (<><dt><a href={`/glossary/${e.slug}/`}>{e.data.term}</a></dt><dd>{e.data.description}</dd></>))}</dl>
+    )}
+  </div>
+  <style>
+    .container { padding: 2.4rem 1.25rem 3.5rem; }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
+    dt { font-weight: 700; margin-top: 1.2rem; border-bottom: 1px solid var(--color-border); padding-bottom: .4rem; }
+    dt a { color: var(--color-text); text-decoration: none; }
+    dt a:hover { color: var(--color-accent-soft); }
+    dd { margin: .3rem 0 0; color: var(--color-text-muted); }
+  </style>
 </Base>

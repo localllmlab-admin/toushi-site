@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="投資の学び場">
+  <!-- ブランドマーク: 墨紺の角丸正方形 + 抽象ローソク足2本（陽線=朱/陰線=藍）。値は tokens.css の --color-ink/--color-up/--color-accent と同一。 -->
+  <rect width="32" height="32" rx="7" fill="#0b1f33" />
+  <line x1="12" y1="6" x2="12" y2="26" stroke="#1c5bbf" stroke-width="2" stroke-linecap="round" />
+  <rect x="9" y="13" width="6" height="9" rx="1.2" fill="#1c5bbf" />
+  <line x1="21" y1="7" x2="21" y2="24" stroke="#c73e2e" stroke-width="2" stroke-linecap="round" />
+  <rect x="18" y="11" width="6" height="8" rx="1.2" fill="#c73e2e" />
+</svg>

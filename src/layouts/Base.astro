@@ -21,29 +21,109 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:type" content="article" />
     <meta property="og:locale" content="ja_JP" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="投資の学び場" href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body>
     <header class="site-head">
-      <a class="brand" href="/">投資の学び場</a>
-      <nav>{nav.map((n) => <a href={n.href}>{n.label}</a>)}</nav>
+      <div class="site-head-inner">
+        <a class="brand" href="/">
+          <svg class="brand-mark" viewBox="0 0 32 32" width="20" height="20" aria-hidden="true" focusable="false">
+            <rect width="32" height="32" rx="7" style="fill:var(--color-ink)" />
+            <line x1="12" y1="6" x2="12" y2="26" style="stroke:var(--color-accent)" stroke-width="2" stroke-linecap="round" />
+            <rect x="9" y="13" width="6" height="9" rx="1.2" style="fill:var(--color-accent)" />
+            <line x1="21" y1="7" x2="21" y2="24" style="stroke:var(--color-up)" stroke-width="2" stroke-linecap="round" />
+            <rect x="18" y="11" width="6" height="8" rx="1.2" style="fill:var(--color-up)" />
+          </svg>
+          <span class="brand-word">投資の学び場</span>
+        </a>
+        <nav aria-label="サイト内ナビゲーション">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+      </div>
     </header>
     <main><slot /></main>
     <footer class="site-foot">
-      <p>本サイトは教育・情報提供を目的とし、投資勧誘・助言を行いません。<a href="/policy/">編集方針</a></p>
+      <div class="site-foot-inner">
+        <p class="foot-disclaimer">
+          本サイトは教育・情報提供を目的とし、投資勧誘・助言を行いません。
+        </p>
+        <nav class="foot-links" aria-label="フッターリンク">
+          <a href="/policy/">編集方針</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+      </div>
     </footer>
+    <style is:global>
+      .container { max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
+      .container-wide { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 1.25rem; }
+    </style>
     <style>
-      .site-head { display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;
-        max-width:var(--maxw); margin:0 auto; padding:1.2rem 1rem;
-        border-bottom:1px solid var(--color-border); }
-      .brand { font-weight:700; font-size:1.15rem; color:var(--color-text); text-decoration:none; }
-      .site-head nav { display:flex; gap:1.1rem; flex-wrap:wrap; }
-      .site-head nav a { text-decoration:none; color:var(--color-text-muted); }
-      .site-head nav a:hover { color:var(--color-accent-soft); }
-      main { max-width:var(--maxw); margin:0 auto; padding:2rem 1rem 3rem; }
-      .site-foot { max-width:var(--maxw); margin:0 auto; padding:2rem 1rem;
-        border-top:1px solid var(--color-border); color:var(--color-text-muted); font-size:.85rem; }
+      .site-head {
+        background: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .site-head-inner {
+        max-width: var(--maxw-wide);
+        margin: 0 auto;
+        padding: 0.9rem 1.25rem;
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 44px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--color-text);
+        text-decoration: none;
+      }
+      .brand-mark { flex-shrink: 0; }
+      .site-head nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+      .site-head nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 0.7rem;
+        text-decoration: none;
+        color: var(--color-text-muted);
+        font-size: 0.94rem;
+      }
+      .site-head nav a:hover { color: var(--color-accent-soft); }
+
+      main { display: block; }
+
+      .site-foot {
+        background: var(--color-ink);
+        color: var(--color-on-ink-muted);
+      }
+      .site-foot-inner {
+        max-width: var(--maxw-wide);
+        margin: 0 auto;
+        padding: 2rem 1.25rem;
+        display: flex;
+        gap: 1rem 2rem;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .foot-disclaimer { margin: 0; font-size: 0.85rem; max-width: 46em; }
+      .foot-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+      .foot-links a {
+        color: var(--color-on-ink);
+        text-decoration: none;
+        font-size: 0.88rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .foot-links a:hover { color: var(--color-accent-soft); }
     </style>
   </body>
 </html>

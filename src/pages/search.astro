@@ -2,9 +2,11 @@
 import Base from "../layouts/Base.astro";
 ---
 <Base title="検索｜投資の学び場" description="サイト内の記事・用語集・チャート図解を全文検索します。">
+  <div class="container">
   <h1>検索</h1>
   <div id="search">
     <p id="search-fallback">検索は本番ビルドでのみ利用できます（<code>npm run build</code> 後の配信環境でお試しください）。</p>
+  </div>
   </div>
 
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
@@ -43,6 +45,7 @@ import Base from "../layouts/Base.astro";
   </script>
 
   <style>
+    .container { padding: 2.4rem 1.25rem 3.5rem; }
     #search {
       margin-top: 1.5rem;
     }
