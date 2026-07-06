@@ -3,7 +3,8 @@ title: "カラカサとトンカチ（長いヒゲの転換シグナル）"
 description: "長い下ヒゲの「カラカサ」と長い上ヒゲの「トンカチ」。1本のローソク足のヒゲから転換の兆しを読む見方と注意点を解説します。"
 tags: ["ローソク足", "プライスアクション", "反転"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "スティーブ・ニソン『日本ローソク足チャート術』（パンローリング）"

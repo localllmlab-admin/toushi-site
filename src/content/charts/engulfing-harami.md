@@ -3,7 +3,8 @@ title: "包み足とはらみ足（ローソク足の反転パターン）"
 description: "前の足を丸ごと包む「包み足」と、前の足の中に収まる「はらみ足」。2本のローソク足で読む代表的な転換シグナルを解説します。"
 tags: ["ローソク足", "プライスアクション", "反転"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "スティーブ・ニソン『日本ローソク足チャート術』（パンローリング）"

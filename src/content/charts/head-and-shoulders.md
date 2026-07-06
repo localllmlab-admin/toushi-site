@@ -3,7 +3,8 @@ title: "ヘッドアンドショルダー（三尊・逆三尊）"
 description: "中央の山が最も高い3つの山で天井を作る代表的な反転パターン。日本では三尊・逆三尊と呼ばれる形の特徴と確認の考え方を解説します。"
 tags: ["チャート", "反転"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

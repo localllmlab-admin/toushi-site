@@ -3,7 +3,8 @@ title: "トレンドフォロー（順張り）とは何か"
 description: "価格の流れと同じ方向に仕掛ける「順張り」の基本的な考え方と、前提条件・検証方法・限界までを解説します。"
 tags: ["手法", "トレンド"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

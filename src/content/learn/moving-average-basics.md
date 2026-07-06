@@ -3,7 +3,8 @@ title: "移動平均線の基礎 ― 向き・位置・クロス"
 description: "一定期間の終値の平均をつないだ移動平均線の仕組みと、向き・価格との位置関係・ゴールデンクロスなど基本的な使い方を解説します。"
 tags: ["分析手法", "インジケーター"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

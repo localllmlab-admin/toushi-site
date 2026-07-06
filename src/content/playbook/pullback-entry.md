@@ -3,7 +3,8 @@ title: "押し目買い・戻り売りの考え方"
 description: "トレンドの一時的な逆行（押し・戻り）を待って仕掛ける定石の意味と、待つ基準・検証方法・限界を解説します。"
 tags: ["手法", "トレンド", "押し目"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

@@ -3,7 +3,8 @@ title: "出来高と価格の関係 ― 値動きの「裏付け」を見る"
 description: "出来高は取引の量を表し、値動きの信頼度を測る物差しとされます。トレンド・ブレイクアウトと出来高の一般的な関係を解説します。"
 tags: ["分析手法", "出来高"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎・統計情報）"

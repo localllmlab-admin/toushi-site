@@ -3,7 +3,8 @@ title: "ブレイクアウト手法の基礎"
 description: "節目（高値・安値・保ち合いの境界）を抜けた方向に仕掛けるブレイクアウトの考え方と、ダマシへの向き合い方を解説します。"
 tags: ["手法", "ブレイクアウト"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

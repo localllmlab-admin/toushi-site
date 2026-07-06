@@ -3,7 +3,8 @@ title: "テクニカル分析とファンダメンタル分析の違い"
 description: "値動きから判断するテクニカル分析と、価値から判断するファンダメンタル分析。2つの分析アプローチの前提と使い分けを解説します。"
 tags: ["分析手法", "基礎"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

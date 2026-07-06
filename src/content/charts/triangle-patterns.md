@@ -3,7 +3,8 @@ title: "三角保ち合い（トライアングル）"
 description: "値動きの幅が徐々に狭まる保ち合いパターン。対称・上昇・下降の3タイプの形と、ブレイク方向の一般的な解釈を解説します。"
 tags: ["チャート", "継続", "保ち合い"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

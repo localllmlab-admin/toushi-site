@@ -3,7 +3,8 @@ title: "フラッグとペナント（旗型・三角旗型）"
 description: "急な値動きのあとの短い小休止を表す継続パターン。フラッグ（平行四辺形）とペナント（小さな三角形）の形と見方を解説します。"
 tags: ["チャート", "継続"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

@@ -3,7 +3,8 @@ title: "サポートとレジスタンス（支持線・抵抗線）"
 description: "価格が止まりやすい水準を示すサポート（支持線）とレジスタンス（抵抗線）の考え方と、役割転換（サポレジ転換）を解説します。"
 tags: ["チャート", "プライスアクション", "基礎"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

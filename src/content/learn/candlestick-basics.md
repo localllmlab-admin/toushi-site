@@ -3,7 +3,8 @@ title: "ローソク足の読み方 ― 4本値と実体・ヒゲ"
 description: "始値・高値・安値・終値の4本値を1本で表すローソク足の構造と、陽線・陰線・ヒゲから値動きを読む基本を解説します。"
 tags: ["分析手法", "ローソク足", "基礎"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

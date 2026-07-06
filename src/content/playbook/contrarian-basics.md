@@ -3,7 +3,8 @@ title: "逆張りとは何か ― 定石と危険性"
 description: "行き過ぎた値動きの反転を狙う「逆張り」の考え方と、順張りとの違い、初心者が注意すべき典型的な失敗を解説します。"
 tags: ["定石", "逆張り", "リスク管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"
