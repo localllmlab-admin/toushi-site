@@ -608,4 +608,79 @@ ${inner}
   save("position-sizing", 640, 320, g);
 }
 
+/* ============ 29. 単利と複利 ============ */
+{
+  // 元本100・年利5%・30年（模式）
+  let g = "";
+  const X = (yr) => 60 + yr * 17.3;
+  const Y = (v) => 280 - (v - 100) * 0.65;
+  const simple = Array.from({ length: 31 }, (_, y) => [X(y), Y(100 + 5 * y)]);
+  const comp = Array.from({ length: 31 }, (_, y) => [X(y), Y(100 * 1.05 ** y)]);
+  g += poly(simple, { color: DN, w: 2.5 });
+  g += poly(comp, { color: UP, w: 3 });
+  g += line(60, 280, 590, 280, { color: INK, w: 1.5 });
+  [0, 10, 20, 30].forEach((y) => g += txt(X(y), 298, `${y}年`, { anchor: "middle", size: 11 }));
+  g += txt(575, Y(100 * 1.05 ** 30) + 4, `複利 約${Math.round(100 * 1.05 ** 30)}`, { anchor: "end", fill: UP, bold: true, size: 13 });
+  g += txt(575, Y(250) + 4, `単利 250`, { anchor: "end", fill: DN, bold: true, size: 13 });
+  g += txt(70, 45, "元本100・年5%で30年運用した場合（税・手数料除く理論値）", { size: 12.5, fill: SUB });
+  g += txt(300, 130, "複利：利息が利息を生み、後半ほど差が開く", { fill: UP, bold: true, size: 12.5 });
+  save("compound", 640, 315, g);
+}
+
+/* ============ 30. 金利とは（お金の値段） ============ */
+{
+  let g = "";
+  g += `<rect x="60" y="90" width="180" height="120" rx="8" fill="#e9f2fb" stroke="${GRID}"/>`;
+  g += txt(150, 140, "貸し手", { anchor: "middle", bold: true, fill: INK, size: 15 });
+  g += txt(150, 165, "（預金者・投資家）", { anchor: "middle", size: 11.5 });
+  g += `<rect x="400" y="90" width="180" height="120" rx="8" fill="#fff3e6" stroke="${GRID}"/>`;
+  g += txt(490, 140, "借り手", { anchor: "middle", bold: true, fill: INK, size: 15 });
+  g += txt(490, 165, "（企業・国・個人）", { anchor: "middle", size: 11.5 });
+  g += arrow(250, 115, 390, 115, { color: DN, w: 2.5 });
+  g += txt(320, 105, "お金を貸す", { anchor: "middle", fill: DN, size: 12.5 });
+  g += arrow(390, 185, 250, 185, { color: UP, w: 2.5 });
+  g += txt(320, 210, "元本＋金利を返す", { anchor: "middle", fill: UP, bold: true, size: 12.5 });
+  g += txt(320, 255, "金利＝お金を一定期間借りる「値段」。", { anchor: "middle", fill: INK, bold: true, size: 13 });
+  g += txt(320, 278, "期間が長いほど・返ってこない不安（信用リスク）が大きいほど高くなるのが原則", { anchor: "middle", size: 12, fill: SUB });
+  save("interest", 640, 300, g);
+}
+
+/* ============ 31. 市場の全体地図 ============ */
+{
+  let g = txt(320, 32, "主な市場の全体地図（それぞれ値動きの理由が異なる）", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  const box = (x, y, title, c, lines) => {
+    let s = `<rect x="${x}" y="${y}" width="260" height="110" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+    s += `<rect x="${x}" y="${y}" width="260" height="30" rx="8" fill="${c}"/>`;
+    s += txt(x + 130, y + 21, title, { anchor: "middle", fill: "#fff", bold: true, size: 13.5 });
+    lines.forEach((t, i) => { s += txt(x + 14, y + 52 + i * 20, t, { size: 11.5, fill: INK }); });
+    return s;
+  };
+  g += box(45, 55, "株式市場", "#2b4a8b", ["企業の所有権を売買", "業績・景気・金利で動く", "例：東証（日本取引所グループ）"]);
+  g += box(335, 55, "債券市場", "#1f6e50", ["国や企業への貸付証書を売買", "金利と逆方向に価格が動く", "例：国債・社債"]);
+  g += box(45, 185, "外国為替市場", "#a3690f", ["通貨同士を交換", "金利差・貿易・経済情勢で動く", "例：ドル/円（24時間取引）"]);
+  g += box(335, 185, "コモディティ市場", "#6b4fa0", ["原油・金・穀物など実物", "需給・天候・地政学で動く", "例：金・原油先物"]);
+  save("market-map", 640, 320, g);
+}
+
+/* ============ 32. 円安・円高 ============ */
+{
+  let g = txt(320, 34, "「1ドル＝何円か」で考える（数字が大きい＝円安）", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  // 中央軸
+  g += line(120, 160, 520, 160, { color: INK, w: 2 });
+  g += `<circle cx="320" cy="160" r="6" fill="${INK}"/>`;
+  g += txt(320, 140, "1ドル＝100円", { anchor: "middle", fill: INK, bold: true, size: 13 });
+  // 円高側
+  g += arrow(300, 160, 140, 160, { color: DN, w: 2.5 });
+  g += txt(150, 190, "1ドル＝80円", { fill: DN, bold: true, size: 13 });
+  g += txt(150, 212, "円高：少ない円でドルが買える", { fill: DN, size: 12 });
+  g += txt(150, 232, "＝円の価値が上がった", { fill: DN, size: 12 });
+  // 円安側
+  g += arrow(340, 160, 500, 160, { color: UP, w: 2.5 });
+  g += txt(400, 190, "1ドル＝150円", { fill: UP, bold: true, size: 13 });
+  g += txt(400, 212, "円安：多くの円が必要になる", { fill: UP, size: 12 });
+  g += txt(400, 232, "＝円の価値が下がった", { fill: UP, size: 12 });
+  g += txt(320, 285, "「数字が増えたのに円安？」と混乱したら、円の価値＝1円で買えるドルの量で考える", { anchor: "middle", size: 12, fill: SUB });
+  save("yen-rate", 640, 305, g);
+}
+
 console.log("done");
