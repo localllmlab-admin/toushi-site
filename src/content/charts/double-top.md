@@ -2,7 +2,7 @@
 title: "ダブルトップ／ダブルボトム（反転パターン）"
 description: "代表的な反転チャートパターンの形と一般的な解釈、確認の考え方を図解します。"
 tags: ["チャート", "反転"]
-updated: 2026-07-01
+updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-01
 sources:
@@ -15,6 +15,11 @@ patternType: "反転"
 ## 結論
 
 ダブルトップは高値圏で山を2つ作る形、ダブルボトムは安値圏で谷を2つ作る形で、いずれもトレンド反転の可能性を示すとされる代表的なパターンです。
+
+<figure class="diagram">
+  <img src="/diagrams/double-top-bottom.svg" alt="高値圏で山を2つ作るダブルトップと、安値圏で谷を2つ作るダブルボトムの模式図" width="640" height="310" loading="lazy" />
+  <figcaption>図：ダブルトップ（左）とダブルボトム（右）。ネックライン抜けで完成とみなす（模式図であり、実在の銘柄・価格ではありません）</figcaption>
+</figure>
 
 ## 形の特徴
 
