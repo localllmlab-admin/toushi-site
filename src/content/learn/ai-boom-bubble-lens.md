@@ -2,7 +2,7 @@
 title: "AIブームをバブルの物差しで考える ― 判定ではなく点検"
 description: "生成AIを起点とする投資ブームに、歴史的バブルの共通構造を物差しとして当てる思考練習。断定ではなく両面の材料を整理します。"
 tags: ["バブル", "AI", "テクノロジー"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://bookplus.nikkei.com/"

@@ -2,7 +2,7 @@
 title: "暗号資産の熱狂と暴落サイクル ― 圧縮されたバブルの実験場"
 description: "2017年・2021年の急騰と8割級の下落を繰り返してきた暗号資産市場を、バブルの型が高速で反復する事例として解説します。"
 tags: ["バブル", "暗号資産", "歴史"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://www.boj.or.jp/"

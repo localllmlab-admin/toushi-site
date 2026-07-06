@@ -2,7 +2,7 @@
 title: "日本の平成バブル ― 土地神話と失われた30年"
 description: "1980年代末の株式・不動産バブルの発生から崩壊まで。日経平均38,915円と土地神話、崩壊後の長い停滞から学びます。"
 tags: ["バブル", "歴史", "日本経済"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://www.boj.or.jp/"

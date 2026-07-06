@@ -2,7 +2,7 @@
 title: "チューリップバブル ― 記録に残る最初の投機熱"
 description: "1637年のオランダで球根1個が家1軒の値段になった史上最初期のバブル。転売構造と崩壊の瞬間から、投機熱の原型を学びます。"
 tags: ["バブル", "歴史", "行動と心理"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://bookplus.nikkei.com/"

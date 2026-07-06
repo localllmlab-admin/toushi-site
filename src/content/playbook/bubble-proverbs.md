@@ -2,7 +2,7 @@
 title: "バブルの格言集 ― 「靴磨きの少年」から「今回は違う」まで"
 description: "バブル相場にまつわる代表的な格言を、相場サイクルのどの局面を警告しているかと合わせて解説します。"
 tags: ["格言", "バブル", "心理"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://www.jsda.or.jp/"

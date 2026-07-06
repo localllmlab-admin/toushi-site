@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/ops/hooks/reviewed_gate.mjs\"",
+            "timeout": 10,
+            "statusMessage": "reviewed昇格ゲート検査中"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/ops/hooks/post_edit_lint.mjs\"",
+            "timeout": 30,
+            "statusMessage": "jp_style_lint 実行中"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/ops/logctl.mjs\" \"[session-end] セッション終了（自動記録）\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

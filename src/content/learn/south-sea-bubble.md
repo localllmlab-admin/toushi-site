@@ -2,7 +2,7 @@
 title: "南海泡沫事件 ― 「バブル」の語源とニュートンの敗北"
 description: "1720年英国の南海会社株バブル。天才ニュートンさえ大損した経緯から、知性と投機熱の関係を学びます。"
 tags: ["バブル", "歴史", "行動と心理"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://bookplus.nikkei.com/"

@@ -39,6 +39,14 @@
 - 週次で `node ops/check_links.mjs` を cron 登録すること（リンク切れ→ link_report.md）。
 - 新記事は必ず7章体系（config.ts の chapter enum）に割り当てる。
 
+## v4 追加ルール（品質保証・記録体制 / ADR-0001）
+- 品質ゲート（計画→生成→二重レビュー→自己批判→検証）は `~/.claude/CLAUDE.md` のグローバル定義に従う。3回不合格でMasaruへエスカレーション。
+- `reviewed: false → true` への昇格はMasaruの承認後のみ。hook（.claude/settings.json）が昇格操作を検出し確認を挟む。
+- 重要決定は `docs/decisions/` にADR記録（テンプレ = docs/decisions/TEMPLATE.md）。
+- 業務台帳 = `ops/worklog/YYYY-MM.md`。作業サマリ・決定事項・未完了タスクをセッション終了前に `node ops/logctl.mjs "内容"` で追記する（セッション終了自体はhookが自動記録）。
+- セッション開始時は業務台帳の最新エントリと直近ADRを読んでから着手する。
+- 月1回、auto memoryの内容サマリを業務台帳へ出力し、Masaruがレビューできる状態にする。
+
 ## v3 追加ルール（ローカルLLMハイブリッド）
 - 記事生成は EVO-X1 のローカルパイプライン（ops/local/）が主。API呼び出しは記事1本につき磨き1回まで。この規律を緩めるコード変更をしない。
 - jp_style_lint.mjs の検出パターンは運用で育てる（誤検出/見逃しがあればパターン追加）。既存良記事が100点を維持することを回帰テストとする。

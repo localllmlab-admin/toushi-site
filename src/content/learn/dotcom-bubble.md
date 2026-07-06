@@ -2,7 +2,7 @@
 title: "ITバブル（ドットコムバブル）― 本物の技術と間違った価格"
 description: "2000年に崩壊したインターネット株バブル。技術は本物だったのに株価は約8割下落した経緯から、最重要の教訓を学びます。"
 tags: ["バブル", "歴史", "テクノロジー"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://bookplus.nikkei.com/"

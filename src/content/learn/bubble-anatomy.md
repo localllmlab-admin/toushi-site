@@ -2,7 +2,7 @@
 title: "バブルの共通構造 ― 5段階モデルで歴史を貫く"
 description: "チューリップから暗号資産まで、あらゆるバブルに共通する5段階（転換点・信用膨張・陶酔・利益確定・パニック）を解説します。"
 tags: ["バブル", "行動と心理", "理論"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://bookplus.nikkei.com/"

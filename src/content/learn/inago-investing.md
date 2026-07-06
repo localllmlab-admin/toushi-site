@@ -2,7 +2,7 @@
 title: "イナゴ投資とは何か ― 急騰銘柄に群がる心理と末路"
 description: "SNSで話題の急騰銘柄に群がる「イナゴ投資」と、チャートに残る「イナゴタワー」の構造、巻き込まれないための原則を解説します。"
 tags: ["バブル", "行動と心理", "SNS"]
-updated: 2026-07-08
+updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://www.jsda.or.jp/"

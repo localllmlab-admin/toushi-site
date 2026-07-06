@@ -1729,4 +1729,343 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("bubble-proverbs", 640, 315, g);
 }
 
+/* ===== 損切りシリーズ ===== */
+
+/* ============ 99. 損切りの3つの問い ============ */
+{
+  let g = txt(320, 30, "損切りの設計は3つの問いに分解できる", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  g += card(40, 58, 180, 140, "① なぜ切るのか", "#2b4a8b", ["買った理由（シナリオ）が", "崩れたと判定できる場所", "だから切る。", "価格の痛みではなく", "根拠の消滅で切る"], { lineSize: 10.5 });
+  g += card(230, 58, 180, 140, "② どこで切るのか", "#a3690f", ["テクニカル基準", "（構造が壊れる場所）", "×ボラティリティ基準", "（ノイズの外側）", "×資金基準（2%以内）"], { lineSize: 10.5 });
+  g += card(420, 58, 180, 140, "③ どう実行するか", "#c73e2e", ["エントリーと同時に", "逆指値を置く。", "その場の判断を", "残さないのが", "唯一の心理対策"], { lineSize: 10.5 });
+  g += txt(320, 232, "3つの答えがエントリー前に揃っていない売買は、サイズ・期待値・心理のすべてが未設計", { anchor: "middle", size: 11.5, fill: SUB });
+  save("losscut-3q", 640, 250, g);
+}
+
+/* ============ 100. テクニカル基準の損切り位置 ============ */
+{
+  let g = "";
+  const pts = [[40, 250], [100, 200], [150, 225], [210, 160], [260, 190], [320, 130], [380, 155], [440, 100]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="320" cy="130" r="7" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(332, 125, "買い", { fill: UP, size: 12, bold: true });
+  g += line(240, 196, 460, 196, { color: DN, w: 2, dash: "6 4" });
+  g += txt(468, 200, "損切り：直近安値の少し下", { fill: DN, size: 11.5, bold: true });
+  g += txt(468, 218, "（安値割れ＝上昇の定義の崩壊）", { size: 10.5, fill: SUB });
+  g += line(240, 206, 460, 206, { color: GRID, w: 1 });
+  g += txt(140, 285, "「上昇トレンド（安値切り上げ）が続く」というシナリオが", { size: 11.5, fill: SUB });
+  g += txt(140, 303, "否定される場所に置く＝価格ではなく構造で決める", { size: 11.5, fill: SUB });
+  save("losscut-technical", 640, 320, g);
+}
+
+/* ============ 101. ボラティリティ基準（ATR） ============ */
+{
+  let g = txt(320, 26, "同じ「3%の逆行」でも、銘柄の呼吸の大きさで意味が違う", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 静かな銘柄
+  g += poly([[50, 130], [90, 125], [130, 132], [170, 126], [210, 133], [250, 127], [290, 131]], { color: INK, w: 2 });
+  g += line(50, 155, 290, 155, { color: DN, w: 1.5, dash: "5 3" });
+  g += txt(170, 190, "日々の振れ幅(ATR)が1%の銘柄", { anchor: "middle", size: 11.5 });
+  g += txt(170, 208, "→ 3%逆行は明確な異常＝有効な損切り", { anchor: "middle", size: 11, fill: UP, bold: true });
+  // 荒い銘柄
+  const dx = 340;
+  g += poly([[dx, 145], [dx + 40, 100], [dx + 80, 150], [dx + 120, 95], [dx + 160, 155], [dx + 200, 105], [dx + 240, 140]], { color: INK, w: 2 });
+  g += line(dx, 170, dx + 240, 170, { color: DN, w: 1.5, dash: "5 3" });
+  g += txt(dx + 120, 190, "日々の振れ幅(ATR)が4%の銘柄", { anchor: "middle", size: 11.5 });
+  g += txt(dx + 120, 208, "→ 3%逆行はただのノイズ＝即ヒットして損切り貧乏", { anchor: "middle", size: 10.5, fill: DN, bold: true });
+  g += line(320, 50, 320, 215, { color: GRID, w: 1 });
+  g += txt(320, 250, "損切り幅は固定%ではなく、その銘柄の平均的な振れ幅（ATR）の倍数で決めるのがボラ基準", { anchor: "middle", size: 11.5, fill: SUB });
+  save("atr-stop", 640, 265, g);
+}
+
+/* ============ 102. タイムストップ ============ */
+{
+  let g = "";
+  const pts = [[50, 150], [110, 130], [170, 145], [230, 138], [290, 150], [350, 142], [410, 152], [470, 145]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="110" cy="130" r="7" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(100, 113, "買い：ブレイクの継続を想定", { fill: UP, size: 11.5, anchor: "start" });
+  g += `<rect x="110" y="90" width="300" height="130" fill="${LV}" opacity="0.08"/>`;
+  g += line(410, 90, 410, 220, { color: LV, w: 2, dash: "6 4" });
+  g += txt(418, 105, "想定期間（例：10営業日）", { fill: LV, size: 11.5, bold: true });
+  g += txt(418, 123, "が経過しても伸びない", { fill: LV, size: 11.5 });
+  g += txt(418, 145, "→ シナリオ不発として撤退", { fill: DN, size: 11.5, bold: true });
+  g += txt(320, 265, "価格の損切りに掛からなくても「起きるはずのことが起きない」のはシナリオの否定。", { anchor: "middle", size: 11.5, fill: SUB });
+  g += txt(320, 283, "資金と注意力を無期限に拘束させないための時間の損切り", { anchor: "middle", size: 11.5, fill: SUB });
+  save("time-stop", 640, 300, g);
+}
+
+/* ============ 103. OCO注文（利確と損切りの同時設置） ============ */
+{
+  let g = txt(320, 26, "OCO注文：利確の指値と損切りの逆指値を同時に置く", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 170], [130, 150], [200, 165], [270, 140], [340, 155], [410, 135], [480, 148]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += line(60, 85, 560, 85, { color: UP, w: 2, dash: "6 4" });
+  g += txt(568, 89, "利確の指値", { fill: UP, size: 11.5, bold: true });
+  g += line(60, 215, 560, 215, { color: DN, w: 2, dash: "6 4" });
+  g += txt(568, 219, "損切りの逆指値", { fill: DN, size: 11.5, bold: true });
+  g += `<circle cx="130" cy="150" r="7" fill="none" stroke="${INK}" stroke-width="2"/>`;
+  g += txt(142, 145, "エントリーと同時に両方セット", { size: 11.5, fill: INK, bold: true });
+  g += txt(320, 250, "どちらかが約定したらもう一方は自動キャンセル。以後の判断（＝感情の介入余地）をゼロにする", { anchor: "middle", size: 11.5, fill: SUB });
+  save("oco-order", 640, 265, g);
+}
+
+/* ============ 104. 損切り貧乏 ============ */
+{
+  let g = txt(320, 26, "損切り貧乏：ノイズの内側に置かれたストップが連続ヒットする", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const pts = [[50, 180], [90, 140], [130, 175], [170, 130], [210, 170], [250, 120], [290, 160], [330, 110], [370, 150], [410, 95], [450, 130], [490, 80], [540, 60]];
+  g += poly(pts, { color: INK, w: 2 });
+  // 近すぎるストップの連続ヒット
+  [[90, 140, 178], [170, 130, 172], [250, 120, 162]].forEach(([bx, by, sy], i) => {
+    g += `<circle cx="${bx}" cy="${by}" r="5" fill="none" stroke="${UP}" stroke-width="1.8"/>`;
+    g += line(bx - 15, sy, bx + 55, sy, { color: DN, w: 1.5, dash: "3 2" });
+    g += `<circle cx="${bx + 40}" cy="${sy}" r="5" fill="${DN}"/>`;
+  });
+  g += txt(180, 220, "買い→浅いストップ→ヒット、を3連発", { size: 11.5, fill: DN, bold: true });
+  g += txt(180, 238, "方向は正しかったのに損失だけ積み上がる", { size: 11.5, fill: DN });
+  g += txt(440, 45, "相場は結局上昇", { size: 11.5, fill: UP, bold: true, anchor: "middle" });
+  g += txt(320, 275, "原因は「損切りが早い」ことではなく「エントリーとストップの設計が銘柄の呼吸と合っていない」こと", { anchor: "middle", size: 11, fill: SUB });
+  save("losscut-binbo", 640, 290, g);
+}
+
+/* ============ 105. 損切り幅と総損益の関係 ============ */
+{
+  let g = txt(320, 26, "損切り幅を変えると成績はどう変わるか（検証の典型的な形状）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  // 山型カーブ: 狭すぎ→損切り貧乏 / 広すぎ→1回の損が重い
+  const pts = [];
+  for (let i = 0; i <= 40; i++) {
+    const x = i / 40;
+    const y = -((x - 0.45) ** 2) * 3.2 + 0.65; // 山
+    pts.push([70 + x * 480, 220 - y * 180]);
+  }
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += line(70, 220, 550, 220, { color: GRID, w: 1.5 });
+  g += txt(110, 250, "狭すぎ：", { anchor: "middle", size: 11.5, fill: DN, bold: true });
+  g += txt(110, 267, "ノイズで連続ヒット", { anchor: "middle", size: 10.5 });
+  g += txt(310, 250, "適正帯：構造の外側×資金の許容内", { anchor: "middle", size: 11.5, fill: UP, bold: true });
+  g += txt(520, 250, "広すぎ：", { anchor: "middle", size: 11.5, fill: DN, bold: true });
+  g += txt(520, 267, "1回の損失が重すぎる", { anchor: "middle", size: 10.5 });
+  g += txt(60, 60, "総損益", { size: 11.5, fill: INK });
+  g += txt(555, 214, "損切り幅→", { size: 11 });
+  g += txt(320, 295, "最適点はピンポイントでは存在しない。「山の広い頂上付近」にいることを検証で確認する", { anchor: "middle", size: 11, fill: SUB });
+  save("stop-width-curve", 640, 310, g);
+}
+
+/* ============ 106. 長期投資と損切りの要否 ============ */
+{
+  let g = txt(320, 28, "「長期投資に損切りは不要」が成り立つ条件・成り立たない条件", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="45" y="55" width="260" height="175" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(175, 80, "損切り不要論が成り立ちうる", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 12 });
+  ["広く分散された指数への積立", "（個別企業の倒産リスクなし）", "経済全体の長期成長に賭ける設計", "時間分散で高値掴みを平均化", "→「売らない」こと自体が戦略"].forEach((t, i) => g += txt(175, 108 + i * 24, t, { anchor: "middle", size: 10.5 }));
+  g += `<rect x="335" y="55" width="260" height="175" rx="8" fill="#fdecea" stroke="#c73e2e" stroke-width="2"/>`;
+  g += txt(465, 80, "損切り不要論が危険", { anchor: "middle", fill: "#c73e2e", bold: true, size: 12 });
+  ["個別株（ゼロになり得る）", "テーマ株・話題株の高値掴み", "「長期投資」が塩漬けの言い訳に", "なっているケース", "→ 撤退基準は依然として必要"].forEach((t, i) => g += txt(465, 108 + i * 24, t, { anchor: "middle", size: 10.5 }));
+  g += txt(320, 258, "分けるのは投資期間ではなく「個別リスクを負っているか」と「買った根拠が今も生きているか」", { anchor: "middle", size: 11, fill: SUB });
+  save("longterm-losscut", 640, 275, g);
+}
+
+/* ============ 107. 損益通算 ============ */
+{
+  let g = txt(320, 28, "損益通算：損失の確定が税負担を軽くする（上場株式等・概要）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="70" y="60" width="150" height="60" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(145, 85, "A株の利益", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 12.5 });
+  g += txt(145, 106, "+100万円", { anchor: "middle", fill: INK, size: 13, bold: true });
+  g += `<rect x="70" y="140" width="150" height="60" rx="8" fill="#fdecea" stroke="#c73e2e" stroke-width="2"/>`;
+  g += txt(145, 165, "B株の損切り", { anchor: "middle", fill: "#c73e2e", bold: true, size: 12.5 });
+  g += txt(145, 186, "−40万円", { anchor: "middle", fill: INK, size: 13, bold: true });
+  g += arrow(230, 130, 300, 130, { color: SUB, w: 2 });
+  g += `<rect x="310" y="95" width="180" height="70" rx="8" fill="#e9f2fb" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(400, 122, "課税対象は相殺後の", { anchor: "middle", fill: INK, size: 12 });
+  g += txt(400, 145, "60万円に", { anchor: "middle", fill: DN, size: 14, bold: true });
+  g += txt(400, 200, "（相殺しきれない損失は", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(400, 216, "　確定申告で翌年以後3年間繰越可）", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(320, 255, "損切りには「税負担の軽減」という現実的な副産物がある。※NISA口座の損失は損益通算不可", { anchor: "middle", size: 11, fill: SUB });
+  save("tax-loss-offset", 640, 270, g);
+}
+
+/* ============ 108. 実務家のルール（オニール8%とR） ============ */
+{
+  let g = txt(320, 26, "実務家の損切りルールの代表例", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  // オニール
+  g += poly([[60, 120], [120, 105], [180, 130], [240, 155], [290, 175]], { color: INK, w: 2 });
+  g += `<circle cx="120" cy="105" r="6" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(132, 100, "買値", { fill: UP, size: 11 });
+  g += line(60, 170, 290, 170, { color: DN, w: 2, dash: "5 3" });
+  g += txt(62, 190, "買値の7〜8%下：例外なく売る", { size: 11, fill: DN, bold: true });
+  g += txt(175, 230, "オニールの機械的ルール", { anchor: "middle", size: 11.5, bold: true, fill: INK });
+  g += txt(175, 248, "「例外を作らない」ことが本体", { anchor: "middle", size: 10.5, fill: SUB });
+  // R倍数
+  const dx = 350;
+  g += `<rect x="${dx}" y="150" width="220" height="40" rx="4" fill="${DN}" opacity="0.15"/>`;
+  g += txt(dx + 110, 175, "1R＝損切りまでの距離（許容損失）", { anchor: "middle", size: 11, fill: DN, bold: true });
+  g += `<rect x="${dx}" y="70" width="220" height="70" rx="4" fill="${UP}" opacity="0.12"/>`;
+  g += txt(dx + 110, 100, "利益は 2R・3R… と", { anchor: "middle", size: 11, fill: UP, bold: true });
+  g += txt(dx + 110, 118, "R（初期リスク）の倍数で測る", { anchor: "middle", size: 11, fill: UP });
+  g += txt(dx + 110, 230, "タープのR倍数思考", { anchor: "middle", size: 11.5, bold: true, fill: INK });
+  g += txt(dx + 110, 248, "損切り距離が全取引の共通単位になる", { anchor: "middle", size: 10.5, fill: SUB });
+  g += line(320, 50, 320, 255, { color: GRID, w: 1 });
+  save("pro-stop-rules", 640, 270, g);
+}
+
+/* ===== 利益確定シリーズ ===== */
+
+/* ============ 109. 利確の3流派 ============ */
+{
+  let g = txt(320, 30, "利益確定の3つの流派 ― どれかが正解ではなく、手法との整合が正解", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += card(40, 58, 180, 140, "① 目標値で決める", "#2b4a8b", ["値幅観測・次の抵抗帯・", "R倍数などで事前に", "出口価格を決めておく", "→ 勝率型。取り逃しは", "　許容する"], { lineSize: 10.5 });
+  g += card(230, 58, 180, 140, "② 追随して決める", "#1f6e50", ["トレーリングストップで", "転換の兆しまで持ち続ける", "→ 損益比型。大相場を", "　取り、勝率と", "　返上分を差し出す"], { lineSize: 10.5 });
+  g += card(420, 58, 180, 140, "③ 時間で決める", "#a3690f", ["決めた期間が来たら", "決済する（イベント通過・", "保有期限）", "→ 検証しやすく", "　規律を保ちやすい"], { lineSize: 10.5 });
+  g += txt(320, 232, "3流派は組み合わせ可能（例：半分を目標値で確定し、残りをトレーリング）", { anchor: "middle", size: 11.5, fill: SUB });
+  save("profit-3schools", 640, 250, g);
+}
+
+/* ============ 110. 値幅観測（N計算） ============ */
+{
+  let g = txt(320, 26, "値幅観測の基本形（N計算：直前の上げ幅を押し目から投影）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const pts = [[60, 250], [140, 250 - 90], [200, 250 - 55], [300, 250 - 145]];
+  g += poly([[60, 250], [140, 160]], { color: INK, w: 2.5 });
+  g += poly([[140, 160], [200, 195]], { color: INK, w: 2.5 });
+  g += poly([[200, 195], [320, 105]], { color: INK, w: 2.5 });
+  // N: A→B の幅を C から投影
+  g += arrow(80, 250, 80, 162, { color: UP, w: 2 });
+  g += txt(90, 205, "上げ幅 N", { fill: UP, size: 12, bold: true });
+  g += arrow(230, 195, 230, 107, { color: UP, w: 2 });
+  g += txt(240, 150, "同じ幅 N を投影", { fill: UP, size: 12, bold: true });
+  g += line(200, 105, 420, 105, { color: LV, w: 2, dash: "6 4" });
+  g += txt(428, 109, "目標値の目安", { fill: LV, size: 12, bold: true });
+  g += txt(115, 268, "A→B の上昇", { size: 11, anchor: "middle" });
+  g += txt(200, 215, "C（押し目）", { size: 11 });
+  g += txt(320, 300, "「前と同じ規模の波が出る」という仮定に基づく目安。保証ではなく、利確計画の土台となる基準点", { anchor: "middle", size: 11, fill: SUB });
+  save("measured-move", 640, 315, g);
+}
+
+/* ============ 111. 抵抗帯を目標にする ============ */
+{
+  let g = txt(320, 26, "次の抵抗帯の「手前」を目標にする", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += line(60, 80, 580, 80, { color: DN, w: 2, dash: "6 4" });
+  g += txt(66, 70, "過去の高値・戻り売りが待つ抵抗帯", { size: 11.5, fill: DN });
+  const pts = [[60, 250], [130, 220], [190, 235], [260, 190], [330, 205], [400, 150], [470, 120]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += line(60, 100, 580, 100, { color: UP, w: 2 });
+  g += txt(500, 118, "利確目標：抵抗帯の手前", { fill: UP, size: 12, bold: true });
+  g += `<circle cx="130" cy="220" r="7" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(142, 224, "買い", { fill: UP, size: 11.5 });
+  g += txt(320, 292, "「みんなが売りたい場所」まで引っ張らず、その手前で先に降りる。欲との交換で約定確率を買う設計", { anchor: "middle", size: 11, fill: SUB });
+  save("target-resistance", 640, 305, g);
+}
+
+/* ============ 112. R倍数で目標を決める ============ */
+{
+  let g = txt(320, 26, "R倍数による目標設定：損切り距離を利益の物差しにする", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="120" y="196" width="400" height="44" rx="4" fill="${DN}" opacity="0.14"/>`;
+  g += txt(320, 222, "1R ＝ エントリーから損切りまでの距離（許容損失）", { anchor: "middle", fill: DN, bold: true, size: 12 });
+  [[152, "＋1R", 0.35], [108, "＋2R", 0.5], [64, "＋3R", 0.65]].forEach(([y, t, op]) => {
+    g += `<rect x="120" y="${y}" width="400" height="40" rx="4" fill="${UP}" opacity="${op}"/>`;
+    g += txt(320, y + 25, `${t} ${t === "＋2R" ? "= 必要勝率33%の分岐点" : ""}`, { anchor: "middle", fill: "#fff", bold: true, size: 12 });
+  });
+  g += line(120, 192, 520, 192, { color: INK, w: 2 });
+  g += txt(110, 196, "買値", { anchor: "end", size: 11.5, fill: INK, bold: true });
+  g += txt(320, 275, "目標を2R以上に置けるエントリーだけを選ぶ、という「取引の入口の選別基準」としても機能する", { anchor: "middle", size: 11, fill: SUB });
+  save("r-multiple-target", 640, 290, g);
+}
+
+/* ============ 113. 分割利確の3型 ============ */
+{
+  let g = txt(320, 28, "分割利確の代表的な3つの型", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(40, 55, 180, 145, "半分＋トレール型", "#2b4a8b", ["目標到達で半分を確定し", "残り半分をトレーリング", "", "「確実さ」と「大相場」の", "両取りを狙う最多数派"], { lineSize: 10.5 });
+  g += card(230, 55, 180, 145, "3分割型", "#1f6e50", ["+1R/+2R/+3Rなど", "段階ごとに1/3ずつ確定", "", "損益曲線が滑らかになり", "心理的に続けやすい"], { lineSize: 10.5 });
+  g += card(420, 55, 180, 145, "建値ストップ型", "#a3690f", ["最初の利確後、残りの", "損切りを建値に引き上げ", "", "「負けない状態」を作って", "から利益を追う"], { lineSize: 10.5 });
+  g += txt(320, 232, "共通の代償：一括で最良の出口を当てた場合より総利益は減る。買っているのは「結果のブレの小ささ」", { anchor: "middle", size: 11, fill: SUB });
+  save("partial-exit", 640, 250, g);
+}
+
+/* ============ 114. 利確後の再上昇問題 ============ */
+{
+  let g = txt(320, 26, "「売った後に上がる」は正常。問題は感情での買い直し", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const pts = [[50, 240], [120, 200], [180, 215], [250, 160], [310, 175], [370, 120], [430, 135], [500, 80], [570, 60]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="370" cy="120" r="8" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(360, 103, "計画通り利確", { fill: UP, size: 12, bold: true, anchor: "end" });
+  g += `<circle cx="500" cy="80" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(512, 76, "悔しさで飛び乗り直すと", { fill: DN, size: 11.5 });
+  g += txt(512, 93, "高値掴みの入口に", { fill: DN, size: 11.5 });
+  g += txt(320, 280, "再エントリーは「悔しさ」ではなく「新規の買い条件を再び満たしたか」で判定する（押し目・ブレイク等）", { anchor: "middle", size: 11, fill: SUB });
+  save("reentry-problem", 640, 295, g);
+}
+
+/* ============ 115. 利小損大の矯正 ============ */
+{
+  let g = txt(320, 26, "損益分布の「形」を変える ― 利小損大から損小利大へ", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  // Before: 左に長い裾
+  g += txt(165, 55, "矯正前：利益は早取り・損失は放置", { anchor: "middle", size: 11.5, fill: DN, bold: true });
+  [[60, 30, DN], [90, 55, DN], [120, 20, UP], [150, 70, UP], [180, 60, UP], [210, 25, UP]].forEach(([x, h, c], i) => {
+    g += `<rect x="${x}" y="${200 - h}" width="24" height="${h}" fill="${c}" opacity="0.75"/>`;
+  });
+  g += txt(75, 215, "大きな損失の裾", { size: 10, fill: DN });
+  g += txt(180, 215, "小さな利益の山", { size: 10, fill: SUB });
+  // After: 右に裾
+  const dx = 340;
+  g += txt(dx + 130, 55, "矯正後：損失は−1Rで揃い、利益に裾", { anchor: "middle", size: 11.5, fill: UP, bold: true });
+  [[dx, 45, DN], [dx + 30, 48, DN], [dx + 60, 46, DN], [dx + 90, 55, UP], [dx + 120, 40, UP], [dx + 150, 28, UP], [dx + 180, 18, UP], [dx + 210, 10, UP]].forEach(([x, h, c]) => {
+    g += `<rect x="${x}" y="${200 - h}" width="24" height="${h}" fill="${c}" opacity="0.75"/>`;
+  });
+  g += txt(dx + 45, 215, "損失は一定幅で整列", { size: 10, fill: SUB });
+  g += txt(dx + 190, 215, "大きな利益の裾", { size: 10, fill: UP });
+  g += line(320, 45, 320, 220, { color: GRID, w: 1 });
+  g += txt(320, 255, "利確ルールの目的は「毎回勝つ」ことではなく、損益分布の右側に裾（大きな利益）を残すこと", { anchor: "middle", size: 11, fill: SUB });
+  save("pl-distribution", 640, 270, g);
+}
+
+/* ============ 116. リバランス ============ */
+{
+  let g = txt(320, 26, "リバランス：配分の復元が「高く売って安く買う」を自動化する", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const bar = (x, label, stock, bond, note) => {
+    let s = "";
+    const H = 140, y0 = 70;
+    const hs = H * stock / 100, hb = H * bond / 100;
+    s += `<rect x="${x}" y="${y0 + H - hs - hb}" width="90" height="${hb}" fill="#1f6e50" opacity="0.8"/>`;
+    s += `<rect x="${x}" y="${y0 + H - hs}" width="90" height="${hs}" fill="#2b4a8b" opacity="0.9"/>`;
+    s += txt(x + 45, y0 + H + 22, label, { anchor: "middle", size: 11.5, bold: true });
+    s += txt(x + 45, y0 + H + 40, note, { anchor: "middle", size: 10 });
+    return s;
+  };
+  g += bar(70, "目標配分", 60, 40, "株60：債40");
+  g += arrow(180, 140, 220, 140, { color: SUB, w: 2 });
+  g += bar(230, "株高で膨張", 72, 28, "株72：債28に");
+  g += arrow(340, 140, 380, 140, { color: SUB, w: 2 });
+  g += bar(390, "リバランス", 60, 40, "株を売り債券を買い60:40へ");
+  g += txt(540, 120, "─ 株式", { fill: "#2b4a8b", size: 11.5 });
+  g += txt(540, 140, "─ 債券", { fill: "#1f6e50", size: 11.5 });
+  g += txt(320, 268, "「上がった資産を売る」判断が感情抜きで発生する＝長期投資における仕組み化された利益確定", { anchor: "middle", size: 11, fill: SUB });
+  save("rebalance", 640, 285, g);
+}
+
+/* ============ 117. 利確と税金 ============ */
+{
+  let g = txt(320, 28, "利益確定と税金：口座で手取りが変わる（概要）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 課税口座
+  g += `<rect x="80" y="60" width="200" height="150" rx="8" fill="#ffffff" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(180, 85, "課税口座（特定口座等）", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += `<rect x="110" y="100" width="140" height="60" fill="${UP}" opacity="0.7"/>`;
+  g += `<rect x="110" y="100" width="140" height="13" fill="${DN}"/>`;
+  g += txt(180, 180, "利益100万円 → 税 約20.3万円", { anchor: "middle", size: 11 });
+  g += txt(180, 197, "手取り 約79.7万円", { anchor: "middle", size: 11.5, bold: true });
+  // NISA
+  g += `<rect x="360" y="60" width="200" height="150" rx="8" fill="#ffffff" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(460, 85, "NISA口座", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 12.5 });
+  g += `<rect x="390" y="100" width="140" height="60" fill="${UP}" opacity="0.7"/>`;
+  g += txt(460, 180, "利益100万円 → 税 0円", { anchor: "middle", size: 11 });
+  g += txt(460, 197, "手取り 100万円", { anchor: "middle", size: 11.5, bold: true });
+  g += txt(320, 245, "課税口座の「利確」は税コストを伴う＝頻繁な乗り換えは税の複利を失う。口座と出口設計はセットで考える", { anchor: "middle", size: 10.5, fill: SUB });
+  save("tax-profit", 640, 260, g);
+}
+
+/* ============ 118. 利確の格言マップ ============ */
+{
+  let g = txt(320, 26, "利益確定にまつわる格言と、その警告対象", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += card(45, 55, 260, 100, "「利食い千人力」", "#1f6e50", ["確定した利益だけが本物の力。", "含み益への慢心と、", "利確をためらう欲への戒め"], { lineSize: 10.5 });
+  g += card(335, 55, 260, 100, "「頭と尻尾はくれてやれ」", "#2b4a8b", ["天井で売ろうとするな。", "最高値への未練が", "往復（利益消滅）を招く"], { lineSize: 10.5 });
+  g += card(45, 170, 260, 100, "「二度に買うべし二度に売るべし」", "#a3690f", ["一度に全部売買しない。", "分割による平均化の勧め", "（分割利確の古典的表現）"], { lineSize: 10.5, titleSize: 11.5 });
+  g += card(335, 170, 260, 100, "「売りは早かれ買いは遅かれ」", "#6b4fa0", ["出口は素早く、入口は慎重に。", "逃げ足の速さを", "美徳とする相場観"], { lineSize: 10.5 });
+  save("profit-proverbs", 640, 290, g);
+}
+
 console.log("done");
