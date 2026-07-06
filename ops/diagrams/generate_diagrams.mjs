@@ -832,4 +832,108 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("futures-options", 640, 265, g);
 }
 
+/* ============ 43. 金商法の全体像 ============ */
+{
+  let g = txt(320, 30, "金融商品取引法が規制する3つの領域（大づかみの地図）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(40, 58, 180, 150, "業者への規制", "#2b4a8b", ["登録制・行為規制", "（勧誘ルール・", "　断定的判断の禁止・", "　適合性の原則など）"], { lineSize: 11 });
+  g += card(230, 58, 180, 150, "情報開示の規制", "#1f6e50", ["有価証券報告書などの", "開示義務", "（投資判断の材料を", "　公平に提供させる）"], { lineSize: 11 });
+  g += card(420, 58, 180, 150, "不公正取引の規制", "#c73e2e", ["インサイダー取引", "相場操縦", "風説の流布 など", "（違反には刑事罰も）"], { lineSize: 11 });
+  g += txt(320, 240, "目的: 投資者の保護と、市場の公正性・透明性の確保（金商法1条）", { anchor: "middle", fill: INK, bold: true, size: 12.5 });
+  save("fiel-map", 640, 260, g);
+}
+
+/* ============ 44. 相場操縦の類型 ============ */
+{
+  let g = txt(320, 30, "相場操縦の代表的な類型（いずれも金商法で禁止・刑事罰の対象）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += card(40, 58, 180, 155, "見せ玉（みせぎょく）", "#c73e2e", ["約定させる意思のない", "大量の注文を板に見せ、", "厚い買い/売りがあると", "誤解させて誘い込む"], { lineSize: 11, titleSize: 12.5 });
+  g += card(230, 58, 180, 155, "仮装売買", "#a3690f", ["同一人物が自分自身と", "売買を成立させ、", "取引が活発だと", "見せかける"], { lineSize: 11, titleSize: 12.5 });
+  g += card(420, 58, 180, 155, "馴合（なれあい）売買", "#6b4fa0", ["複数人が示し合わせて", "売買を繰り返し、", "出来高や価格を", "人為的に演出する"], { lineSize: 11, titleSize: 12.5 });
+  g += txt(320, 243, "共通点: 「自然な需給で価格が決まっている」という市場への信頼を裏切る行為", { anchor: "middle", size: 12, fill: SUB });
+  save("manipulation", 640, 262, g);
+}
+
+/* ============ 45. 断定的判断の提供の禁止 ============ */
+{
+  let g = txt(320, 30, "勧誘で禁止される「断定的判断の提供」（金商法38条）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += `<rect x="45" y="55" width="260" height="150" rx="8" fill="#fdecea" stroke="#c73e2e" stroke-width="2"/>`;
+  g += txt(175, 80, "✕ 禁止される言い方の例", { anchor: "middle", fill: "#c73e2e", bold: true, size: 13 });
+  ["「必ず上がります」", "「絶対に損はさせません」", "「確実に2倍になります」"].forEach((t, i) => {
+    g += txt(175, 110 + i * 28, t, { anchor: "middle", fill: INK, size: 12.5 });
+  });
+  g += `<rect x="335" y="55" width="260" height="150" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(465, 80, "○ 適切な情報提供の例", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 13 });
+  ["リスクとリターンの両方を説明", "過去の実績と限界を示す", "判断材料の提供にとどめる"].forEach((t, i) => {
+    g += txt(465, 110 + i * 28, t, { anchor: "middle", fill: INK, size: 12.5 });
+  });
+  g += txt(320, 235, "不確実な事柄に「確実」と誤解させる勧誘は違法。SNSの投資勧誘を見分ける物差しにもなる", { anchor: "middle", size: 12, fill: SUB });
+  save("dantei-kinshi", 640, 255, g);
+}
+
+/* ============ 46. 暗号資産の規制地図 ============ */
+{
+  let g = txt(320, 30, "日本の暗号資産規制の大づかみな地図", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(40, 58, 180, 150, "資金決済法", "#2b4a8b", ["暗号資産の定義", "交換業者は登録制", "利用者財産の分別管理", "広告・勧誘規制"], { lineSize: 11 });
+  g += card(230, 58, 180, 150, "金融商品取引法", "#1f6e50", ["暗号資産デリバティブ", "（証拠金取引）の規制", "不公正な行為の禁止", "レバレッジ上限2倍"], { lineSize: 11 });
+  g += card(420, 58, 180, 150, "税制（所得税法）", "#a3690f", ["個人の売買益は", "原則「雑所得」で", "総合課税", "（給与等と合算・累進）"], { lineSize: 11 });
+  g += txt(320, 240, "無登録業者・海外業者の勧誘には金融庁が繰り返し警告。登録の有無は金融庁サイトで確認できる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("crypto-regulation", 640, 260, g);
+}
+
+/* ============ 47. ステマ規制 ============ */
+{
+  let g = txt(320, 30, "ステルスマーケティング規制（2023年10月〜・景品表示法）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += `<rect x="45" y="58" width="260" height="140" rx="8" fill="#fdecea" stroke="#c73e2e" stroke-width="2"/>`;
+  g += txt(175, 83, "✕ 規制対象", { anchor: "middle", fill: "#c73e2e", bold: true, size: 13 });
+  ["広告なのに広告と", "分からない表示", "（事業者が依頼した投稿を", "　感想のように見せる等）"].forEach((t, i) => {
+    g += txt(175, 108 + i * 22, t, { anchor: "middle", fill: INK, size: 12 });
+  });
+  g += `<rect x="335" y="58" width="260" height="140" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(465, 83, "○ 求められる対応", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 13 });
+  ["「広告」「PR」等の", "明確な表示", "（投資情報の発信でも", "　報酬関係の明示が必要）"].forEach((t, i) => {
+    g += txt(465, 108 + i * 22, t, { anchor: "middle", fill: INK, size: 12 });
+  });
+  g += txt(320, 228, "投資系SNS・動画の「案件」投稿は規制対象。PR表記のない称賛は疑って読むのが自衛策", { anchor: "middle", size: 12, fill: SUB });
+  save("stealth-marketing", 640, 250, g);
+}
+
+/* ============ 48. 認知バイアス4種 ============ */
+{
+  let g = txt(320, 30, "投資判断を歪める代表的な認知バイアス", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  g += card(45, 58, 260, 105, "確証バイアス", "#2b4a8b", ["自分の見立てに都合の良い", "情報ばかり集めてしまう", "→ 買った銘柄の悪材料を無視"], { lineSize: 11 });
+  g += card(335, 58, 260, 105, "アンカリング", "#1f6e50", ["最初に見た数字に引きずられる", "→「自分の買値」を基準に", "　売買を判断してしまう"], { lineSize: 11 });
+  g += card(45, 180, 260, 105, "損失回避", "#c73e2e", ["同額でも損の痛みは利益の", "喜びの約2倍とされる", "→ 損切りの先送り・利益の早取り"], { lineSize: 11 });
+  g += card(335, 180, 260, 105, "後知恵バイアス", "#a3690f", ["結果を見てから「分かっていた」", "と感じる → 検証なしに", "自分の相場観を過信する"], { lineSize: 11 });
+  save("bias-map", 640, 305, g);
+}
+
+/* ============ 49. FOMO ============ */
+{
+  const pts = [[40, 250], [110, 235], [180, 210], [250, 170], [310, 110], [360, 60], [420, 45], [470, 90], [520, 160], [580, 230]];
+  let g = poly(pts, { color: INK });
+  g += txt(120, 210, "「自分には関係ない」", { size: 11.5, fill: SUB });
+  g += txt(250, 145, "「まだ間に合うかも」", { size: 11.5, fill: SUB });
+  g += `<circle cx="420" cy="45" r="9" fill="none" stroke="${DN}" stroke-width="2.5"/>`;
+  g += txt(432, 40, "「乗り遅れる！」→ 飛び乗り", { fill: DN, bold: true, size: 12.5 });
+  g += txt(500, 130, "高値づかみ", { fill: DN, size: 12 });
+  g += txt(320, 290, "FOMO（取り残される恐怖）は、話題がピークに達した天井圏で最も強くなる", { anchor: "middle", fill: INK, bold: true, size: 12.5 });
+  save("fomo", 640, 310, g);
+}
+
+/* ============ 50. トレード日誌のループ ============ */
+{
+  let g = txt(320, 30, "トレード日誌の改善ループ", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  const items = [["① 記録する", "根拠・感情・結果を", "その場で書く", "#2b4a8b", 60], ["② 集計する", "勝率・損益比・", "ルール順守率を数える", "#1f6e50", 200], ["③ 仮説を立てる", "「負けの共通点は", "　◯◯では？」", "#a3690f", 340], ["④ ひとつ変える", "次の期間は", "1点だけ修正して検証", "#c73e2e", 480]];
+  items.forEach(([t, l1, l2, c, x]) => {
+    g += `<rect x="${x - 8}" y="60" width="130" height="100" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+    g += txt(x + 57, 88, t, { anchor: "middle", bold: true, fill: c, size: 12.5 });
+    g += txt(x + 57, 115, l1, { anchor: "middle", size: 10.5 });
+    g += txt(x + 57, 133, l2, { anchor: "middle", size: 10.5 });
+  });
+  [190, 330, 470].forEach((x) => g += arrow(x - 6, 110, x - 10 + 12, 110, { color: SUB, w: 2 }));
+  g += poly([[545, 165], [545, 195], [80, 195], [80, 168]], { color: SUB, w: 1.5, dash: "5 4" });
+  g += arrow(80, 175, 80, 163, { color: SUB, w: 1.5 });
+  g += txt(320, 215, "感想文ではなく「数えられる記録」にするのがコツ（数字にできれば検証できる）", { anchor: "middle", size: 12, fill: SUB });
+  save("trade-journal", 640, 235, g);
+}
+
 console.log("done");
