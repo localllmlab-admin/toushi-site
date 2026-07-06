@@ -1303,4 +1303,119 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("mou-mada", 640, 335, g);
 }
 
+/* ============ 72. インフレと現金の実質価値 ============ */
+{
+  let g = txt(320, 28, "年2%のインフレが続いた場合の「現金100万円で買える量」（理論値）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const years = [0, 10, 20, 30];
+  years.forEach((y, i) => {
+    const v = Math.round(100 / 1.02 ** y);
+    const h = v * 1.8;
+    const x = 80 + i * 140;
+    g += `<rect x="${x}" y="${250 - h}" width="80" height="${h}" rx="4" fill="${DN}" opacity="${1 - i * 0.18}"/>`;
+    g += txt(x + 40, 238 - h, `${v}万円分`, { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+    g += txt(x + 40, 270, y === 0 ? "現在" : `${y}年後`, { anchor: "middle", size: 11.5 });
+  });
+  g += txt(320, 300, "物価が上がる＝同じ現金で買える量が減る。「現金は無リスク」はインフレ下では成り立たない", { anchor: "middle", size: 11.5, fill: SUB });
+  save("inflation", 640, 315, g);
+}
+
+/* ============ 73. 金利と株価・為替の波及 ============ */
+{
+  let g = txt(320, 30, "金利上昇が各市場へ波及する代表的な経路（教科書的な整理）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += `<rect x="240" y="55" width="160" height="50" rx="8" fill="${INK}"/>`;
+  g += txt(320, 86, "金利の上昇", { anchor: "middle", fill: "#fff", bold: true, size: 14 });
+  g += arrow(250, 108, 140, 145, { color: SUB, w: 2 });
+  g += arrow(320, 108, 320, 145, { color: SUB, w: 2 });
+  g += arrow(390, 108, 500, 145, { color: SUB, w: 2 });
+  g += card(40, 150, 180, 115, "株式", "#2b4a8b", ["借入コスト増で企業収益に逆風", "将来利益の割引率が上がり", "特に成長株の評価が圧縮", "→ 下落要因とされる"], { lineSize: 10.5 });
+  g += card(230, 150, 180, 115, "債券", "#1f6e50", ["新発債の利回りが上がるほど", "既発債の魅力は低下", "→ 債券価格は下落", "（金利と逆方向）"], { lineSize: 10.5 });
+  g += card(420, 150, 180, 115, "為替", "#a3690f", ["高金利通貨にお金が集まり", "その通貨高の要因に", "（日米金利差と円相場の", "　関係が代表例）"], { lineSize: 10.5 });
+  g += txt(320, 295, "※常に成り立つ法則ではなく「金利がなぜ動いたか」で反応は変わる（景気過熱か・信用不安か）", { anchor: "middle", size: 11, fill: SUB });
+  save("rates-assets", 640, 310, g);
+}
+
+/* ============ 74. 中央銀行の役割 ============ */
+{
+  let g = txt(320, 30, "中央銀行（日本銀行）の3つの顔と金融政策", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(40, 58, 180, 105, "発券銀行", "#2b4a8b", ["紙幣（日本銀行券）を", "発行する唯一の主体", "通貨の信認を守る"], { lineSize: 11 });
+  g += card(230, 58, 180, 105, "銀行の銀行", "#1f6e50", ["民間銀行から預金を受け入れ", "資金を貸し出す", "決済システムの中核"], { lineSize: 11 });
+  g += card(420, 58, 180, 105, "政府の銀行", "#a3690f", ["国庫金の出納を担う", "（政府の資金の", "　受け払いを処理）"], { lineSize: 11 });
+  g += `<rect x="40" y="180" width="560" height="75" rx="8" fill="#e9f2fb" stroke="${GRID}"/>`;
+  g += txt(320, 205, "金融政策：物価の安定を目的に、政策金利や資産買入れで世の中のお金の量・金利を調節", { anchor: "middle", fill: INK, bold: true, size: 12 });
+  g += txt(320, 228, "利上げ＝経済の熱を冷ます／利下げ＝経済を温める。決定は金融政策決定会合（年8回）で公表", { anchor: "middle", size: 11, fill: SUB });
+  save("central-bank", 640, 275, g);
+}
+
+/* ============ 75. 地政学リスクの波及経路 ============ */
+{
+  let g = txt(320, 30, "地政学リスク（紛争・対立）が市場へ波及する代表的な経路", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += `<rect x="230" y="55" width="180" height="46" rx="8" fill="${INK}"/>`;
+  g += txt(320, 84, "地政学イベント", { anchor: "middle", fill: "#fff", bold: true, size: 13.5 });
+  g += arrow(255, 104, 140, 140, { color: SUB, w: 2 });
+  g += arrow(320, 104, 320, 140, { color: SUB, w: 2 });
+  g += arrow(385, 104, 500, 140, { color: SUB, w: 2 });
+  g += card(40, 145, 180, 110, "資源・供給網", "#a3690f", ["原油・穀物・半導体などの", "供給不安 → 価格急騰", "→ インフレ圧力に波及"], { lineSize: 10.5 });
+  g += card(230, 145, 180, 110, "リスク回避", "#2b4a8b", ["株式などリスク資産から", "資金が引き上げられ", "「質への逃避」が起きる"], { lineSize: 10.5 });
+  g += card(420, 145, 180, 110, "安全資産", "#1f6e50", ["金・米国債・スイスフラン", "などに資金が向かう傾向", "（時期により顔ぶれは変化）"], { lineSize: 10.5 });
+  g += txt(320, 285, "※市場の反応は「事前にどこまで織り込んでいたか」次第。事件の大きさ＝下落の大きさではない", { anchor: "middle", size: 11, fill: SUB });
+  save("geopolitics", 640, 300, g);
+}
+
+/* ============ 76. ドローダウン ============ */
+{
+  let g = "";
+  const eq = [[40, 200], [100, 160], [150, 175], [210, 120], [260, 135], [310, 90], [360, 130], [410, 180], [460, 150], [510, 110], [560, 85], [600, 70]];
+  g += poly(eq, { color: INK, w: 2.5 });
+  // ピークとボトム
+  g += line(310, 90, 470, 90, { color: LV, w: 1.5, dash: "5 4" });
+  g += `<circle cx="310" cy="90" r="6" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += `<circle cx="410" cy="180" r="6" fill="none" stroke="${DN}" stroke-width="2"/>`;
+  g += arrow(430, 95, 430, 175, { color: DN, w: 2 });
+  g += txt(442, 140, "最大ドローダウン", { fill: DN, bold: true, size: 12.5 });
+  g += txt(442, 158, "（ピークからの最大下落率）", { fill: DN, size: 11 });
+  g += txt(310, 72, "資産のピーク", { anchor: "middle", fill: UP, size: 11.5 });
+  g += txt(500, 210, "ピーク回復までの期間も", { size: 11.5, fill: SUB, anchor: "middle" });
+  g += txt(500, 228, "重要な指標", { size: 11.5, fill: SUB, anchor: "middle" });
+  g += txt(320, 275, "ドローダウン＝資産曲線の「山から谷への下落」。戦略のリスクは平均リターンよりここで測る", { anchor: "middle", size: 11.5, fill: SUB });
+  save("drawdown", 640, 290, g);
+}
+
+/* ============ 77. レバレッジと破綻ライン ============ */
+{
+  let g = txt(320, 28, "レバレッジ倍率と「証拠金が尽きる逆行幅」（理論値・追証等を除く）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const rows = [[1, 100], [5, 20], [10, 10], [25, 4]];
+  rows.forEach(([lev, adverse], i) => {
+    const y = 62 + i * 50;
+    g += txt(120, y + 16, `${lev}倍`, { anchor: "end", fill: INK, size: 13, bold: true });
+    const w = adverse * 4.2;
+    g += `<rect x="140" y="${y}" width="${w}" height="22" rx="4" fill="${lev >= 10 ? DN : UP}" opacity="0.85"/>`;
+    g += txt(150 + w, y + 16, `逆行 ${adverse}% で証拠金の全額に相当する損失`, { size: 12, fill: INK });
+  });
+  g += txt(320, 290, "倍率が高いほど、日常的な値動きの範囲で全損水準に達する。レバレッジは「時間を買う代わりに誤差への耐性を売る」行為", { anchor: "middle", size: 10.5, fill: SUB });
+  save("leverage-risk", 640, 305, g);
+}
+
+/* ============ 78. ケリー基準 ============ */
+{
+  let g = txt(320, 28, "賭ける割合と資産の長期成長率（勝率60%・損益比1:1の例）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 成長率カーブ: f* = 0.2 が最適。 g(f) = 0.6*ln(1+f) + 0.4*ln(1-f)
+  const pts = [];
+  for (let i = 0; i <= 48; i++) {
+    const f = i / 50;
+    const gr = 0.6 * Math.log(1 + f) + 0.4 * Math.log(1 - f);
+    pts.push([60 + f * 1050, 200 - gr * 1400]);
+  }
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += line(60, 200, 600, 200, { color: GRID, w: 1.5 });
+  g += `<circle cx="${60 + 0.2 * 1050}" cy="${200 - (0.6 * Math.log(1.2) + 0.4 * Math.log(0.8)) * 1400}" r="7" fill="none" stroke="${UP}" stroke-width="2.5"/>`;
+  g += txt(60 + 0.2 * 1050, 130, "最適点（ケリー比率 f*＝20%）", { anchor: "middle", fill: UP, bold: true, size: 12 });
+  g += txt(555, 185, "賭けすぎると", { anchor: "end", fill: DN, size: 11.5, bold: true });
+  g += txt(555, 202, "成長率はマイナスへ", { anchor: "end", fill: DN, size: 11.5, bold: true });
+  g += txt(100, 260, "0%", { anchor: "middle", size: 11 });
+  g += txt(60 + 0.2 * 1050, 260, "20%", { anchor: "middle", size: 11 });
+  g += txt(565, 260, "1回に賭ける割合 →", { anchor: "end", size: 11 });
+  g += txt(320, 292, "最適点を超えた賭け金は、期待値がプラスでも長期では資産を破壊する（実務ではケリーの半分以下が推奨されがち）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("kelly", 640, 305, g);
+}
+
 console.log("done");
