@@ -408,4 +408,204 @@ ${inner}
   save("double-top-bottom", 640, 310, g);
 }
 
+/* ============ 17. ドルコスト平均法 ============ */
+{
+  let g = "";
+  const prices = [100, 140, 80, 120, 60, 100]; // 価格推移（模式値）
+  const px = prices.map((p, i) => [60 + i * 100, 180 - (p - 60) * 1.1]);
+  g += poly(px, { color: INK });
+  prices.forEach((p, i) => {
+    const units = Math.round((100 / p) * 10) / 10; // 定額1万円で買える口数
+    const h = units * 38;
+    g += `<rect x="${60 + i * 100 - 14}" y="${272 - h}" width="28" height="${h}" fill="${UP}" opacity="0.85"/>`;
+    g += txt(60 + i * 100, 288, `${units}口`, { anchor: "middle", size: 11.5 });
+    g += txt(60 + i * 100, px[i][1] - 10, `${p}`, { anchor: "middle", size: 11, fill: SUB });
+  });
+  g += txt(40, 40, "価格（毎回1万円ずつ購入）", { fill: INK, size: 12.5 });
+  g += txt(320, 210, "高いときは少なく、安いときは多く買うことになる", { anchor: "middle", fill: UP, bold: true, size: 12.5 });
+  save("dca", 640, 310, g);
+}
+
+/* ============ 18. リスクリワード比と必要勝率 ============ */
+{
+  let g = txt(320, 30, "損益がプラスマイナスゼロになる勝率（手数料除く・理論値）", { anchor: "middle", fill: INK, bold: true, size: 13 });
+  const rows = [["1 : 1", 50], ["1 : 2", 33.3], ["1 : 3", 25], ["1 : 0.5", 66.7]];
+  rows.forEach(([rr, wr], i) => {
+    const y = 70 + i * 55;
+    g += txt(95, y + 17, `損失 ${rr} 利益`, { anchor: "end", fill: INK, size: 13 });
+    g += `<rect x="120" y="${y}" width="420" height="24" rx="4" fill="#e9eef5"/>`;
+    g += `<rect x="120" y="${y}" width="${420 * wr / 100}" height="24" rx="4" fill="${wr > 50 ? DN : UP}"/>`;
+    g += txt(548, y + 17, `${wr}%`, { size: 13, fill: INK, bold: true });
+  });
+  g += txt(320, 300, "利益を大きく取るほど、低い勝率でも成立する（逆もまた然り）", { anchor: "middle", size: 12.5, fill: SUB });
+  save("risk-reward", 640, 320, g);
+}
+
+/* ============ 19. ナンピンの数学 ============ */
+{
+  const pts = [[40, 60], [110, 110], [170, 90], [240, 160], [300, 140], [370, 210], [430, 190], [500, 260]];
+  let g = poly(pts, { color: INK });
+  [[110, 110], [240, 160], [370, 210]].forEach(([x, y], i) => {
+    g += `<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${DN}" stroke-width="2"/>`;
+    g += txt(x + 10, y - 6, `買い${i + 1}（${1 * 2 ** i}単位）`, { fill: DN, size: 11.5 });
+  });
+  // 平均取得単価の低下
+  g += line(110, 128, 520, 176, { color: LV, w: 2, dash: "5 4" });
+  g += txt(528, 178, "平均取得単価", { fill: LV, size: 12 });
+  g += txt(320, 46, "平均単価は下がるが、保有量が増えるため", { fill: DN, bold: true, size: 12.5 });
+  g += txt(320, 64, "下落が続くと損失は加速度的に拡大する", { fill: DN, bold: true, size: 12.5 });
+  save("nanpin", 640, 310, g);
+}
+
+/* ============ 20. 頭と尻尾はくれてやれ ============ */
+{
+  const pts = [[40, 250], [100, 220], [150, 235], [210, 170], [270, 190], [330, 120], [390, 140], [450, 80], [510, 100], [560, 70], [600, 90]];
+  let g = poly(pts, { color: INK });
+  // 底と天井
+  g += `<circle cx="40" cy="250" r="9" fill="none" stroke="${SUB}" stroke-width="2" stroke-dasharray="3 2"/>`;
+  g += txt(52, 268, "尻尾（底）＝狙わない", { fill: SUB, size: 12 });
+  g += `<circle cx="560" cy="70" r="9" fill="none" stroke="${SUB}" stroke-width="2" stroke-dasharray="3 2"/>`;
+  g += txt(548, 48, "頭（天井）＝狙わない", { fill: SUB, size: 12, anchor: "end" });
+  // 胴体
+  g += line(190, 300, 470, 300, { color: UP, w: 4 });
+  g += arrow(210, 185, 300, 165, { color: UP, w: 0.01 });
+  g += `<rect x="190" y="60" width="280" height="235" fill="${UP}" opacity="0.07"/>`;
+  g += txt(330, 316, "胴体＝トレンドが確認できた区間だけを取りにいく", { anchor: "middle", fill: UP, bold: true, size: 12.5 });
+  save("atama-shippo", 640, 330, g);
+}
+
+/* ============ 21. 休むも相場 ============ */
+{
+  let g = "";
+  // 明瞭トレンド→不明瞭レンジ→明瞭
+  g += poly([[30, 250], [90, 190], [140, 210], [200, 140]], { color: INK });
+  g += poly([[200, 140], [235, 175], [265, 150], [300, 185], [335, 155], [370, 180], [400, 160]], { color: "#9aa9bf", w: 2 });
+  g += poly([[400, 160], [460, 110], [510, 130], [580, 60]], { color: INK });
+  g += `<rect x="200" y="60" width="200" height="200" fill="#9aa9bf" opacity="0.12"/>`;
+  g += txt(300, 50, "方向感のない期間", { anchor: "middle", fill: SUB, bold: true, size: 12.5 });
+  g += txt(300, 285, "無理に取引せず「待つ」のも選択肢", { anchor: "middle", fill: SUB, size: 12.5 });
+  g += txt(110, 285, "分かりやすい局面", { anchor: "middle", fill: UP, size: 12 });
+  g += txt(500, 285, "分かりやすい局面", { anchor: "middle", fill: UP, size: 12 });
+  save("yasumu", 640, 310, g);
+}
+
+/* ============ 22. 人の行く裏に道あり（群集心理サイクル） ============ */
+{
+  const pts = [[40, 240], [110, 200], [180, 170], [250, 120], [320, 70], [390, 60], [450, 100], [510, 180], [570, 250]];
+  let g = poly(pts, { color: INK });
+  g += txt(150, 45, "楽観の頂点：皆が強気＝新たな買い手は残りわずか", { fill: DN, size: 12, bold: true });
+  g += txt(570, 280, "悲観の底：皆が弱気", { anchor: "end", fill: UP, size: 12, bold: true });
+  g += txt(100, 175, "「まだ早い」", { size: 11.5, fill: SUB });
+  g += txt(250, 100, "「乗り遅れるな」", { size: 11.5, fill: SUB });
+  g += txt(400, 95, "「今回は違う」", { size: 11.5, fill: SUB });
+  g += txt(465, 130, "「やはり駄目だ」", { size: 11.5, fill: SUB });
+  g += txt(320, 300, "格言は「多数派が極端に傾いたときこそ注意せよ」という戒めとして解釈される", { anchor: "middle", size: 12, fill: SUB });
+  save("ura-michi", 640, 320, g);
+}
+
+/* ============ 23. プロスペクト理論（価値関数） ============ */
+{
+  let g = line(320, 30, 320, 270, { color: GRID, w: 1.5 });
+  g += line(60, 150, 580, 150, { color: GRID, w: 1.5 });
+  // 利益側（凹・緩やか）
+  g += poly([[320, 150], [370, 118], [430, 96], [500, 82], [570, 74]], { color: UP, w: 3 });
+  // 損失側（凸・急）
+  g += poly([[320, 150], [285, 200], [245, 236], [195, 258], [130, 272], [70, 280]], { color: DN, w: 3 });
+  g += txt(540, 60, "利益の喜び：伸びが鈍い", { anchor: "end", fill: UP, bold: true, size: 12.5 });
+  g += txt(90, 300, "損失の痛み：同額の利益より約2倍強く感じるとされる", { fill: DN, bold: true, size: 12.5 });
+  g += txt(330, 44, "満足", { size: 11.5 });
+  g += txt(570, 165, "利益→", { size: 11.5, anchor: "end" });
+  g += txt(70, 143, "←損失", { size: 11.5 });
+  g += txt(320, 322, "損失を確定させる痛みを避けようとして損切りが遅れる、と説明される（プロスペクト理論）", { anchor: "middle", size: 12, fill: SUB });
+  save("prospect", 640, 335, g);
+}
+
+/* ============ 24. ゴールデンクロス／デッドクロス（2パネル） ============ */
+{
+  let g = "";
+  // GC
+  g += poly([[30, 200], [90, 210], [150, 190], [210, 150], [280, 110]], { color: DN, w: 2.5 });
+  g += poly([[30, 160], [90, 165], [150, 168], [210, 168], [280, 160]], { color: LV, w: 2.5 });
+  g += `<circle cx="182" cy="172" r="9" fill="none" stroke="${UP}" stroke-width="2.5"/>`;
+  g += txt(155, 250, "ゴールデンクロス", { anchor: "middle", bold: true, fill: UP });
+  g += txt(155, 272, "短期線が長期線を上抜け＝買い基調の目安", { anchor: "middle", size: 11.5 });
+  // DC
+  const dx = 340;
+  g += poly([[dx, 110], [dx + 60, 100], [dx + 120, 130], [dx + 180, 170], [dx + 250, 210]], { color: DN, w: 2.5 });
+  g += poly([[dx, 150], [dx + 60, 148], [dx + 120, 146], [dx + 180, 148], [dx + 250, 155]], { color: LV, w: 2.5 });
+  g += `<circle cx="${dx + 148}" cy="148" r="9" fill="none" stroke="${DN}" stroke-width="2.5"/>`;
+  g += txt(dx + 155, 250, "デッドクロス", { anchor: "middle", bold: true, fill: DN });
+  g += txt(dx + 155, 272, "短期線が長期線を下抜け＝売り基調の目安", { anchor: "middle", size: 11.5 });
+  g += line(320, 40, 320, 280, { color: GRID, w: 1 });
+  g += txt(150, 60, "─ 短期線", { fill: DN, size: 12 });
+  g += txt(230, 60, "─ 長期線", { fill: LV, size: 12 });
+  save("gc-dc", 640, 300, g);
+}
+
+/* ============ 25. RSI ============ */
+{
+  let g = "";
+  // 上段: 価格（高値切り上げ）
+  g += poly([[40, 90], [110, 60], [180, 80], [260, 45], [340, 70], [420, 35], [500, 55], [580, 30]], { color: INK });
+  g += txt(50, 30, "価格：高値を更新", { fill: INK, size: 12 });
+  // 下段: RSIバンド
+  g += `<rect x="40" y="150" width="540" height="120" fill="#f7fafd" stroke="${GRID}"/>`;
+  g += line(40, 180, 580, 180, { color: DN, w: 1.5, dash: "5 4" });
+  g += line(40, 240, 580, 240, { color: UP, w: 1.5, dash: "5 4" });
+  g += txt(588, 184, "70", { fill: DN, size: 11 });
+  g += txt(588, 244, "30", { fill: UP, size: 11 });
+  g += poly([[40, 230], [110, 170], [180, 205], [260, 165], [340, 215], [420, 185], [500, 225], [580, 205]], { color: LV, w: 2.5 });
+  g += txt(50, 165, "RSI：高値が切り下がる（ダイバージェンス）", { fill: LV, size: 12, bold: true });
+  g += arrow(265, 160, 425, 178, { color: SUB, w: 1 });
+  g += txt(320, 296, "70以上=買われすぎ・30以下=売られすぎの目安。価格と逆行する形は勢いの衰えを示すとされる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("rsi", 640, 310, g);
+}
+
+/* ============ 26. リスクとリターン ============ */
+{
+  let g = line(70, 270, 590, 270, { color: INK, w: 1.5 });
+  g += line(70, 270, 70, 40, { color: INK, w: 1.5 });
+  g += txt(580, 292, "リスク（価格変動の大きさ）→", { anchor: "end", size: 12 });
+  g += txt(60, 34, "期待リターン↑", { size: 12 });
+  const assets = [["預金", 110, 245, "#71809a"], ["国債", 190, 220, "#2b4a8b"], ["社債", 270, 195, "#1f6e50"], ["株式(分散)", 370, 150, "#a3690f"], ["個別株", 460, 110, "#c73e2e"], ["暗号資産等", 545, 70, "#6b4fa0"]];
+  assets.forEach(([name, x, y, c]) => {
+    g += `<circle cx="${x}" cy="${y}" r="10" fill="${c}" opacity="0.85"/>`;
+    g += txt(x, y - 18, name, { anchor: "middle", size: 12, fill: c, bold: true });
+  });
+  g += poly([[100, 252], [540, 62]], { color: GRID, w: 2, dash: "6 4" });
+  g += txt(330, 318, "リターンが高いものはリスクも高い。「低リスク・高リターン」を謳うものは疑うのが原則（概念図）", { anchor: "middle", size: 11.5, fill: SUB });
+  save("risk-return", 640, 330, g);
+}
+
+/* ============ 27. 分散投資 ============ */
+{
+  let g = "";
+  g += poly([[40, 120], [100, 70], [160, 130], [220, 80], [280, 140], [340, 90], [400, 150], [460, 100], [520, 160], [580, 110]], { color: DN, w: 2 });
+  g += poly([[40, 160], [100, 210], [160, 150], [220, 200], [280, 140], [340, 190], [400, 130], [460, 180], [520, 120], [580, 170]], { color: LV, w: 2 });
+  g += poly([[40, 140], [100, 140], [160, 140], [220, 140], [280, 140], [340, 140], [400, 140], [460, 140], [520, 140], [580, 140]], { color: UP, w: 3.5 });
+  g += txt(50, 55, "─ 資産A", { fill: DN, size: 12.5 });
+  g += txt(130, 55, "─ 資産B（Aと逆に動く）", { fill: LV, size: 12.5 });
+  g += txt(330, 55, "━ A+Bを半分ずつ持った場合", { fill: UP, size: 12.5, bold: true });
+  g += txt(320, 250, "値動きの異なる資産を組み合わせると、全体の変動（リスク）がならされる", { anchor: "middle", fill: UP, bold: true, size: 12.5 });
+  g += txt(320, 275, "※完全に逆に動く資産は現実には稀。相関が低いほど効果が大きい、が一般的な整理", { anchor: "middle", size: 11.5, fill: SUB });
+  save("diversification", 640, 300, g);
+}
+
+/* ============ 28. ポジションサイジング（2%ルール比較） ============ */
+{
+  let g = txt(320, 30, "10連敗した場合の口座残高（1回の損失を残高の◯%に固定・理論値）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pct2 = Array.from({ length: 11 }, (_, i) => 100 * 0.98 ** i);
+  const pct10 = Array.from({ length: 11 }, (_, i) => 100 * 0.90 ** i);
+  const X = (i) => 60 + i * 50;
+  const Y = (v) => 260 - v * 1.9;
+  g += poly(pct2.map((v, i) => [X(i), Y(v)]), { color: UP, w: 3 });
+  g += poly(pct10.map((v, i) => [X(i), Y(v)]), { color: DN, w: 3 });
+  g += txt(575, Y(pct2[10]) - 10, `2%固定 → 残高${Math.round(pct2[10])}%`, { anchor: "end", fill: UP, bold: true, size: 12.5 });
+  g += txt(575, Y(pct10[10]) + 20, `10%固定 → 残高${Math.round(pct10[10])}%`, { anchor: "end", fill: DN, bold: true, size: 12.5 });
+  g += line(60, 260, 580, 260, { color: INK, w: 1.5 });
+  for (let i = 0; i <= 10; i += 2) g += txt(X(i), 280, `${i}敗`, { anchor: "middle", size: 11 });
+  g += txt(320, 305, "1回のリスクを小さく保つほど、連敗しても再起できる資金が残る", { anchor: "middle", size: 12, fill: SUB });
+  save("position-sizing", 640, 320, g);
+}
+
 console.log("done");
