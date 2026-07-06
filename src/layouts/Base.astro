@@ -1,7 +1,8 @@
 ---
 import "../styles/tokens.css";
-const { title, description } = Astro.props;
+const { title, description, pagebg = false } = Astro.props;
 const nav = [
+  { href: "/", label: "ホーム" },
   { href: "/learn/", label: "学ぶ" },
   { href: "/playbook/", label: "手法・定石" },
   { href: "/charts/", label: "チャート図解" },
@@ -9,6 +10,8 @@ const nav = [
   { href: "/policy/", label: "編集方針" },
   { href: "/search/", label: "検索" },
 ];
+const path = Astro.url.pathname;
+const isActive = (href) => (href === "/" ? path === "/" : path.startsWith(href));
 ---
 <!doctype html>
 <html lang="ja">
@@ -22,108 +25,116 @@ const nav = [
     <meta property="og:type" content="article" />
     <meta property="og:locale" content="ja_JP" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title="投資の学び場" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="投資の学び舎（まなびや）" href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
-  <body>
+  <body class={pagebg ? "has-pagebg" : ""}>
     <header class="site-head">
       <div class="site-head-inner">
         <a class="brand" href="/">
-          <svg class="brand-mark" viewBox="0 0 32 32" width="20" height="20" aria-hidden="true" focusable="false">
-            <rect width="32" height="32" rx="7" style="fill:var(--color-ink)" />
-            <line x1="12" y1="6" x2="12" y2="26" style="stroke:var(--color-accent)" stroke-width="2" stroke-linecap="round" />
-            <rect x="9" y="13" width="6" height="9" rx="1.2" style="fill:var(--color-accent)" />
-            <line x1="21" y1="7" x2="21" y2="24" style="stroke:var(--color-up)" stroke-width="2" stroke-linecap="round" />
-            <rect x="18" y="11" width="6" height="8" rx="1.2" style="fill:var(--color-up)" />
-          </svg>
-          <span class="brand-word">投資の学び場</span>
+          <span class="brand-mark" aria-hidden="true">学</span>
+          <span class="brand-word">投資の学び舎</span>
+          <span class="brand-read">まなびや</span>
         </a>
-        <nav aria-label="サイト内ナビゲーション">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-        </nav>
+        <p class="brand-tag">相場を、正しく学ぶ。</p>
       </div>
+      <nav class="tabs" aria-label="サイト内ナビゲーション">
+        <div class="tabs-inner">
+          {nav.map((n) => (
+            <a href={n.href} class={isActive(n.href) ? "on" : ""} aria-current={isActive(n.href) ? "page" : undefined}>{n.label}</a>
+          ))}
+        </div>
+      </nav>
     </header>
     <main><slot /></main>
     <footer class="site-foot">
       <div class="site-foot-inner">
-        <p class="foot-disclaimer">
-          本サイトは教育・情報提供を目的とし、投資勧誘・助言を行いません。
-        </p>
         <nav class="foot-links" aria-label="フッターリンク">
+          <a href="/learn/">学ぶ</a>
+          <a href="/playbook/">手法・定石</a>
+          <a href="/charts/">チャート図解</a>
+          <a href="/glossary/">用語集</a>
           <a href="/policy/">編集方針</a>
           <a href="/rss.xml">RSS</a>
         </nav>
+        <p class="foot-disclaimer">
+          【免責事項】本サイトは投資教育・情報提供を目的としており、特定の金融商品の売買を推奨または勧誘するものではありません。掲載情報の正確性には万全を期していますが、その完全性・最新性を保証するものではありません。投資に関する最終決定はご自身の判断でお願いいたします。本サイトの情報に基づく損失について、運営者は一切の責任を負いません。記事内の出典は等級（A=公的機関・規制当局・取引所、B=学術、C=企業一次発表、D=報道）を明示しています。
+        </p>
+        <p class="foot-copy">© 2026 投資の学び舎（toushi-manabiya.jp）</p>
       </div>
     </footer>
     <style is:global>
       .container { max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
       .container-wide { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 1.25rem; }
+      body.has-pagebg { background: var(--color-page); }
     </style>
     <style>
-      .site-head {
-        background: var(--color-bg);
-        border-bottom: 1px solid var(--color-border);
-      }
+      .site-head { background: var(--color-bg); }
       .site-head-inner {
         max-width: var(--maxw-wide);
         margin: 0 auto;
-        padding: 0.9rem 1.25rem;
+        padding: 0.7rem 1.25rem;
         display: flex;
-        gap: 1.5rem;
+        gap: 0.9rem;
         align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
       }
       .brand {
         display: inline-flex;
-        align-items: center;
+        align-items: baseline;
         gap: 0.5rem;
         min-height: 44px;
-        font-weight: 700;
-        font-size: 1.05rem;
+        align-items: center;
+        font-weight: 800;
+        font-size: 1.25rem;
         color: var(--color-text);
         text-decoration: none;
+        white-space: nowrap;
       }
-      .brand-mark { flex-shrink: 0; }
-      .site-head nav { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-      .site-head nav a {
-        display: inline-flex;
-        align-items: center;
-        min-height: 44px;
-        padding: 0 0.7rem;
-        text-decoration: none;
-        color: var(--color-text-muted);
-        font-size: 0.94rem;
+      .brand-mark {
+        width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0;
+        background: linear-gradient(135deg, var(--color-ink-2), var(--color-ink-3));
+        color: #fff; display: inline-flex; align-items: center; justify-content: center;
+        font-size: 1rem; font-weight: 800;
       }
-      .site-head nav a:hover { color: var(--color-accent-soft); }
+      .brand-read {
+        font-size: 0.68rem; font-weight: 700; color: var(--color-text-muted);
+        letter-spacing: 0.18em; align-self: flex-end; padding-bottom: 0.45rem;
+      }
+      .brand-tag {
+        margin: 0; font-size: 0.72rem; color: var(--color-text-muted);
+        border-left: 1px solid var(--color-border); padding-left: 0.9rem;
+      }
+      @media (max-width: 640px) { .brand-tag { display: none; } }
+
+      .tabs { border-bottom: 1px solid var(--color-border); background: var(--color-bg); }
+      .tabs-inner {
+        max-width: var(--maxw-wide); margin: 0 auto; padding: 0 1.25rem;
+        display: flex; overflow-x: auto;
+      }
+      .tabs a {
+        color: var(--color-text); font-weight: 700; font-size: 0.9rem;
+        padding: 0.65rem 1.1rem; border-bottom: 3px solid transparent;
+        white-space: nowrap; text-decoration: none; min-height: 44px;
+        display: inline-flex; align-items: center;
+      }
+      .tabs a:hover { color: var(--color-accent); }
+      .tabs a.on { border-bottom-color: var(--color-cta); color: var(--color-ink); }
 
       main { display: block; }
 
-      .site-foot {
-        background: var(--color-ink);
-        color: var(--color-on-ink-muted);
-      }
-      .site-foot-inner {
-        max-width: var(--maxw-wide);
-        margin: 0 auto;
-        padding: 2rem 1.25rem;
-        display: flex;
-        gap: 1rem 2rem;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-      .foot-disclaimer { margin: 0; font-size: 0.85rem; max-width: 46em; }
-      .foot-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+      .site-foot { background: var(--color-ink); color: var(--color-on-ink-muted); margin-top: 3rem; }
+      .site-foot-inner { max-width: var(--maxw-wide); margin: 0 auto; padding: 1.8rem 1.25rem 1.6rem; }
+      .foot-links { display: flex; gap: 0.4rem 1.4rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
       .foot-links a {
-        color: var(--color-on-ink);
-        text-decoration: none;
-        font-size: 0.88rem;
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
+        color: var(--color-on-ink); text-decoration: none; font-size: 0.82rem; font-weight: 700;
+        min-height: 44px; display: inline-flex; align-items: center;
       }
-      .foot-links a:hover { color: var(--color-accent-soft); }
+      .foot-links a:hover { color: #fff; text-decoration: underline; }
+      .foot-disclaimer {
+        margin: 0; font-size: 0.72rem; line-height: 1.8;
+        border-top: 1px solid #1a68a5; padding-top: 0.9rem;
+      }
+      .foot-copy { margin: 0.8rem 0 0; font-size: 0.72rem; color: #7fa6c6; font-family: var(--font-num); }
     </style>
   </body>
 </html>

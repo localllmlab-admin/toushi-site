@@ -15,18 +15,22 @@ const byChapter = CHAPTERS.map((ch) => ({
     .sort((a, b) => a.data.level - b.data.level || a.data.order - b.data.order),
 }));
 ---
-<Base title="学習マップ｜投資の学び場" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。">
+<Base title="学習マップ｜投資の学び舎（まなびや）" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。">
   <div class="container-wide">
     <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
     <h1>学習マップ</h1>
     <p>7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
 
+    <p class="lv-filter-note" id="lv-filter-note" hidden>
+      レベル「<span id="lv-filter-label"></span>」の記事のみ表示しています。<a href="/learn/">すべて表示する</a>
+    </p>
+
     {byChapter.map((c, i) => (
-      <section class="chapter">
+      <section class="chapter" id={`ch-${i + 1}`}>
         <h2>{i + 1}. {c.chapter}</h2>
         {c.items.length === 0 ? <p class="empty">準備中です。</p> : (
           <ul>{c.items.map((e) => (
-            <li>
+            <li data-level={e.data.level}>
               <span class="lv">{LEVELS[e.data.level]}</span>
               <a href={`/learn/${e.slug}/`}>{e.data.title}</a>
             </li>
@@ -35,7 +39,25 @@ const byChapter = CHAPTERS.map((ch) => ({
       </section>
     ))}
   </div>
+
+  <script is:inline>
+    // トップの「レベル」選択・「レベル別に学ぶ」（/learn/?lv=N）に対応した簡易フィルタ
+    (function () {
+      var lv = new URLSearchParams(location.search).get("lv");
+      if (["1", "2", "3", "4"].indexOf(lv) === -1) return;
+      var labels = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+      document.querySelectorAll("li[data-level]").forEach(function (li) {
+        if (li.getAttribute("data-level") !== lv) li.hidden = true;
+      });
+      document.getElementById("lv-filter-label").textContent = "Lv." + lv + " " + labels[lv];
+      document.getElementById("lv-filter-note").hidden = false;
+    })();
+  </script>
   <style>
+    .lv-filter-note {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius); padding: .6rem .9rem; font-size: .85rem;
+    }
     .container-wide { padding: 2.4rem 1.25rem 3.5rem; }
     .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
     .chapter { margin-top: 2rem; }

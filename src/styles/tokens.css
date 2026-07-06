@@ -1,43 +1,58 @@
-/* デザイントークン v2 —「昼の紙面に、夜の板」
-   白基調の誠実な紙面に、ヒーロー等の反転面だけ墨紺（板情報）。
-   根拠: docs/research/design-refs-*.md（教育・メディア11サイト分析）＋ docs/tone.md
-   制約: 日本語Webフォント不使用（OS搭載のみ）・本文16px以上・行間1.7〜1.9 */
+/* デザイントークン v3 —「E案: ニュースポータル×求人ポータル」(2026-07-07 デザイン再構築で確定)
+   骨格=Yahoo!/ITmedia型ポータル(タブナビ・トピックス・記事リスト・右レール)、
+   トンマナ=エン転職/doda型(明るい信頼ブルー×オレンジCTA・薄青グレー地に白カード・多色バッジ)。
+   正: design/samples/e-portal-blue.html ＋ docs/tone.md（変更はこの2つから）
+   制約: 日本語Webフォント不使用（OS搭載のみ）・記事本文16px以上・行間1.7〜1.9 */
 :root {
-  /* 紙面（ライト基調） */
-  --color-bg: #ffffff;
-  --color-surface: #f6f8fa;        /* カード・コード背景 */
-  --color-surface-muted: #eef1f5;
-  --color-text: #1a2433;           /* 墨紺寄りの本文黒 */
-  --color-text-muted: #5b6b80;
-  --color-border: #dce3ea;
-  --color-border-strong: #9aa7b8;
+  /* 紙面 */
+  --color-bg: #ffffff;             /* カード・ヘッダー面 */
+  --color-page: #f2f5f9;           /* ページ地: 薄青グレー（トップ・一覧で使用） */
+  --color-surface: #f7fafd;        /* ホバー・薄面 */
+  --color-surface-muted: #e9eef5;
+  --color-text: #26313f;
+  --color-text-muted: #71809a;
+  --color-border: #dde3ec;
+  --color-border-strong: #9aa9bf;
 
-  /* 板（反転面: ヒーロー・フッター用） */
-  --color-ink: #0b1f33;            /* 墨紺 = ブランド色 */
-  --color-ink-2: #12304e;
-  --color-on-ink: #eef3f9;
-  --color-on-ink-muted: #9fb2c8;
+  /* ブランド青（反転面: ヒーロー・フッター・レール見出し） */
+  --color-ink: #004f86;            /* ブランド濃青 */
+  --color-ink-2: #0075c2;          /* ブランド青（グラデ中間） */
+  --color-ink-3: #00a5e3;          /* グラデ末端の明青 */
+  --color-on-ink: #eef6fc;
+  --color-on-ink-muted: #9dbbd4;
+  --grad-brand: linear-gradient(120deg, var(--color-ink), var(--color-ink-2) 70%, var(--color-ink-3));
 
   /* アクセント */
-  --color-accent: #1c5bbf;         /* 藍青: リンク・主要アクション */
-  --color-accent-soft: #3d78d6;    /* hover */
-  --color-up: #c73e2e;             /* 陽線の朱: 小さな強調のみ（乱用禁止・CTA用途なし） */
+  --color-accent: #0075c2;         /* リンク・主要アクション */
+  --color-accent-soft: #005f9e;    /* hover（濃側に振る） */
+  --color-cta: #ff6e28;            /* オレンジ: 検索ボタン・強アクションのみ（乱用禁止） */
+  --color-cta-deep: #d95415;
+  --grad-cta: linear-gradient(180deg, #ff8a4d, var(--color-cta));
+  --color-up: #c73e2e;             /* 陽線の朱: チャート図解専用 */
 
-  /* セクションカラー（機能的色分け: カード上辺罫線とラベルのみに使用） */
-  --color-sec-learn: #1c5bbf;      /* 学ぶ = 藍 */
-  --color-sec-playbook: #0f766e;   /* 手法・定石 = 深緑 */
-  --color-sec-charts: #b45309;     /* チャート図解 = 琥珀 */
-  --color-sec-glossary: #6d5aa8;   /* 用語集 = 菫 */
+  /* セクションカラー（カテゴリラベル・サムネ地・カード罫線） */
+  --color-sec-learn: #2b4a8b;      /* 学ぶ = 藍 */
+  --color-sec-playbook: #1f6e50;   /* 手法・定石 = 深緑 */
+  --color-sec-charts: #a3690f;     /* チャート図解 = 琥珀 */
+  --color-sec-glossary: #6b4fa0;   /* 用語集 = 菫 */
+
+  /* バッジ（多色・求人サイト型。意味固定で流用する） */
+  --badge-ok-bg: #e8f6ec;  --badge-ok-fg: #1d7a3e;  --badge-ok-bd: #bfe3ca;  /* 知識ゼロOK */
+  --badge-src-bg: #e9f2fb; --badge-src-fg: #1a5fa8; --badge-src-bd: #c4dcf3; /* 出典等級 */
+  --badge-lv-bg: #f3eefb;  --badge-lv-fg: #6b4fa0;  --badge-lv-bd: #ddd0f0;  /* レベル */
+  --badge-fig-bg: #fff3e6; --badge-fig-fg: #b05a12; --badge-fig-bd: #f3d6b3; /* 図解あり */
 
   /* タイポグラフィ（OS搭載のみ） */
   --font-sans: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace; /* データ・日付・出典等級の声 */
+  --font-num: Roboto, "Helvetica Neue", Arial, var(--font-sans); /* 数字の声（統計・ランキング） */
 
   --maxw: 760px;        /* 記事本文カラム */
-  --maxw-wide: 1080px;  /* トップ・一覧カラム */
-  --radius: 10px;
-  --radius-s: 6px;
-  --shadow-card: 0 1px 2px rgba(11, 31, 51, 0.06);
+  --maxw-wide: 1040px;  /* トップ・一覧カラム */
+  --radius: 8px;
+  --radius-s: 4px;
+  --shadow-card: 0 1px 3px rgba(0, 40, 80, 0.07);
+  --shadow-float: 0 4px 14px rgba(0, 40, 80, 0.18); /* ヒーロー検索カード */
 }
 * { box-sizing: border-box; }
 body {
@@ -45,14 +60,16 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-  line-height: 1.85;
-  font-size: 17px;
+  line-height: 1.8;
+  font-size: 16px;
+  letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
 }
 a { color: var(--color-accent); text-underline-offset: 3px; }
 a:hover { color: var(--color-accent-soft); }
 h1, h2, h3 {
-  line-height: 1.35;
+  line-height: 1.4;
   font-feature-settings: "palt"; /* 見出しのみ約物詰め */
   letter-spacing: 0.01em;
 }

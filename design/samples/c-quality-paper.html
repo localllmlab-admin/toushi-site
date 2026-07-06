@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C案：金融クオリティペーパー型（Bloomberg日本版/日経系）｜投資の学び場</title>
+<style>
+:root{
+  --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  --font-serif:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;
+  --font-num:Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ink:#111418; --sub:#68707c; --line:#d8dce2; --line-strong:#111418;
+  --paper:#fdfdfb;
+  --navy:#0a2e5c;             /* 紙面の紺 */
+  --link:#0f5cc0;
+  --learn:#2b4a8b; --play:#1f6e50; --chart:#a3690f; --glos:#6b4fa0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--ink);font-size:14px;line-height:1.85;letter-spacing:.03em;background:var(--paper);overflow-wrap:break-word}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--link)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+
+/* 最上部黒帯：用語ティッカー */
+.topbar{background:var(--ink);color:#e8eaee;font-size:12px}
+.topbar .wrap{display:flex;align-items:center;gap:18px;height:34px;overflow:hidden}
+.topbar .date{font-family:var(--font-num);color:#9aa3b0;flex-shrink:0}
+.ticker{display:flex;gap:26px;white-space:nowrap;overflow:hidden}
+.ticker span{color:#c9cfd8}
+.ticker b{color:#fff;font-weight:700;margin-right:6px}
+.ticker i{font-style:normal;color:#5b9bff;font-family:var(--font-num);font-size:11px;letter-spacing:.06em}
+
+/* 題字 */
+.masthead{border-bottom:3px double var(--line-strong);background:#fff}
+.masthead .wrap{padding:26px 20px 18px;text-align:center;position:relative}
+.masthead h1{font-family:var(--font-serif);font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:.22em;color:var(--ink)}
+.masthead .sub{font-size:11px;color:var(--sub);letter-spacing:.34em;margin-top:6px}
+.masthead .edition{position:absolute;left:20px;top:30px;font-size:11px;color:var(--sub);text-align:left;line-height:1.6;font-family:var(--font-num)}
+.masthead .badge{position:absolute;right:20px;top:32px;border:1px solid var(--line);padding:5px 12px;font-size:11px;color:var(--sub)}
+@media(max-width:720px){.masthead .edition,.masthead .badge{display:none}}
+
+/* ナビ */
+.gnav{background:#fff;border-bottom:1px solid var(--line-strong)}
+.gnav .wrap{display:flex;justify-content:center;gap:0;overflow-x:auto}
+@media(max-width:860px){.gnav .wrap{justify-content:flex-start}}
+.gnav a{font-size:14px;font-weight:700;padding:11px 22px;border-left:1px solid var(--line);white-space:nowrap}
+.gnav a:last-child{border-right:1px solid var(--line)}
+.gnav a small{display:block;font-family:var(--font-num);font-size:9px;color:var(--sub);letter-spacing:.18em;font-weight:400;text-align:center}
+
+/* 一面グリッド */
+.front{display:grid;grid-template-columns:2fr 1.1fr;gap:0;margin-top:26px}
+@media(max-width:860px){.front{grid-template-columns:1fr}}
+.lead-story{padding-right:26px;border-right:1px solid var(--line)}
+@media(max-width:860px){.lead-story{padding-right:0;border-right:none}}
+.kicker{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:.14em}
+.kicker::before{content:"■ ";font-size:10px}
+.lead-story h2{font-family:var(--font-serif);font-size:clamp(24px,3.4vw,34px);font-weight:700;line-height:1.5;margin:10px 0 12px;letter-spacing:.04em}
+.lead-story h2 a:hover{color:var(--link)}
+.lead-story .std{font-size:14px;color:#333;margin-bottom:14px}
+.lead-story .meta{font-size:12px;color:var(--sub);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.meta time{font-family:var(--font-num)}
+.src-a{border:1px solid #1f6e50;color:#1f6e50;font-size:10px;padding:0 7px;font-weight:700}
+.figure{margin:18px 0;border:1px solid var(--line);background:#fff;padding:14px}
+.figure svg{display:block;width:100%;height:auto}
+.figure figcaption{font-size:11px;color:var(--sub);margin-top:8px}
+
+/* 一面右列 */
+.col2{padding-left:26px;display:flex;flex-direction:column}
+@media(max-width:860px){.col2{padding-left:0;margin-top:26px}}
+.col2 article{padding:16px 0;border-bottom:1px solid var(--line)}
+.col2 article:first-child{padding-top:0}
+.col2 h3{font-family:var(--font-serif);font-size:18px;font-weight:700;line-height:1.55;margin:6px 0 4px}
+.col2 p{font-size:12.5px;color:#444}
+.col2 .meta{font-size:11px;color:var(--sub);margin-top:6px}
+
+/* 罫線セクション */
+.rule-head{border-top:2px solid var(--line-strong);border-bottom:1px solid var(--line);margin-top:40px;padding:8px 0 7px;display:flex;align-items:baseline;gap:14px}
+.rule-head h2{font-size:17px;font-weight:800;letter-spacing:.1em}
+.rule-head .en{font-family:var(--font-num);font-size:10px;letter-spacing:.24em;color:var(--sub)}
+.rule-head .more{margin-left:auto;font-size:12px;color:var(--link)}
+.rule-head.rh-learn h2{color:var(--learn)} .rule-head.rh-play h2{color:var(--play)}
+.rule-head.rh-chart h2{color:var(--chart)} .rule-head.rh-glos h2{color:var(--glos)}
+
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:4px}
+@media(max-width:760px){.tri{grid-template-columns:1fr}}
+.tri article{padding:16px 20px 16px 0;border-right:1px solid var(--line)}
+.tri article:last-child{border-right:none}
+.tri article+article{padding-left:20px}
+@media(max-width:760px){.tri article{border-right:none;border-bottom:1px dotted var(--line);padding-left:0}}
+.tri h3{font-size:15px;font-weight:700;line-height:1.6;margin-bottom:6px}
+.tri p{font-size:12.5px;color:#4a4f57}
+.tri .meta{font-size:11px;color:var(--sub);margin-top:8px}
+.lv{border:1px solid var(--line);color:var(--sub);font-size:10px;padding:0 6px;margin-right:8px}
+
+/* 学習マップ表 */
+.maptable{width:100%;border-collapse:collapse;margin-top:4px;font-size:13px;background:#fff}
+.maptable th,.maptable td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.maptable thead th{background:var(--navy);color:#fff;font-weight:700;font-size:12px;letter-spacing:.08em}
+.maptable tbody tr:nth-child(even){background:#f4f6f8}
+.maptable .num{font-family:var(--font-num);font-variant-numeric:tabular-nums;text-align:center;color:var(--sub)}
+.maptable .done{color:#1f6e50;font-weight:700}
+.maptable .yet{color:#b0b6bf}
+.map-note{font-size:11px;color:var(--sub);margin-top:8px}
+
+/* 用語欄（コラム風） */
+.column-box{border:1px solid var(--line-strong);margin-top:40px;background:#fff;display:grid;grid-template-columns:auto 1fr;gap:0}
+@media(max-width:720px){.column-box{grid-template-columns:1fr}}
+.column-box .side{background:var(--ink);color:#fff;padding:22px 16px;display:flex;align-items:center;justify-content:center}
+.column-box .side span{writing-mode:vertical-rl;font-family:var(--font-serif);font-size:16px;letter-spacing:.5em;font-weight:700}
+@media(max-width:720px){.column-box .side span{writing-mode:horizontal-tb}}
+.column-box .body{padding:20px 24px}
+.column-box h3{font-family:var(--font-serif);font-size:21px;font-weight:700}
+.column-box h3 small{font-size:11px;color:var(--sub);font-weight:400;margin-left:10px;font-family:var(--font-body)}
+.column-box p{font-size:13.5px;color:#333;margin-top:8px}
+.column-box .go{display:inline-block;margin-top:12px;font-size:12px;color:var(--link);font-weight:700}
+
+/* フッター */
+footer{margin-top:48px;border-top:3px double var(--line-strong);background:#fff}
+.ft{max-width:1060px;margin:0 auto;padding:26px 20px}
+.ft nav{display:flex;gap:22px;font-size:12px;font-weight:700;flex-wrap:wrap;margin-bottom:16px}
+.disclaimer{font-size:11px;line-height:1.9;color:var(--sub);border-top:1px solid var(--line);padding-top:14px}
+.copy{font-family:var(--font-num);font-size:11px;color:#9aa3b0;margin-top:12px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="date">2026年7月6日（月）</span>
+    <div class="ticker">
+      <span><i>今日の用語</i></span>
+      <span><b>ボラティリティ</b>価格変動の大きさ</span>
+      <span><b>損小利大</b>損失は小さく利益は大きく</span>
+      <span><b>ダブルトップ</b>高値圏の反転パターン</span>
+      <span><b>複利</b>利息が利息を生む仕組み</span>
+    </div>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="edition">第4号<br>毎日更新</div>
+    <h1>投資の学び場</h1>
+    <p class="sub">相場を、正しく学ぶ。</p>
+    <div class="badge">教育目的・投資助言は行いません</div>
+  </div>
+</header>
+
+<nav class="gnav">
+  <div class="wrap">
+    <a href="#">学ぶ<small>LEARN</small></a>
+    <a href="#">手法・定石<small>PLAYBOOK</small></a>
+    <a href="#">チャート型<small>CHARTS</small></a>
+    <a href="#">用語集<small>GLOSSARY</small></a>
+    <a href="#">学習マップ<small>CURRICULUM</small></a>
+    <a href="#">検索<small>SEARCH</small></a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <div class="front">
+    <article class="lead-story">
+      <span class="kicker">学ぶ ｜ 法規制とルール</span>
+      <h2><a href="#">インサイダー取引規制とは何か<br>――未公表の重要事実が禁じられる理由</a></h2>
+      <p class="std">市場の公正さはどのように守られているのか。制度の目的と枠組みを、金融庁・日本取引所グループの一次資料に沿って基礎から解説する。</p>
+      <div class="meta"><time>2026/7/1 更新</time><span class="src-a">出典A</span><span>金融庁・日本取引所グループ</span><span>レベル2 基礎</span></div>
+      <figure class="figure">
+        <svg viewBox="0 0 640 180" role="img" aria-label="ダブルトップの模式図">
+          <polyline points="10,150 70,110 130,60 190,95 250,55 310,100 370,140 430,160" fill="none" stroke="#0a2e5c" stroke-width="2.5"/>
+          <line x1="130" y1="60" x2="250" y2="60" stroke="#a3690f" stroke-width="1" stroke-dasharray="4 3"/>
+          <line x1="10" y1="98" x2="430" y2="98" stroke="#c9302c" stroke-width="1.2" stroke-dasharray="6 3"/>
+          <text x="140" y="50" font-size="12" fill="#a3690f">山①　　山②</text>
+          <text x="440" y="102" font-size="11" fill="#c9302c">ネックライン</text>
+          <text x="452" y="158" font-size="11" fill="#68707c">下抜けで反転を確認</text>
+        </svg>
+        <figcaption>図：ダブルトップの模式図（本文「チャート型」より）。特定銘柄の値動きではありません。</figcaption>
+      </figure>
+    </article>
+
+    <div class="col2">
+      <article>
+        <span class="kicker" style="color:#1f6e50">手法・定石</span>
+        <h3><a href="#">「損小利大」とは何か</a></h3>
+        <p>勝率よりも損益の非対称性を重視する資金管理の考え方。前提条件と限界まで。</p>
+        <div class="meta">2026/7/1 更新 ｜ 出典A</div>
+      </article>
+      <article>
+        <span class="kicker" style="color:#a3690f">チャート型</span>
+        <h3><a href="#">ダブルトップ／ダブルボトム</a></h3>
+        <p>代表的な反転パターンの形と、一般的な解釈・確認の考え方を図解する。</p>
+        <div class="meta">2026/7/1 更新 ｜ 出典A</div>
+      </article>
+      <article>
+        <span class="kicker" style="color:#6b4fa0">用語集</span>
+        <h3><a href="#">ボラティリティ</a></h3>
+        <p>価格変動の大きさを示す指標。大きいほど値動きが激しく、不確実性が高い。</p>
+        <div class="meta">2026/7/1 更新</div>
+      </article>
+    </div>
+  </div>
+
+  <div class="rule-head rh-learn"><h2>学ぶ</h2><span class="en">LEARN</span><a class="more" href="#">一覧へ ＞</a></div>
+  <div class="tri">
+    <article>
+      <h3><a href="#">単利と複利の違い</a></h3>
+      <p>時間が味方になる仕組みを、数式なしで理解する。</p>
+      <div class="meta"><span class="lv">Lv.1 入門</span>第1章 お金と市場の基礎 ｜ 近日公開</div>
+    </article>
+    <article>
+      <h3><a href="#">NISAの制度概要</a></h3>
+      <p>非課税制度の全体像と、制度を使う前に知っておくべき前提。</p>
+      <div class="meta"><span class="lv">Lv.1 入門</span>第2章 商品と制度 ｜ 近日公開</div>
+    </article>
+    <article>
+      <h3><a href="#">分散投資はなぜ有効か</a></h3>
+      <p>「卵をひとつの籠に盛らない」の裏にある数理を平易に。</p>
+      <div class="meta"><span class="lv">Lv.2 基礎</span>第3章 リスク管理 ｜ 近日公開</div>
+    </article>
+  </div>
+
+  <div class="rule-head"><h2>学習マップ</h2><span class="en">CURRICULUM</span><a class="more" href="#">全体像 ＞</a></div>
+  <table class="maptable">
+    <thead><tr><th>章</th><th>テーマ</th><th class="num">公開</th><th class="num">予定</th><th>状況</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1–2</td><td>お金と市場・商品と制度の基礎</td><td class="num">0</td><td class="num">18</td><td class="yet">執筆中</td></tr>
+      <tr><td class="num">3</td><td>リスク管理</td><td class="num">1</td><td class="num">6</td><td class="done">公開中</td></tr>
+      <tr><td class="num">4</td><td>分析手法・チャート</td><td class="num">1</td><td class="num">8</td><td class="done">公開中</td></tr>
+      <tr><td class="num">5</td><td>法規制とルール</td><td class="num">1</td><td class="num">6</td><td class="done">公開中</td></tr>
+      <tr><td class="num">6–7</td><td>行動と心理・実践</td><td class="num">0</td><td class="num">12</td><td class="yet">執筆中</td></tr>
+    </tbody>
+  </table>
+  <p class="map-note">※ 記事はすべて人間のレビューを通過したうえで公開しています。公開数は2026年7月6日時点。</p>
+
+  <div class="column-box">
+    <div class="side"><span>今日の用語</span></div>
+    <div class="body">
+      <h3>ボラティリティ<small>ぼらてぃりてぃ／volatility</small></h3>
+      <p>価格変動の大きさを示す指標。大きいほど値動きが激しく、リスク（不確実性）が高いと一般に理解されます。標準偏差で測ることが多く、オプション価格の重要な変数でもあります。</p>
+      <a class="go" href="#">用語集で全文を読む ＞</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="ft">
+    <nav><a href="#">学ぶ</a><a href="#">手法・定石</a><a href="#">チャート型</a><a href="#">用語集</a><a href="#">運営ポリシー</a><a href="#">RSS</a></nav>
+    <p class="disclaimer">【免責事項】本サイトは投資教育・情報提供を目的としており、特定の金融商品の売買を推奨または勧誘するものではありません。掲載情報の正確性には万全を期していますが、その完全性・最新性を保証するものではありません。投資に関する最終決定はご自身の判断でお願いいたします。本サイトの情報に基づく損失について、運営者は一切の責任を負いません。記事内の出典は等級（A=政府・取引所等、B=業界団体・大手金融機関、C=その他）を明示しています。</p>
+    <p class="copy">© 2026 投資の学び場（toushi-manabiya.jp）</p>
+  </div>
+</footer>
+
+</body>
+</html>

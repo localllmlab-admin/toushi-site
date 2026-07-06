@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B案：モダンビジネスメディア型（NewsPicks/PIVOT系）｜投資の学び場</title>
+<style>
+:root{
+  --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  --font-num:Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ink:#0d0f14;            /* ほぼ黒 */
+  --sub:#6b7280;
+  --line:#e5e7eb;
+  --bg-soft:#f6f7f9;
+  --accent:#0b5fff;         /* 電気青＝唯一のアクセント */
+  --learn:#2b4a8b; --play:#1f6e50; --chart:#a3690f; --glos:#6b4fa0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--ink);font-size:15px;line-height:1.8;letter-spacing:.02em;background:#fff;overflow-wrap:break-word}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ヘッダー */
+header{border-bottom:1px solid var(--ink);position:sticky;top:0;background:#fff;z-index:10}
+.hd{display:flex;align-items:center;height:60px;gap:28px}
+.logo{font-size:21px;font-weight:900;letter-spacing:.02em;display:flex;align-items:center;gap:9px}
+.logo .mark{width:26px;height:26px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-num);font-weight:700;font-size:15px}
+.hd nav{display:flex;gap:22px;font-size:14px;font-weight:700}
+.hd nav a{padding:4px 0;border-bottom:2px solid transparent}
+.hd nav a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+.hd .search{margin-left:auto;display:flex;align-items:center;gap:6px;border:1px solid var(--line);padding:6px 12px;font-size:13px;color:var(--sub);background:var(--bg-soft)}
+@media(max-width:760px){.hd nav{display:none}}
+
+/* ヒーロー（黒帯） */
+.hero{background:var(--ink);color:#fff;padding:52px 0 120px}
+.hero .kicker{color:var(--accent);font-weight:800;font-size:13px;letter-spacing:.22em;font-family:var(--font-num)}
+.hero h1{font-size:clamp(26px,4.6vw,44px);font-weight:900;line-height:1.4;letter-spacing:.03em;margin:14px 0 12px}
+.hero h1 em{font-style:normal;color:#fff;border-bottom:4px solid var(--accent);padding-bottom:2px}
+.hero p{color:#b9bec9;font-size:15px;max-width:600px}
+.hero .badges{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.hero .badges span{border:1px solid #3a3f4b;color:#d7dbe3;font-size:12px;padding:5px 14px;font-weight:700}
+
+/* 特集カード（ヒーローに重なる） */
+.feature{margin-top:-72px;position:relative;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:16px}
+@media(max-width:860px){.feature{grid-template-columns:1fr}}
+.f-card{background:#fff;border:1px solid var(--line);box-shadow:0 6px 24px rgba(13,15,20,.10);display:flex;flex-direction:column}
+.f-visual{height:150px;display:flex;align-items:flex-end;padding:14px;color:#fff;font-weight:800;letter-spacing:.14em;font-size:12px}
+.fv-1{background:linear-gradient(120deg,#12203f 40%,#0b5fff)}
+.fv-2{background:linear-gradient(120deg,#123529,#1f6e50)}
+.fv-3{background:linear-gradient(120deg,#3d2a06,#a3690f)}
+.f-card .body{padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.f-card h2{font-size:18px;font-weight:800;line-height:1.5}
+.f-card:first-child h2{font-size:22px}
+.f-card h2 a:hover{color:var(--accent)}
+.f-card .lead{font-size:13px;color:var(--sub);flex:1}
+.f-meta{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--sub)}
+.f-meta .cat{font-weight:800;color:var(--accent)}
+.f-meta .time{font-family:var(--font-num)}
+.chip-src{background:var(--bg-soft);border:1px solid var(--line);font-size:11px;padding:1px 8px;color:#374151;font-weight:700}
+
+/* セクション */
+.sec{margin:56px 0}
+.sec-head{display:flex;align-items:baseline;gap:16px;border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:4px}
+.sec-head h2{font-size:22px;font-weight:900;letter-spacing:.04em}
+.sec-head .en{font-family:var(--font-num);font-size:12px;color:var(--sub);letter-spacing:.2em;font-weight:700}
+.sec-head .more{margin-left:auto;font-size:13px;font-weight:700;color:var(--accent)}
+
+/* 今日のピックス（番号大） */
+.picks{list-style:none}
+.picks li{display:flex;gap:20px;padding:20px 4px;border-bottom:1px solid var(--line);align-items:flex-start}
+.picks .no{font-family:var(--font-num);font-size:34px;font-weight:700;color:#c9ced8;line-height:1;width:44px;flex-shrink:0;text-align:center}
+.picks li:nth-child(1) .no{color:var(--accent)}
+.picks h3{font-size:17px;font-weight:800;line-height:1.55}
+.picks h3 a:hover{color:var(--accent)}
+.picks .meta{display:flex;gap:12px;font-size:12px;color:var(--sub);margin-top:6px;flex-wrap:wrap;align-items:center}
+.picks .cat{font-weight:800}
+.cat.k-learn{color:var(--learn)} .cat.k-play{color:var(--play)} .cat.k-chart{color:var(--chart)} .cat.k-glos{color:var(--glos)}
+.readtime{font-family:var(--font-num)}
+
+/* 学習シリーズ（横カード） */
+.series{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+@media(max-width:860px){.series{grid-template-columns:repeat(2,1fr)}}
+.s-card{border:1px solid var(--line);padding:18px 16px;position:relative;transition:border-color .15s}
+.s-card:hover{border-color:var(--ink)}
+.s-card .vol{font-family:var(--font-num);font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--sub)}
+.s-card h3{font-size:15px;font-weight:800;margin:8px 0 6px;line-height:1.5}
+.s-card p{font-size:12px;color:var(--sub)}
+.s-card .bar{position:absolute;left:0;top:0;width:100%;height:4px}
+.s-1 .bar{background:var(--learn)} .s-2 .bar{background:var(--play)} .s-3 .bar{background:var(--chart)} .s-4 .bar{background:var(--glos)}
+
+/* 今日の用語（黒カード） */
+.term{background:var(--ink);color:#fff;padding:30px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center}
+@media(max-width:760px){.term{grid-template-columns:1fr}}
+.term .label{font-family:var(--font-num);font-size:11px;letter-spacing:.22em;color:var(--accent);font-weight:800;writing-mode:vertical-rl}
+@media(max-width:760px){.term .label{writing-mode:horizontal-tb}}
+.term h3{font-size:24px;font-weight:900}
+.term h3 small{font-size:12px;color:#9aa1ae;font-weight:400;margin-left:10px}
+.term p{color:#c3c8d2;font-size:14px;margin-top:6px}
+.term .go{border:1px solid #3a3f4b;color:#fff;font-weight:700;font-size:13px;padding:10px 22px;white-space:nowrap}
+.term .go:hover{background:var(--accent);border-color:var(--accent)}
+
+/* 信頼シグナル帯 */
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:760px){.trust{grid-template-columns:1fr}}
+.t-item{background:var(--bg-soft);padding:18px;font-size:13px;line-height:1.7}
+.t-item b{display:block;font-size:14px;margin-bottom:4px}
+.t-item b::before{content:"✓ ";color:var(--accent);font-weight:900}
+
+/* フッター */
+footer{background:var(--ink);color:#9aa1ae;margin-top:64px}
+.ft{padding:36px 20px;max-width:1080px;margin:0 auto}
+.ft .logo2{color:#fff;font-weight:900;font-size:18px;margin-bottom:14px}
+.ft nav{display:flex;gap:20px;font-size:13px;margin-bottom:20px;flex-wrap:wrap}
+.disclaimer{font-size:11px;line-height:1.8;border-top:1px solid #262b36;padding-top:16px;color:#6f7684}
+.copy{font-family:var(--font-num);font-size:11px;margin-top:12px;color:#565d6b}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <a class="logo" href="#"><span class="mark">投</span>投資の学び場</a>
+    <nav>
+      <a href="#">学ぶ</a><a href="#">手法・定石</a><a href="#">チャート型</a><a href="#">用語集</a><a href="#">学習マップ</a>
+    </nav>
+    <div class="search">🔍 検索</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">INVESTMENT LITERACY MEDIA</p>
+    <h1>相場を、<em>根拠から</em>学ぶ。</h1>
+    <p>すべての記事に一次情報の出典を明記。投資助言ではなく、判断の土台になる知識だけを、毎日積み上げるメディアです。</p>
+    <div class="badges"><span>全記事 出典付き</span><span>7章 × 4レベルの体系</span><span>広告なし・勧誘なし</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="feature">
+    <article class="f-card">
+      <div class="f-visual fv-1">FEATURE</div>
+      <div class="body">
+        <h2><a href="#">インサイダー取引規制とは何か ― 未公表の重要事実がなぜ禁止されるのか</a></h2>
+        <p class="lead">制度の目的と枠組みを基礎から。市場の公正さはどう守られているのかを、金融庁・JPXの一次資料に沿って解説します。</p>
+        <div class="f-meta"><span class="cat">学ぶ・法規制</span><span class="time">7/1</span><span class="chip-src">出典A 金融庁</span></div>
+      </div>
+    </article>
+    <article class="f-card">
+      <div class="f-visual fv-2">PLAYBOOK</div>
+      <div class="body">
+        <h2><a href="#">「損小利大」とは何か</a></h2>
+        <p class="lead">勝率ではなく損益の非対称性を重視する、資金管理の基本思想。前提・検証方法・限界まで。</p>
+        <div class="f-meta"><span class="cat">手法・定石</span><span class="time">7/1</span></div>
+      </div>
+    </article>
+    <article class="f-card">
+      <div class="f-visual fv-3">CHART</div>
+      <div class="body">
+        <h2><a href="#">ダブルトップ／ダブルボトム</a></h2>
+        <p class="lead">代表的な反転パターンの形と、一般的な解釈・確認の考え方を図解で。</p>
+        <div class="f-meta"><span class="cat">チャート型</span><span class="time">7/1</span></div>
+      </div>
+    </article>
+  </div>
+
+  <section class="sec">
+    <div class="sec-head"><h2>今日のピックス</h2><span class="en">TODAY'S PICKS</span><a class="more" href="#">すべて見る →</a></div>
+    <ol class="picks">
+      <li><span class="no">1</span><div><h3><a href="#">単利と複利の違い ― 時間が味方になる仕組みを数式なしで理解する</a></h3><div class="meta"><span class="cat k-learn">学ぶ</span><span class="readtime">読了 5分</span><span>レベル1 入門</span></div></div></li>
+      <li><span class="no">2</span><div><h3><a href="#">ポジションサイジングの基本 ― 1回の損失を口座の何％に抑えるか</a></h3><div class="meta"><span class="cat k-play">手法・定石</span><span class="readtime">読了 7分</span><span>レベル2 基礎</span></div></div></li>
+      <li><span class="no">3</span><div><h3><a href="#">投資信託とETFの違い ― コスト・取引方法・向き不向きを整理</a></h3><div class="meta"><span class="cat k-learn">学ぶ</span><span class="readtime">読了 6分</span><span>レベル1 入門</span></div></div></li>
+      <li><span class="no">4</span><div><h3><a href="#">ボラティリティ ― 「値動きの激しさ」を数字で捉える</a></h3><div class="meta"><span class="cat k-glos">用語集</span><span class="readtime">読了 1分</span></div></div></li>
+    </ol>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head"><h2>体系で学ぶ</h2><span class="en">CURRICULUM</span><a class="more" href="#">学習マップ →</a></div>
+    <div class="series">
+      <a class="s-card s-1" href="#"><span class="bar"></span><span class="vol">CHAPTER 01–02</span><h3>お金と市場・制度の基礎</h3><p>金利・複利・NISA・投資信託。すべての土台。</p></a>
+      <a class="s-card s-2" href="#"><span class="bar"></span><span class="vol">CHAPTER 03</span><h3>リスク管理</h3><p>分散・ポジションサイズ・ドローダウンの数学。</p></a>
+      <a class="s-card s-3" href="#"><span class="bar"></span><span class="vol">CHAPTER 04</span><h3>分析手法とチャート</h3><p>ローソク足・移動平均・決算書の読み方。</p></a>
+      <a class="s-card s-4" href="#"><span class="bar"></span><span class="vol">CHAPTER 05–07</span><h3>法規制・心理・実践</h3><p>ルールを知り、行動バイアスを制御する。</p></a>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="term">
+      <span class="label">WORD OF THE DAY</span>
+      <div>
+        <h3>ボラティリティ<small>volatility</small></h3>
+        <p>価格変動の大きさを示す指標。大きいほど値動きが激しく、リスク（不確実性）が高いと一般に理解されます。</p>
+      </div>
+      <a class="go" href="#">用語集をひく →</a>
+    </div>
+    <div class="trust">
+      <div class="t-item"><b>全記事に出典等級</b>A=政府・取引所、B=業界団体・大手金融機関、C=その他。根拠のない断定は掲載しません。</div>
+      <div class="t-item"><b>投資助言はしない</b>売買推奨・銘柄推奨は一切なし。判断材料としての知識だけを提供します。</div>
+      <div class="t-item"><b>人のレビューを通過</b>公開前にすべての記事が人間のレビューを通過。更新日を明記しています。</div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="ft">
+    <p class="logo2">投資の学び場</p>
+    <nav><a href="#">学ぶ</a><a href="#">手法・定石</a><a href="#">チャート型</a><a href="#">用語集</a><a href="#">運営ポリシー</a><a href="#">RSS</a></nav>
+    <p class="disclaimer">【免責事項】本サイトは投資教育・情報提供を目的としており、特定の金融商品の売買を推奨または勧誘するものではありません。掲載情報の正確性には万全を期していますが、その完全性・最新性を保証するものではありません。投資に関する最終決定はご自身の判断でお願いいたします。本サイトの情報に基づく損失について、運営者は一切の責任を負いません。</p>
+    <p class="copy">© 2026 投資の学び場（toushi-manabiya.jp）</p>
+  </div>
+</footer>
+
+</body>
+</html>

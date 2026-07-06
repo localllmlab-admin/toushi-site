@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A案：ニュースポータル型（Yahoo!/ITmedia系）｜投資の学び場</title>
+<style>
+:root{
+  --font-body:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+  --font-num:Roboto,"Helvetica Neue",Arial,sans-serif;
+  --c-text:#1a1a1a; --c-sub:#767676; --c-border:#e0e0e0;
+  --c-bg-section:#f5f6f8;
+  --c-primary:#003a8c;          /* 紺＝信頼 */
+  --c-link:#0f5cc0;
+  --c-learn:#2b4a8b;            /* 学ぶ＝藍 */
+  --c-playbook:#1f6e50;         /* 手法＝深緑 */
+  --c-charts:#a3690f;           /* チャート＝琥珀 */
+  --c-glossary:#6b4fa0;         /* 用語＝菫 */
+  --c-alert:#cc0000;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);color:var(--c-text);font-size:14px;line-height:1.7;letter-spacing:.02em;background:#fff;overflow-wrap:break-word}
+a{color:var(--c-link);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+
+/* ヘッダー */
+.gh{background:var(--c-primary);color:#fff}
+.gh-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:10px 16px}
+.gh-logo{font-size:20px;font-weight:800;color:#fff;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.gh-logo:hover{text-decoration:none}
+.gh-logo svg{display:block}
+.gh-tag{font-size:11px;opacity:.85;border-left:1px solid rgba(255,255,255,.4);padding-left:12px}
+.gh-search{margin-left:auto;display:flex}
+.gh-search input{border:none;padding:7px 10px;width:220px;font-size:13px;border-radius:2px 0 0 2px}
+.gh-search button{border:none;background:#e8eef8;color:var(--c-primary);font-weight:700;padding:7px 14px;font-size:13px;cursor:pointer;border-radius:0 2px 2px 0}
+@media(max-width:800px){
+  .gh-inner{flex-wrap:wrap;gap:10px}
+  .gh-logo{white-space:nowrap}
+  .gh-tag{display:none}
+  .gh-search{margin-left:0;width:100%}
+  .gh-search input{flex:1;width:auto}
+}
+
+/* タブナビ */
+.tabs{border-bottom:1px solid var(--c-border);background:#fff}
+.tabs-inner{max-width:1040px;margin:0 auto;display:flex;overflow-x:auto}
+.tabs a{color:var(--c-text);font-weight:700;font-size:14px;padding:11px 18px;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs a:hover{text-decoration:none;background:var(--c-bg-section)}
+.tabs a.on{border-bottom-color:var(--c-primary);color:var(--c-primary)}
+.tabs a.t-learn:hover{border-bottom-color:var(--c-learn)}
+.tabs a.t-play:hover{border-bottom-color:var(--c-playbook)}
+.tabs a.t-chart:hover{border-bottom-color:var(--c-charts)}
+.tabs a.t-glos:hover{border-bottom-color:var(--c-glossary)}
+
+/* お知らせ帯 */
+.notice{background:#eef4fc;border-bottom:1px solid #d7e4f5}
+.notice-inner{max-width:1040px;margin:0 auto;padding:6px 16px;font-size:12px;color:var(--c-primary)}
+.notice-inner b{background:var(--c-primary);color:#fff;font-size:11px;padding:1px 8px;border-radius:2px;margin-right:8px;font-weight:700}
+
+/* レイアウト */
+.wrap{max-width:1040px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 300px;gap:24px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}}
+
+/* トピックスボックス */
+.topics{border:1px solid var(--c-border)}
+.topics-head{display:flex;align-items:center;border-bottom:2px solid var(--c-primary);padding:9px 14px}
+.topics-head h2{font-size:15px;color:var(--c-primary)}
+.topics-head .upd{margin-left:auto;font-size:11px;color:var(--c-sub);font-family:var(--font-num)}
+.topics ul{list-style:none}
+.topics li{border-bottom:1px dotted var(--c-border);padding:9px 14px;display:flex;align-items:center;gap:8px}
+.topics li:last-child{border-bottom:none}
+.topics li a{font-weight:700;color:#1a1a1a;font-size:14px}
+.topics li a:hover{color:var(--c-link)}
+.b-new{color:var(--c-alert);font-size:10px;font-weight:800;flex-shrink:0}
+.b-cat{font-size:10px;color:#fff;padding:1px 7px;border-radius:2px;flex-shrink:0;font-weight:700}
+.c-learn{background:var(--c-learn)} .c-play{background:var(--c-playbook)} .c-chart{background:var(--c-charts)} .c-glos{background:var(--c-glossary)}
+.topics-more{text-align:right;padding:8px 14px;font-size:12px;background:var(--c-bg-section)}
+
+/* セクション見出し */
+.sec-h{display:flex;align-items:baseline;margin:28px 0 10px;border-left:5px solid var(--c-primary);background:var(--c-bg-section);padding:8px 12px}
+.sec-h h2{font-size:16px}
+.sec-h .more{margin-left:auto;font-size:12px}
+.sec-h.h-learn{border-left-color:var(--c-learn)} .sec-h.h-play{border-left-color:var(--c-playbook)}
+.sec-h.h-chart{border-left-color:var(--c-charts)} .sec-h.h-glos{border-left-color:var(--c-glossary)}
+
+/* 記事リスト行 */
+.rows{list-style:none;border-top:1px solid var(--c-border)}
+.rows li{display:flex;gap:12px;padding:12px 4px;border-bottom:1px solid var(--c-border)}
+.rows .thumb{width:96px;height:64px;flex-shrink:0;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em}
+.th-learn{background:linear-gradient(135deg,#2b4a8b,#41639f)} .th-play{background:linear-gradient(135deg,#1f6e50,#348a6b)}
+.th-chart{background:linear-gradient(135deg,#a3690f,#c08a2e)} .th-glos{background:linear-gradient(135deg,#6b4fa0,#8a6fc0)}
+.rows .tt{font-weight:700;font-size:15px;line-height:1.5;color:#1a1a1a;display:block}
+.rows .tt:hover{color:var(--c-link)}
+.rows .meta{font-size:11px;color:var(--c-sub);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rows .meta time{font-family:var(--font-num)}
+.b-lv{border:1px solid var(--c-border);color:var(--c-sub);font-size:10px;padding:0 6px;border-radius:2px}
+.b-src{background:#eef7ee;color:#1f6e50;border:1px solid #cfe6cf;font-size:10px;padding:0 6px;border-radius:2px;font-weight:700}
+
+/* 右レール */
+.rail section{border:1px solid var(--c-border);margin-bottom:20px}
+.rail h2{font-size:14px;background:var(--c-bg-section);border-bottom:1px solid var(--c-border);padding:9px 12px;border-top:3px solid var(--c-primary)}
+.rank{list-style:none}
+.rank li{display:flex;gap:10px;padding:10px 12px;border-bottom:1px dotted var(--c-border);align-items:flex-start}
+.rank li:last-child{border-bottom:none}
+.rank .no{font-family:var(--font-num);font-weight:700;font-size:16px;width:22px;text-align:center;flex-shrink:0;color:var(--c-sub)}
+.rank li:nth-child(1) .no{color:#d4af37}.rank li:nth-child(2) .no{color:#8d8d94}.rank li:nth-child(3) .no{color:#b07b4f}
+.rank a{color:#1a1a1a;font-size:13px;font-weight:700;line-height:1.5}
+.rank a:hover{color:var(--c-link)}
+.word{padding:12px}
+.word dt{font-weight:800;color:var(--c-glossary);font-size:15px}
+.word dt small{font-weight:400;color:var(--c-sub);font-size:11px;margin-left:6px}
+.word dd{font-size:12px;color:#444;margin-top:4px}
+.word .wd-more{display:block;text-align:right;font-size:12px;margin-top:6px}
+.level{padding:12px;display:grid;gap:8px}
+.level a{display:flex;align-items:center;gap:10px;border:1px solid var(--c-border);border-radius:3px;padding:8px 10px;color:#1a1a1a;font-weight:700;font-size:13px}
+.level a:hover{background:var(--c-bg-section);text-decoration:none}
+.level .lv{font-family:var(--font-num);background:var(--c-primary);color:#fff;font-size:11px;padding:2px 8px;border-radius:2px}
+
+/* フッター */
+footer{background:#0d1b33;color:#c7d0e0;margin-top:40px}
+.ft-inner{max-width:1040px;margin:0 auto;padding:28px 16px}
+.ft-nav{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;margin-bottom:18px}
+.ft-nav a{color:#c7d0e0}
+.disclaimer{font-size:11px;line-height:1.8;color:#8b98b0;border-top:1px solid #24344f;padding-top:14px}
+.copy{font-size:11px;color:#67748c;margin-top:14px;font-family:var(--font-num)}
+</style>
+</head>
+<body>
+
+<header class="gh">
+  <div class="gh-inner">
+    <a class="gh-logo" href="#">
+      <svg width="26" height="26" viewBox="0 0 26 26"><rect x="3" y="14" width="4" height="9" fill="#7fa8e0"/><rect x="11" y="9" width="4" height="14" fill="#b8ccec"/><rect x="19" y="3" width="4" height="20" fill="#fff"/></svg>
+      投資の学び場
+    </a>
+    <span class="gh-tag">相場を、正しく学ぶ。毎日更新</span>
+    <form class="gh-search"><input type="text" placeholder="用語・記事を検索"><button>検索</button></form>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <a class="on" href="#">ホーム</a>
+    <a class="t-learn" href="#">学ぶ</a>
+    <a class="t-play" href="#">手法・定石</a>
+    <a class="t-chart" href="#">チャート型</a>
+    <a class="t-glos" href="#">用語集</a>
+    <a href="#">学習マップ</a>
+    <a href="#">このサイトについて</a>
+  </div>
+</nav>
+
+<div class="notice"><div class="notice-inner"><b>お知らせ</b>本サイトは教育・情報提供を目的とし、投資勧誘・助言は行いません。記事はすべて出典付きで公開しています。</div></div>
+
+<div class="wrap">
+<main>
+
+  <div class="topics">
+    <div class="topics-head"><h2>注目トピックス</h2><span class="upd">7/6(月) 9:00 更新</span></div>
+    <ul>
+      <li><span class="b-cat c-learn">学ぶ</span><a href="#">インサイダー取引規制、基礎から図解</a><span class="b-new">NEW</span></li>
+      <li><span class="b-cat c-play">手法</span><a href="#">「損小利大」勝率より損益比の理由</a></li>
+      <li><span class="b-cat c-chart">チャート</span><a href="#">ダブルトップ、反転確認の考え方</a></li>
+      <li><span class="b-cat c-learn">学ぶ</span><a href="#">単利と複利、差が開く仕組み</a></li>
+      <li><span class="b-cat c-glos">用語</span><a href="#">ボラティリティとは　1分で解説</a></li>
+      <li><span class="b-cat c-learn">学ぶ</span><a href="#">NISA制度の全体像をおさらい</a></li>
+    </ul>
+    <div class="topics-more"><a href="#">トピックス一覧を見る ＞</a></div>
+  </div>
+
+  <div class="sec-h h-learn"><h2>学ぶ　― 市場と制度の基礎</h2><a class="more" href="#">一覧 ＞</a></div>
+  <ul class="rows">
+    <li>
+      <div class="thumb th-learn">法規制</div>
+      <div>
+        <a class="tt" href="#">インサイダー取引規制とは何か（基礎）― 未公表の重要事実がなぜ禁止されるのか</a>
+        <div class="meta"><time>7/1 更新</time><span class="b-lv">レベル2 基礎</span><span class="b-src">出典A 金融庁・JPX</span><span>第5章 法規制とルール</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="thumb th-learn">基礎</div>
+      <div>
+        <a class="tt" href="#">単利と複利の違い ― 時間が味方になる仕組みを数式なしで理解する</a>
+        <div class="meta"><time>近日公開</time><span class="b-lv">レベル1 入門</span><span>第1章 お金と市場の基礎</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="thumb th-learn">制度</div>
+      <div>
+        <a class="tt" href="#">投資信託とETFの違い ― コスト・取引方法・向き不向きを整理</a>
+        <div class="meta"><time>近日公開</time><span class="b-lv">レベル1 入門</span><span>第2章 商品と制度</span></div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="sec-h h-play"><h2>手法・定石　― 検証つきで学ぶ</h2><a class="more" href="#">一覧 ＞</a></div>
+  <ul class="rows">
+    <li>
+      <div class="thumb th-play">定石</div>
+      <div>
+        <a class="tt" href="#">「損小利大」とは何か ― 前提条件・検証方法・限界まで</a>
+        <div class="meta"><time>7/1 更新</time><span class="b-src">出典A JPX</span><span>リスク管理</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="thumb th-play">資金管理</div>
+      <div>
+        <a class="tt" href="#">ポジションサイジングの基本 ― 1回の損失を口座の何％に抑えるか</a>
+        <div class="meta"><time>近日公開</time><span class="b-lv">レベル2 基礎</span></div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="sec-h h-chart"><h2>チャートパターン</h2><a class="more" href="#">一覧 ＞</a></div>
+  <ul class="rows">
+    <li>
+      <div class="thumb th-chart">反転</div>
+      <div>
+        <a class="tt" href="#">ダブルトップ／ダブルボトム ― 代表的な反転パターンの形と確認の考え方</a>
+        <div class="meta"><time>7/1 更新</time><span class="b-src">出典A JPX</span><span>反転パターン</span></div>
+      </div>
+    </li>
+  </ul>
+
+</main>
+
+<aside class="rail">
+  <section>
+    <h2>よく読まれている記事</h2>
+    <ol class="rank">
+      <li><span class="no">1</span><a href="#">「損小利大」とは何か ― 勝率より損益比を重視する理由</a></li>
+      <li><span class="no">2</span><a href="#">インサイダー取引規制とは何か（基礎）</a></li>
+      <li><span class="no">3</span><a href="#">ダブルトップ／ダブルボトム（反転パターン）</a></li>
+      <li><span class="no">4</span><a href="#">ボラティリティ ― 価格変動の大きさを表す指標</a></li>
+      <li><span class="no">5</span><a href="#">学習マップ ― 7章×4レベルの全体像</a></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>今日の用語</h2>
+    <dl class="word">
+      <dt>ボラティリティ<small>ぼらてぃりてぃ</small></dt>
+      <dd>価格変動の大きさを示す指標。大きいほど値動きが激しく、リスク（不確実性）が高いと一般に理解されます。</dd>
+      <a class="wd-more" href="#">用語集をひく ＞</a>
+    </dl>
+  </section>
+
+  <section>
+    <h2>レベル別に学ぶ</h2>
+    <div class="level">
+      <a href="#"><span class="lv">Lv.1</span>入門 ― お金と市場のきほん</a>
+      <a href="#"><span class="lv">Lv.2</span>基礎 ― 制度・指標・リスク管理</a>
+      <a href="#"><span class="lv">Lv.3</span>実践 ― 検証と分析の型</a>
+      <a href="#"><span class="lv">Lv.4</span>上級 ― 派生商品・応用理論</a>
+    </div>
+  </section>
+</aside>
+</div>
+
+<footer>
+  <div class="ft-inner">
+    <nav class="ft-nav">
+      <a href="#">学ぶ</a><a href="#">手法・定石</a><a href="#">チャート型</a><a href="#">用語集</a><a href="#">運営ポリシー</a><a href="#">RSS</a>
+    </nav>
+    <p class="disclaimer">【免責事項】本サイトは投資教育・情報提供を目的としており、特定の金融商品の売買を推奨または勧誘するものではありません。掲載情報の正確性には万全を期していますが、その完全性・最新性を保証するものではありません。投資に関する最終決定はご自身の判断でお願いいたします。本サイトの情報に基づく損失について、運営者は一切の責任を負いません。記事内の出典は等級（A=政府・取引所等、B=業界団体・大手金融機関、C=その他）を明示しています。</p>
+    <p class="copy">© 2026 投資の学び場（toushi-manabiya.jp）</p>
+  </div>
+</footer>
+
+</body>
+</html>

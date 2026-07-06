@@ -4,7 +4,7 @@ import { getCollection } from "astro:content";
 const KINDS = ["定石", "手法", "リスク管理", "心理", "格言"];
 const all = (await getCollection("playbook")).filter((e) => e.data.reviewed);
 ---
-<Base title="手法・定石・格言｜投資の学び場" description="取引手法・相場の定石・格言のリファレンス。前提と限界まで明示します。">
+<Base title="手法・定石・格言｜投資の学び舎（まなびや）" description="取引手法・相場の定石・格言のリファレンス。前提と限界まで明示します。">
   <div class="container">
     <p class="section-label" style="color:var(--color-sec-playbook)">PLAYBOOK</p>
     <h1>手法・定石・格言</h1>

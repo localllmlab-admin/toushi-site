@@ -4,3 +4,4 @@ dist/
 ops/link_report.md
 ops/local/nightly.log
 ops/local/rejected/
+design/samples/*.png

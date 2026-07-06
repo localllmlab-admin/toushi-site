@@ -16,7 +16,7 @@ export async function GET(context) {
   ].sort((a, b) => b.pubDate - a.pubDate);
 
   return rss({
-    title: "投資の学び場",
+    title: "投資の学び舎（まなびや）",
     description: "誠実な投資・トレード教育コンテンツの更新情報",
     site: context.site ?? "https://toushi-manabiya.jp",
     items,

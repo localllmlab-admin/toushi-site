@@ -5,7 +5,7 @@ const terms = (await getCollection("glossary"))
   .filter((e) => e.data.reviewed)
   .sort((a, b) => (a.data.reading || a.data.term).localeCompare(b.data.reading || b.data.term, "ja"));
 ---
-<Base title="用語集｜投資の学び場" description="投資・トレード用語をやさしく解説。">
+<Base title="用語集｜投資の学び舎（まなびや）" description="投資・トレード用語をやさしく解説。">
   <div class="container">
     <p class="section-label" style="color:var(--color-sec-glossary)">GLOSSARY</p>
     <h1>用語集</h1>

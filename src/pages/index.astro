@@ -7,234 +7,344 @@ const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.
 const playbook = pub(await getCollection("playbook"));
 const charts = pub(await getCollection("charts"));
 const glossary = pub(await getCollection("glossary"));
+const published = learn.length + playbook.length + charts.length + glossary.length;
 
-// 4象限セクションカード
-const cardSections = [
-  { label: "LEARN", color: "var(--color-sec-learn)", title: "学ぶ", href: "/learn/",
-    desc: "7章×4レベルで体系的に学ぶカリキュラム。", count: learn.length },
-  { label: "PLAYBOOK", color: "var(--color-sec-playbook)", title: "手法・定石", href: "/playbook/",
-    desc: "前提条件・検証の考え方・限界までセットで解説。", count: playbook.length },
-  { label: "CHARTS", color: "var(--color-sec-charts)", title: "チャート図解", href: "/charts/",
-    desc: "代表的なチャートパターンの形と見方を図解。", count: charts.length },
-  { label: "GLOSSARY", color: "var(--color-sec-glossary)", title: "用語集", href: "/glossary/",
-    desc: "投資・トレード用語をやさしく解説。", count: glossary.length },
-];
+// 記事行の共通整形。バッジは frontmatter の実データのみから生成する（根拠のない表示はしない）
+const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+const bestGrade = (sources = []) =>
+  ["A", "B", "C", "D"].find((g) => sources.some((s) => s.grade === g)) ?? null;
+const row = (entry, base, thumbLabel) => ({
+  href: `${base}${entry.slug}/`,
+  title: entry.data.title,
+  thumbLabel,
+  level: entry.data.level ? `Lv.${entry.data.level} ${LEVELS[entry.data.level]}` : null,
+  grade: bestGrade(entry.data.sources),
+  sub: entry.data.chapter ?? entry.data.kind ?? entry.data.patternType ?? null,
+  updated: new Date(entry.data.updated),
+});
+
+const secLearn = learn.map((e) => row(e, "/learn/", e.data.tags?.[0] ?? "学ぶ"));
+const secPlay = playbook.map((e) => row(e, "/playbook/", e.data.kind ?? "定石"));
+const secChart = charts.map((e) => row(e, "/charts/", e.data.patternType ?? "図解"));
+const secGlos = glossary.map((e) => row(e, "/glossary/", "用語"));
+
+// 注目トピックス = 全コレクション横断・更新日降順6件
+const topics = [
+  ...secLearn.map((r) => ({ ...r, cat: "学ぶ", catClass: "c-learn" })),
+  ...secPlay.map((r) => ({ ...r, cat: "手法", catClass: "c-play" })),
+  ...secChart.map((r) => ({ ...r, cat: "チャート", catClass: "c-chart" })),
+  ...secGlos.map((r) => ({ ...r, cat: "用語", catClass: "c-glos" })),
+]
+  .sort((a, b) => b.updated - a.updated)
+  .slice(0, 6);
+const newest = topics.length ? Math.max(...topics.map((t) => t.updated.getTime())) : 0;
+const fmt = (d) => d.toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" });
 
 // 学習マップ・ミニチュア（7章 × 4レベル）
 const CHAPTERS = [
   "お金と市場の基礎", "商品と制度", "リスク管理", "分析手法",
   "法規制とルール", "行動と心理", "テクノロジーと自動化",
 ];
-const LEVEL_LABELS = ["入門", "基礎", "実践", "上級"];
-const mapRows = CHAPTERS.map((chapter) => {
+const mapRows = CHAPTERS.map((chapter, i) => {
   const items = learn.filter((e) => e.data.chapter === chapter);
-  const levels = [1, 2, 3, 4].map((lv) => items.some((e) => e.data.level === lv));
-  return { chapter, levels, count: items.length };
+  return { n: i + 1, chapter, levels: [1, 2, 3, 4].map((lv) => items.some((e) => e.data.level === lv)) };
 });
 
-// 新着記事（4コレクション横断・updated降順5件）
+// 用語ピックアップ（最新の用語1件）
+const pickWord = secGlos.length ? glossary.sort((a, b) => new Date(b.data.updated) - new Date(a.data.updated))[0] : null;
+
 const sections = [
-  { base: "/learn/", label: "LEARN", color: "var(--color-sec-learn)", items: learn },
-  { base: "/playbook/", label: "PLAYBOOK", color: "var(--color-sec-playbook)", items: playbook },
-  { base: "/charts/", label: "CHARTS", color: "var(--color-sec-charts)", items: charts },
-  { base: "/glossary/", label: "GLOSSARY", color: "var(--color-sec-glossary)", items: glossary },
+  { key: "learn", title: "学ぶ ― 市場と制度の基礎", href: "/learn/", rows: secLearn.slice(0, 4), color: "var(--color-sec-learn)", grad: "linear-gradient(135deg,#2b4a8b,#4a6cb0)" },
+  { key: "play", title: "手法・定石 ― 検証つきで学ぶ", href: "/playbook/", rows: secPlay.slice(0, 4), color: "var(--color-sec-playbook)", grad: "linear-gradient(135deg,#1f6e50,#37936f)" },
+  { key: "chart", title: "チャートパターン", href: "/charts/", rows: secChart.slice(0, 4), color: "var(--color-sec-charts)", grad: "linear-gradient(135deg,#a3690f,#c98f35)" },
 ];
-const latest = sections
-  .flatMap((s) => s.items.map((entry) => ({ s, entry })))
-  .sort((a, b) => new Date(b.entry.data.updated) - new Date(a.entry.data.updated))
-  .slice(0, 5);
-
-// ヒーロー装飾：抽象ローソク足チャート（固定シード・ビルド再現性のため乱数不使用・aria-hidden）
-const CANDLE_H = [58, 74, 66, 92, 80, 108, 96, 124, 110, 142, 128, 160, 146, 178, 162, 196];
-const candles = CANDLE_H.map((h, i) => {
-  const x = 20 + i * 40;
-  const bodyTop = 300 - h;
-  const bodyH = 26;
-  return {
-    x,
-    bodyTop,
-    bodyH,
-    wickTop: bodyTop - 14,
-    wickBottom: bodyTop + bodyH + 14,
-    up: i === 0 ? true : h >= CANDLE_H[i - 1],
-  };
-});
-const gridYs = [40, 100, 160, 220, 280];
 ---
-<Base title="投資の学び場｜相場を、体系で学ぶ。" description="投資家・トレーダーのための教育サイト。煽らず、断定せず、一次情報に基づいて解説します。">
+<Base
+  title="投資の学び舎（まなびや）｜相場を、正しく学ぶ。"
+  description="投資家・トレーダーのための教育サイト。煽らず、断定せず、一次情報に基づいて、レベル別・出典付きで解説します。"
+  pagebg={true}
+>
   <section class="hero">
-    <div class="hero-decor" aria-hidden="true">
-      <svg viewBox="0 0 660 320" preserveAspectRatio="xMidYMid slice" focusable="false">
-        <g opacity="0.28">
-          {gridYs.map((y) => (
-            <line x1="0" y1={y} x2="660" y2={y} style="stroke:var(--color-on-ink-muted)" stroke-width="1" />
-          ))}
-          {candles.map((c) => (
-            <>
-              <line x1={c.x} y1={c.wickTop} x2={c.x} y2={c.wickBottom}
-                style={`stroke:var(--color-${c.up ? "up" : "accent"})`} stroke-width="2" />
-              <rect x={c.x - 7} y={c.bodyTop} width="14" height={c.bodyH} rx="2"
-                style={`fill:var(--color-${c.up ? "up" : "accent"})`} />
-            </>
-          ))}
-        </g>
-      </svg>
-    </div>
-    <div class="hero-inner">
-      <h1>相場を、体系で学ぶ。</h1>
-      <p class="hero-sub">投資家・トレーダーのための教育サイト。煽らず、断定せず、一次情報に基づいて解説します。</p>
-      <ul class="hero-principles">
-        <li>煽らない</li>
-        <li>断定しない</li>
-        <li>一次情報</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="cards-wrap">
-    <div class="cards">
-      {cardSections.map((s) => (
-        <a class="card" href={s.href} style={`--card-color:${s.color}`}>
-          <p class="card-label">{s.label}</p>
-          <h2 class="card-title">{s.title}</h2>
-          <p class="card-desc">{s.desc}</p>
-          <p class="card-count">公開記事 {s.count}本</p>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="map-wrap">
-    <div class="section-head">
-      <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
-      <h2>学習マップ</h2>
-    </div>
-    <p class="section-desc">7つの章 × 4つのレベルで、投資・トレードを体系的に学べます。</p>
-    <div class="map-grid">
-      <div class="map-row map-header">
-        <span class="map-chapter"></span>
-        <span class="map-dots">
-          {LEVEL_LABELS.map((l) => <span class="lv-label">{l}</span>)}
-        </span>
-      </div>
-      {mapRows.map((r, i) => (
-        <div class={`map-row ${r.count === 0 ? "is-empty" : ""}`}>
-          <span class="map-chapter">{i + 1}. {r.chapter}</span>
-          <span class="map-dots">
-            {r.levels.map((has) => <span class={`dot ${has ? "dot-on" : ""}`} aria-hidden="true"></span>)}
-          </span>
+    <div class="container-wide">
+      <div class="hero-top">
+        <h1>あなたに合う記事から、投資の学習をはじめよう<small>知識ゼロからでも、レベル別・出典付きで安心して学べます</small></h1>
+        <div class="stats" role="list">
+          <div role="listitem"><b>{published}</b>本 公開中</div>
+          <div role="listitem"><b>60</b>本+ 執筆予定</div>
+          <div role="listitem"><b>7</b>章×<b>4</b>レベル</div>
         </div>
-      ))}
+      </div>
+      <form class="search-card" action="/search/" method="get" id="hero-search">
+        <div class="search-row">
+          <div class="f-box">
+            <label for="hs-q">キーワード</label>
+            <input id="hs-q" name="q" type="text" placeholder="例：複利、NISA、損切り" />
+          </div>
+          <div class="f-box">
+            <label for="hs-ch">章（テーマ）</label>
+            <select id="hs-ch">
+              <option value="">すべての章</option>
+              {CHAPTERS.map((c, i) => <option value={`/learn/#ch-${i + 1}`}>{i + 1}. {c}</option>)}
+            </select>
+          </div>
+          <div class="f-box">
+            <label for="hs-lv">レベル</label>
+            <select id="hs-lv">
+              <option value="">すべてのレベル</option>
+              {[1, 2, 3, 4].map((lv) => <option value={`/learn/?lv=${lv}`}>Lv.{lv} {LEVELS[lv]}</option>)}
+            </select>
+          </div>
+          <button class="btn-search" type="submit">記事をさがす</button>
+        </div>
+        <div class="hot">
+          <span>人気の検索：</span>
+          {["複利", "損切り", "ダブルトップ", "ボラティリティ", "インサイダー"].map((w) => (
+            <a href={`/search/?q=${encodeURIComponent(w)}`}>#{w}</a>
+          ))}
+        </div>
+      </form>
     </div>
-    <a class="map-link" href="/learn/">学習マップを見る →</a>
   </section>
 
-  <section class="latest-wrap">
-    <div class="section-head"><h2>新着記事</h2></div>
-    {latest.length === 0 ? <p class="section-desc">準備中です。</p> : (
-      <ul class="latest-list">
-        {latest.map(({ s, entry }) => (
-          <li>
-            <span class="latest-label" style={`color:${s.color}`}>{s.label}</span>
-            <a href={`${s.base}${entry.slug}/`}>{entry.data.title}</a>
-            <time class="latest-date" datetime={new Date(entry.data.updated).toISOString()}>
-              {new Date(entry.data.updated).toLocaleDateString("ja-JP")}
-            </time>
-          </li>
-        ))}
-      </ul>
-    )}
-  </section>
+  <div class="container-wide cols">
+    <div class="main-col">
 
-  <section class="trust-wrap">
-    <div class="section-head"><h2>このサイトの作り方</h2></div>
-    <p>すべての記事は、出典を4段階の等級で明示したうえで公開しています。事実の主張には、等級A〜Cの出典を最低1件必須としています。</p>
-    <ul class="grade-legend">
-      <li><span class="chip chip-A">A</span>公的機関・規制当局・取引所</li>
-      <li><span class="chip chip-B">B</span>学術論文・書籍</li>
-      <li><span class="chip chip-C">C</span>企業公式・一次発表</li>
-      <li><span class="chip chip-D">D</span>信頼できる報道</li>
-    </ul>
-    <p>公開後も「最終更新日」と「レビュー日」を記事ごとに明示し、レビューから1年を超えた記事は再確認の対象として管理しています。詳しい基準は<a href="/policy/">編集方針</a>をご覧ください。</p>
-  </section>
+      <div class="card topics">
+        <div class="topics-head">
+          <h2>注目トピックス</h2>
+          {newest > 0 && <span class="upd">{fmt(new Date(newest))} 更新</span>}
+        </div>
+        {topics.length === 0 ? <p class="empty">準備中です。</p> : (
+          <ul>
+            {topics.map((t, i) => (
+              <li>
+                <span class={`b-cat ${t.catClass}`}>{t.cat}</span>
+                <a href={t.href}>{t.title}</a>
+                {i === 0 && <span class="b-new">NEW</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {sections.map((s) => (
+        <section>
+          <div class="sec-h">
+            <span class="bar" style={`background:${s.color}`}></span>
+            <h2>{s.title}</h2>
+            <a class="more" href={s.href}>一覧を見る ›</a>
+          </div>
+          <div class="card">
+            {s.rows.length === 0 ? <p class="empty">準備中です。</p> : (
+              <ul class="rows">
+                {s.rows.map((r) => (
+                  <li>
+                    <div class="thumb" style={`background:${s.grad}`}>{r.thumbLabel}</div>
+                    <div class="row-body">
+                      <a class="tt" href={r.href}>{r.title}</a>
+                      <div class="meta">
+                        {r.grade && <span class="bg bg-src">出典{r.grade}</span>}
+                        {r.level && <span class="bg bg-lv">{r.level}</span>}
+                        {r.sub && <span class="sub">{r.sub}</span>}
+                        <time datetime={r.updated.toISOString()}>{fmt(r.updated)} 更新</time>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+      ))}
+
+    </div>
+
+    <aside class="rail">
+      <section class="card">
+        <h2 class="rail-h">学習マップ</h2>
+        <div class="map">
+          <div class="map-row map-head">
+            <span></span>
+            {["入門", "基礎", "実践", "上級"].map((l) => <span class="lv-label">{l}</span>)}
+          </div>
+          {mapRows.map((r) => (
+            <div class="map-row">
+              <a class="map-ch" href={`/learn/#ch-${r.n}`}>{r.n}. {r.chapter}</a>
+              {r.levels.map((has) => <span class={`dot ${has ? "on" : ""}`} aria-hidden="true"></span>)}
+            </div>
+          ))}
+          <a class="rail-more" href="/learn/">学習マップを見る ›</a>
+        </div>
+      </section>
+
+      {pickWord && (
+        <section class="card">
+          <h2 class="rail-h">用語ピックアップ</h2>
+          <dl class="word">
+            <dt>{pickWord.data.term}<small>{pickWord.data.reading}</small></dt>
+            <dd>{pickWord.data.description}</dd>
+          </dl>
+          <a class="rail-more word-more" href="/glossary/">用語集をひく ›</a>
+        </section>
+      )}
+
+      <section class="card">
+        <h2 class="rail-h">レベル別に学ぶ</h2>
+        <div class="level">
+          <a href="/learn/?lv=1"><span class="lv">Lv.1</span>入門 ― お金と市場のきほん</a>
+          <a href="/learn/?lv=2"><span class="lv">Lv.2</span>基礎 ― 制度・指標・リスク管理</a>
+          <a href="/learn/?lv=3"><span class="lv">Lv.3</span>実践 ― 検証と分析の型</a>
+          <a href="/learn/?lv=4"><span class="lv">Lv.4</span>上級 ― 派生商品・応用理論</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="rail-h">このサイトの作り方</h2>
+        <div class="trust">
+          <p>すべての記事は出典を4等級で明示し、事実の主張には等級A〜Cの出典を最低1件必須としています。</p>
+          <ul class="grade-legend">
+            <li><span class="chip chip-A">A</span>公的機関・規制当局・取引所</li>
+            <li><span class="chip chip-B">B</span>学術論文・書籍</li>
+            <li><span class="chip chip-C">C</span>企業公式・一次発表</li>
+            <li><span class="chip chip-D">D</span>信頼できる報道</li>
+          </ul>
+          <a class="rail-more" href="/policy/">編集方針を読む ›</a>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script is:inline>
+    // ヒーロー検索: キーワードがあれば全文検索へ、空なら選択中の章/レベルの一覧へ
+    document.getElementById("hero-search").addEventListener("submit", function (ev) {
+      var q = document.getElementById("hs-q").value.trim();
+      if (q) return; // そのまま /search/?q= へ
+      ev.preventDefault();
+      var ch = document.getElementById("hs-ch").value;
+      var lv = document.getElementById("hs-lv").value;
+      location.href = ch || lv || "/learn/";
+    });
+  </script>
 
   <style>
-    /* ヒーロー（墨紺反転面） */
-    .hero { position: relative; background: var(--color-ink); color: var(--color-on-ink); overflow: hidden; }
-    .hero-decor { position: absolute; inset: 0; }
-    .hero-decor svg { width: 100%; height: 100%; display: block; }
-    .hero-inner { position: relative; z-index: 1; max-width: var(--maxw-wide); margin: 0 auto; padding: 4.5rem 1.25rem 4rem; }
-    .hero h1 { font-size: clamp(1.9rem, 4.4vw, 2.7rem); font-weight: 800; margin: 0 0 1.1rem; color: var(--color-on-ink); }
-    .hero-sub { color: var(--color-on-ink-muted); max-width: 34em; font-size: 1.05rem; margin: 0; }
-    .hero-principles { display: flex; gap: .6rem; flex-wrap: wrap; list-style: none; padding: 0; margin: 1.8rem 0 0; }
-    .hero-principles li {
-      font-family: var(--font-mono); font-size: .78rem; letter-spacing: .03em;
-      padding: .4em .85em; border: 1px solid var(--color-on-ink-muted); border-radius: 999px; color: var(--color-on-ink);
-    }
+    /* ヒーロー（ブランド青グラデ＋白検索カード） */
+    .hero { background: var(--grad-brand); color: #fff; padding: 1.8rem 0 1.7rem; }
+    .hero-top { display: flex; align-items: flex-end; gap: 1.4rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .hero h1 { font-size: clamp(1.2rem, 2.6vw, 1.45rem); font-weight: 800; margin: 0; letter-spacing: 0.03em; }
+    .hero h1 small { display: block; font-size: 0.75rem; font-weight: 400; opacity: 0.9; margin-top: 0.2rem; }
+    .stats { display: flex; gap: 1rem; font-size: 0.7rem; opacity: 0.95; margin-left: auto; }
+    .stats b { font-family: var(--font-num); font-size: 1.4rem; font-weight: 700; margin-right: 2px; }
+    @media (max-width: 820px) { .stats { margin-left: 0; } }
 
-    /* 共通セクション見出し */
-    .section-head { display: flex; align-items: baseline; gap: .7rem; margin-bottom: .4rem; }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
-    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0; }
-    .section-desc { color: var(--color-text-muted); margin: .3rem 0 1.4rem; }
-
-    /* セクションカード4枚 */
-    .cards-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3.2rem 1.25rem 1rem; }
-    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
-    .card {
-      display: block; background: var(--color-bg); border: 1px solid var(--color-border);
-      border-top: 3px solid var(--card-color); border-radius: var(--radius);
-      padding: 1.5rem 1.3rem; text-decoration: none; color: var(--color-text);
-      transition: border-color .15s;
+    .search-card { background: var(--color-bg); border-radius: var(--radius); padding: 1rem; box-shadow: var(--shadow-float); color: var(--color-text); }
+    .search-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 0.6rem; }
+    @media (max-width: 820px) { .search-row { grid-template-columns: 1fr; } }
+    .f-box label { font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; }
+    .f-box input, .f-box select {
+      width: 100%; border: 1.5px solid var(--color-border); border-radius: var(--radius);
+      padding: 0.6rem 0.75rem; font-size: 0.9rem; background: var(--color-bg);
+      color: var(--color-text); font-family: var(--font-sans);
     }
-    .card:hover, .card:focus-visible { border-color: var(--color-border-strong); border-top-color: var(--card-color); }
-    .card-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .06em; color: var(--card-color); margin: 0 0 .6rem; }
-    .card-title { font-size: 1.1rem; margin: 0; }
-    .card-desc { color: var(--color-text-muted); font-size: .92rem; margin: .5rem 0 1.1rem; line-height: 1.6; }
-    .card-count { font-family: var(--font-mono); font-size: .8rem; color: var(--color-text-muted); margin: 0; }
-    @media (max-width: 880px) { .cards { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
-
-    /* 学習マップ・ミニチュア */
-    .map-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem; }
-    .map-grid { border-top: 1px solid var(--color-border-strong); }
-    .map-row {
-      display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 2.6rem);
-      align-items: center; gap: .4rem; padding: .55rem 0; border-bottom: 1px solid var(--color-border);
+    .btn-search {
+      align-self: end; background: var(--grad-cta); color: #fff; font-weight: 800; font-size: 0.95rem;
+      border: none; border-radius: var(--radius); padding: 0.7rem 1.9rem; cursor: pointer;
+      box-shadow: 0 3px 0 var(--color-cta-deep); white-space: nowrap; font-family: var(--font-sans);
     }
-    .map-header { font-family: var(--font-mono); font-size: .72rem; color: var(--color-text-muted); }
-    .map-chapter { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .95rem; }
-    .map-dots { display: contents; }
+    .btn-search:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-cta-deep); }
+    .hot { margin-top: 0.7rem; font-size: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .hot span { color: var(--color-text-muted); font-weight: 700; }
+    .hot a {
+      border: 1px solid var(--color-border); border-radius: 20px; padding: 0.1rem 0.75rem;
+      color: var(--color-accent); background: var(--color-surface); text-decoration: none;
+    }
+    .hot a:hover { background: #e8f3fb; }
+
+    /* 2カラム */
+    .cols { display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem; padding-top: 1.25rem; }
+    @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+    .card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card); }
+    .empty { color: var(--color-text-muted); padding: 0.9rem 1rem; margin: 0; }
+
+    /* 注目トピックス */
+    .topics-head { display: flex; align-items: center; padding: 0.75rem 1rem; border-bottom: 2px solid var(--color-accent); }
+    .topics-head h2 { font-size: 1rem; font-weight: 800; color: var(--color-ink); margin: 0; }
+    .topics-head h2::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-cta); margin-right: 0.5rem; }
+    .topics-head .upd { margin-left: auto; font-size: 0.7rem; color: var(--color-text-muted); font-family: var(--font-num); }
+    .topics ul { list-style: none; margin: 0; padding: 0; }
+    .topics li { border-bottom: 1px dashed var(--color-border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.55rem; }
+    .topics li:last-child { border-bottom: none; }
+    .topics li a { font-weight: 700; color: var(--color-text); font-size: 0.92rem; text-decoration: none; }
+    .topics li a:hover { color: var(--color-accent); text-decoration: underline; }
+    .b-new { color: #e5322d; font-size: 0.62rem; font-weight: 800; flex-shrink: 0; }
+    .b-cat { font-size: 0.64rem; color: #fff; padding: 0.12rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; font-weight: 800; }
+    .c-learn { background: var(--color-sec-learn); }
+    .c-play { background: var(--color-sec-playbook); }
+    .c-chart { background: var(--color-sec-charts); }
+    .c-glos { background: var(--color-sec-glossary); }
+
+    /* セクション見出し */
+    .sec-h { display: flex; align-items: center; margin: 1.5rem 0 0.6rem; gap: 0.6rem; }
+    .sec-h .bar { width: 5px; height: 20px; border-radius: 3px; }
+    .sec-h h2 { font-size: 1.05rem; font-weight: 800; margin: 0; }
+    .sec-h .more { margin-left: auto; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
+    .sec-h .more:hover { text-decoration: underline; }
+
+    /* 記事リスト行 */
+    .rows { list-style: none; margin: 0; padding: 0; }
+    .rows li { display: flex; gap: 0.85rem; padding: 0.85rem 1rem; border-bottom: 1px solid var(--color-border); }
+    .rows li:last-child { border-bottom: none; }
+    .rows li:hover { background: var(--color-surface); }
+    .thumb {
+      width: 100px; height: 68px; flex-shrink: 0; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+    }
+    .row-body { min-width: 0; }
+    .tt { font-weight: 800; font-size: 0.97rem; line-height: 1.55; color: var(--color-text); display: block; text-decoration: none; }
+    .tt:hover { color: var(--color-accent); text-decoration: underline; }
+    .meta { font-size: 0.72rem; color: var(--color-text-muted); margin-top: 0.35rem; display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+    .meta time { font-family: var(--font-num); }
+    .bg { font-size: 0.68rem; font-weight: 700; border-radius: 3px; padding: 0.05rem 0.5rem; border: 1px solid; }
+    .bg-src { background: var(--badge-src-bg); color: var(--badge-src-fg); border-color: var(--badge-src-bd); }
+    .bg-lv { background: var(--badge-lv-bg); color: var(--badge-lv-fg); border-color: var(--badge-lv-bd); }
+
+    /* 右レール */
+    .rail > section { margin-bottom: 1.1rem; }
+    .rail-h { font-size: 0.88rem; font-weight: 800; color: #fff; background: linear-gradient(120deg, var(--color-ink), var(--color-ink-2)); padding: 0.6rem 0.9rem; margin: 0; }
+    .rail-more { display: block; text-align: right; font-size: 0.75rem; font-weight: 700; text-decoration: none; margin-top: 0.5rem; }
+    .rail-more:hover { text-decoration: underline; }
+
+    .map { padding: 0.75rem 0.9rem 0.9rem; }
+    .map-row { display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 1.5rem); align-items: center; gap: 0.25rem; padding: 0.32rem 0; border-bottom: 1px dashed var(--color-border); }
+    .map-row:last-of-type { border-bottom: none; }
+    .map-head { font-size: 0.6rem; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
     .lv-label { text-align: center; }
-    .dot {
-      display: block; width: .6rem; height: .6rem; margin: 0 auto; border-radius: 50%;
-      border: 1px solid var(--color-border-strong); background: transparent;
-    }
-    .dot-on { background: var(--color-sec-learn); border-color: var(--color-sec-learn); }
-    .is-empty { opacity: .5; }
-    /* モバイルはレベル列を詰めて章名の可読域を確保（横はみ出し防止と可読性の両立） */
-    @media (max-width: 480px) {
-      .map-row { grid-template-columns: minmax(0, 1fr) repeat(4, 2.1rem); gap: .3rem; }
-    }
-    .map-link { display: inline-block; margin-top: 1.2rem; color: var(--color-accent); text-decoration: none; font-weight: 700; }
-    .map-link:hover { color: var(--color-accent-soft); }
+    .map-ch { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; font-weight: 700; color: var(--color-text); text-decoration: none; }
+    .map-ch:hover { color: var(--color-accent); }
+    .dot { display: block; width: 0.5rem; height: 0.5rem; margin: 0 auto; border-radius: 50%; border: 1px solid var(--color-border-strong); }
+    .dot.on { background: var(--color-accent); border-color: var(--color-accent); }
 
-    /* 新着記事 */
-    .latest-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem; }
-    .latest-list { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--color-border); }
-    .latest-list li { display: flex; gap: .9rem; align-items: baseline; padding: .8rem 0; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
-    .latest-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em; width: 5.6rem; flex-shrink: 0; }
-    .latest-list a { flex: 1; min-width: 12rem; color: var(--color-text); text-decoration: none; }
-    .latest-list a:hover { color: var(--color-accent-soft); text-decoration: underline; }
-    .latest-date { font-family: var(--font-mono); font-size: .8rem; color: var(--color-text-muted); margin-left: auto; }
+    .word { padding: 0.8rem 0.9rem 0; margin: 0; }
+    .word dt { font-weight: 800; color: var(--color-ink); font-size: 0.98rem; }
+    .word dt small { font-weight: 400; color: var(--color-text-muted); font-size: 0.68rem; margin-left: 0.4rem; }
+    .word dd { font-size: 0.8rem; color: var(--color-text); margin: 0.35rem 0 0; line-height: 1.7; }
+    .word-more { padding: 0 0.9rem 0.8rem; }
 
-    /* 信頼ブロック */
-    .trust-wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 3rem 1.25rem 4rem; }
-    .trust-wrap p { max-width: 62em; }
-    .grade-legend { list-style: none; padding: 0; margin: 1.3rem 0; display: flex; flex-wrap: wrap; gap: 1rem 1.8rem; font-size: .92rem; color: var(--color-text-muted); }
+    .level { padding: 0.8rem 0.9rem; display: grid; gap: 0.5rem; }
+    .level a {
+      display: flex; align-items: center; gap: 0.6rem; border: 1.5px solid var(--color-border);
+      border-radius: var(--radius); padding: 0.55rem 0.7rem; color: var(--color-text);
+      font-weight: 700; font-size: 0.8rem; text-decoration: none; background: var(--color-bg);
+    }
+    .level a:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .level .lv { font-family: var(--font-num); background: linear-gradient(135deg, var(--color-ink-2), var(--color-ink-3)); color: #fff; font-size: 0.68rem; padding: 0.1rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; }
+
+    .trust { padding: 0.8rem 0.9rem; font-size: 0.78rem; }
+    .trust p { margin: 0 0 0.6rem; line-height: 1.7; }
+    .grade-legend { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.74rem; }
     .chip {
-      display: inline-block; font-family: var(--font-mono); font-size: .72rem; font-weight: 700;
-      padding: .15em .55em; border-radius: var(--radius-s); margin-right: .5em; border: 1px solid var(--color-border-strong);
+      display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700;
+      padding: 0.1em 0.5em; border-radius: var(--radius-s); margin-right: 0.45em; border: 1px solid var(--color-border-strong);
     }
     .chip-A { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-on-ink); }
     .chip-B, .chip-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }

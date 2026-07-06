@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="検索｜投資の学び場" description="サイト内の記事・用語集・チャート図解を全文検索します。">
+<Base title="検索｜投資の学び舎（まなびや）" description="サイト内の記事・用語集・チャート図解を全文検索します。">
   <div class="container">
   <h1>検索</h1>
   <div id="search">
@@ -20,6 +20,8 @@ import Base from "../layouts/Base.astro";
         if (typeof PagefindUI === "undefined") return;
         var fallback = document.getElementById("search-fallback");
         if (fallback) fallback.remove();
+        // トップのヒーロー検索カード（/search/?q=キーワード）からの遷移に対応
+        var initialQuery = new URLSearchParams(location.search).get("q") || "";
         new PagefindUI({
           element: "#search",
           showSubResults: true,
@@ -38,6 +40,13 @@ import Base from "../layouts/Base.astro";
             searching: "「[SEARCH_TERM]」を検索中...",
           },
         });
+        if (initialQuery) {
+          var input = document.querySelector("#search input[type='text']");
+          if (input) {
+            input.value = initialQuery;
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        }
       };
       // onerror はそのまま：フォールバック文言（#search-fallback）が表示され続ける
       document.head.appendChild(script);
