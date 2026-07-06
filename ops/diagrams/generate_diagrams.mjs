@@ -1028,4 +1028,173 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("per-pbr-yield", 640, 252, g);
 }
 
+/* ============ 58. MACD ============ */
+{
+  let g = "";
+  // 上段: 価格
+  g += poly([[40, 80], [110, 95], [180, 70], [250, 85], [320, 60], [390, 50], [460, 65], [530, 45], [590, 55]], { color: INK, w: 2 });
+  g += txt(50, 45, "価格", { size: 11.5, fill: SUB });
+  // 下段: MACDとシグナル
+  g += `<rect x="40" y="130" width="550" height="140" fill="#f7fafd" stroke="${GRID}"/>`;
+  g += line(40, 200, 590, 200, { color: GRID, w: 1.2 });
+  const macd = [[40, 245], [110, 235], [180, 218], [250, 195], [320, 175], [390, 162], [460, 168], [530, 182], [590, 192]];
+  const sig = [[40, 252], [110, 246], [180, 234], [250, 214], [320, 192], [390, 176], [460, 172], [530, 176], [590, 184]];
+  // ヒストグラム（MACD線とシグナル線の差を0ライン基準の棒で表現）
+  macd.forEach(([x, y], i) => {
+    const y2 = sig[i][1];
+    const h = Math.abs((y2 - y) * 2.2);
+    g += `<rect x="${x - 5}" y="${y2 > y ? 200 - h : 200}" width="10" height="${h}" fill="${y2 > y ? UP : DN}" opacity="0.45"/>`;
+  });
+  g += poly(macd, { color: DN, w: 2.5 });
+  g += poly(sig, { color: LV, w: 2.5 });
+  g += `<circle cx="238" cy="207" r="8" fill="none" stroke="${UP}" stroke-width="2.5"/>`;
+  g += txt(160, 290, "MACD線がシグナル線を上抜け＝買い転換の目安", { fill: UP, size: 11.5, bold: true });
+  g += txt(500, 150, "─ MACD線", { fill: DN, size: 11.5 });
+  g += txt(500, 166, "─ シグナル線", { fill: LV, size: 11.5 });
+  g += txt(45, 145, "0ライン", { size: 10.5, fill: SUB });
+  save("macd", 640, 305, g);
+}
+
+/* ============ 59. ボリンジャーバンド ============ */
+{
+  let g = "";
+  const mid = [[40, 160], [120, 158], [200, 155], [280, 150], [360, 140], [440, 125], [520, 110], [600, 100]];
+  const spread = [26, 22, 14, 10, 26, 42, 48, 50]; // スクイーズ→エクスパンション
+  const up = mid.map(([x, y], i) => [x, y - spread[i]]);
+  const dn = mid.map(([x, y], i) => [x, y + spread[i]]);
+  g += poly(up, { color: LV, w: 2 });
+  g += poly(dn, { color: LV, w: 2 });
+  g += poly(mid, { color: SUB, w: 1.5, dash: "4 3" });
+  g += poly([[40, 165], [120, 150], [200, 160], [280, 148], [360, 128], [440, 96], [520, 78], [600, 66]], { color: INK, w: 2.5 });
+  g += `<rect x="230" y="120" width="110" height="70" rx="6" fill="none" stroke="${DN}" stroke-width="1.5" stroke-dasharray="5 3"/>`;
+  g += txt(285, 230, "スクイーズ（幅の収縮）", { anchor: "middle", fill: DN, size: 12, bold: true });
+  g += txt(285, 250, "＝大きな動きの前兆とされる", { anchor: "middle", size: 11.5 });
+  g += txt(505, 230, "エクスパンション（拡大）", { anchor: "middle", fill: UP, size: 12, bold: true });
+  g += txt(505, 250, "＝トレンド発生を示唆", { anchor: "middle", size: 11.5 });
+  g += txt(60, 60, "±2σバンド：統計的に約95%の値動きが収まるとされる帯", { size: 11.5, fill: SUB });
+  save("bollinger", 640, 270, g);
+}
+
+/* ============ 60. 一目均衡表（雲） ============ */
+{
+  let g = "";
+  // 雲: spanA/spanB
+  const spanA = [[40, 150], [140, 145], [240, 135], [340, 128], [440, 118], [540, 112], [600, 110]];
+  const spanB = [[40, 190], [140, 185], [240, 175], [340, 160], [440, 150], [540, 146], [600, 145]];
+  let cloud = `M ${spanA.map((p) => p.join(" ")).join(" L ")} L ${spanB.slice().reverse().map((p) => p.join(" ")).join(" L ")} Z`;
+  g += `<path d="${cloud}" fill="#a3690f" opacity="0.18"/>`;
+  g += poly(spanA, { color: LV, w: 1.5 });
+  g += poly(spanB, { color: LV, w: 1.5, dash: "4 3" });
+  // 価格: 雲の下→突入→上抜け
+  g += poly([[40, 250], [120, 235], [200, 240], [280, 210], [340, 175], [400, 155], [460, 125], [520, 100], [600, 80]], { color: INK, w: 2.5 });
+  g += txt(120, 275, "雲の下＝弱い局面", { size: 11.5, fill: DN });
+  g += txt(360, 210, "雲の中＝方向感の欠如", { size: 11.5, fill: SUB });
+  g += txt(480, 70, "雲の上抜け＝強い局面への転換とされる", { size: 11.5, fill: UP, bold: true });
+  g += txt(320, 305, "「雲」は先行スパン2本に挟まれた帯。厚い雲ほど抵抗帯として意識されるとされる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("ichimoku-cloud", 640, 320, g);
+}
+
+/* ============ 61. ストキャスティクス ============ */
+{
+  let g = "";
+  g += poly([[40, 80], [110, 60], [180, 70], [250, 50], [320, 65], [390, 85], [460, 70], [530, 90], [590, 80]], { color: INK, w: 2 });
+  g += txt(50, 40, "価格（レンジ気味の相場で機能しやすいとされる）", { size: 11.5, fill: SUB });
+  g += `<rect x="40" y="120" width="550" height="150" fill="#f7fafd" stroke="${GRID}"/>`;
+  g += line(40, 150, 590, 150, { color: DN, w: 1.5, dash: "5 4" });
+  g += line(40, 240, 590, 240, { color: UP, w: 1.5, dash: "5 4" });
+  g += txt(598, 154, "80", { fill: DN, size: 11 });
+  g += txt(598, 244, "20", { fill: UP, size: 11 });
+  const k = [[40, 230], [110, 140], [180, 165], [250, 132], [320, 190], [390, 252], [460, 225], [530, 258], [590, 235]];
+  const d = [[40, 240], [110, 175], [180, 172], [250, 150], [320, 180], [390, 232], [460, 235], [530, 248], [590, 244]];
+  g += poly(k, { color: DN, w: 2.2 });
+  g += poly(d, { color: LV, w: 2.2 });
+  g += txt(475, 135, "─ %K　─ %D（%Kの平均）", { size: 11, fill: SUB });
+  g += `<circle cx="530" cy="253" r="8" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(320, 292, "80以上=買われすぎ・20以下=売られすぎの目安。20以下での%K上抜けを反発の目安とする見方がある", { anchor: "middle", size: 11, fill: SUB });
+  save("stochastics", 640, 305, g);
+}
+
+/* ============ 62. 窓と三空 ============ */
+{
+  let g = "";
+  // 窓
+  g += candle(80, 150, 155, 195, 205, { w: 20 });
+  g += candle(130, 85, 90, 130, 140, { w: 20 });
+  g += `<rect x="60" y="132" width="95" height="21" rx="3" fill="${UP}" opacity="0.15"/>`;
+  g += txt(105, 230, "窓（ギャップ）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += txt(105, 250, "前日の高値と当日の安値の間に", { anchor: "middle", size: 10.5 });
+  g += txt(105, 266, "取引のない空間ができる", { anchor: "middle", size: 10.5 });
+  // 三空
+  const dx = 300;
+  [[0, 230, 195], [1, 185, 150], [2, 140, 105], [3, 95, 60]].forEach(([i, lo, hi]) => {
+    g += candle(dx + 40 + i * 55, hi - 8, hi, lo, lo + 8, { w: 18 });
+    if (i > 0) g += `<rect x="${dx + 40 + (i - 1) * 55 + 12}" y="${hi + 10}" width="30" height="12" fill="${UP}" opacity="0.18"/>`;
+  });
+  g += txt(dx + 125, 230, "三空（さんくう）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += txt(dx + 125, 250, "窓を3つ開けて一方向に走った状態。", { anchor: "middle", size: 10.5 });
+  g += txt(dx + 125, 266, "「三空叩き込みは買い向かえ」等、過熱の目安とされる", { anchor: "middle", size: 10.5 });
+  g += line(270, 40, 270, 275, { color: GRID, w: 1 });
+  save("gaps-sanku", 640, 290, g);
+}
+
+/* ============ 63. ウェッジ ============ */
+{
+  let g = "";
+  // 上昇ウェッジ（先細りで上へ・下放れしやすいとされる）
+  g += poly([[40, 230], [90, 160], [130, 195], [180, 140], [220, 165], [260, 130], [290, 145]], { color: INK, w: 2 });
+  g += poly([[40, 235], [290, 128]], { color: LV, w: 1.5, dash: "5 3" });
+  g += poly([[75, 150], [295, 122]], { color: LV, w: 1.5, dash: "5 3" });
+  g += arrow(292, 150, 305, 205, { color: DN, w: 2.2 });
+  g += txt(165, 268, "上昇ウェッジ：先細りしながら切り上げ", { anchor: "middle", size: 11.5, bold: true, fill: INK });
+  g += txt(165, 286, "→ 勢いの鈍化。下放れの警戒とされる", { anchor: "middle", size: 11, fill: DN });
+  // 下降ウェッジ
+  const dx = 340;
+  g += poly([[dx, 90], [dx + 50, 165], [dx + 90, 130], [dx + 140, 185], [dx + 180, 158], [dx + 220, 195], [dx + 250, 180]], { color: INK, w: 2 });
+  g += poly([[dx, 85], [dx + 255, 172]], { color: LV, w: 1.5, dash: "5 3" });
+  g += poly([[dx + 30, 175], [dx + 258, 200]], { color: LV, w: 1.5, dash: "5 3" });
+  g += arrow(dx + 252, 172, dx + 265, 120, { color: UP, w: 2.2 });
+  g += txt(dx + 130, 268, "下降ウェッジ：先細りしながら切り下げ", { anchor: "middle", size: 11.5, bold: true, fill: INK });
+  g += txt(dx + 130, 286, "→ 売り圧力の枯れ。上放れの候補とされる", { anchor: "middle", size: 11, fill: UP });
+  g += line(320, 50, 320, 290, { color: GRID, w: 1 });
+  save("wedges", 640, 305, g);
+}
+
+/* ============ 64. ボックスレンジ ============ */
+{
+  let g = "";
+  g += line(50, 90, 480, 90, { color: DN, w: 2, dash: "6 4" });
+  g += line(50, 210, 480, 210, { color: UP, w: 2, dash: "6 4" });
+  g += `<rect x="50" y="90" width="430" height="120" fill="#2b4a8b" opacity="0.06"/>`;
+  g += poly([[50, 190], [95, 100], [140, 200], [185, 95], [230, 205], [275, 98], [320, 195], [365, 102], [410, 190], [455, 100], [480, 85], [530, 60], [590, 40]], { color: INK, w: 2.2 });
+  g += txt(60, 78, "上限（レジスタンス）", { size: 11.5, fill: DN });
+  g += txt(60, 232, "下限（サポート）", { size: 11.5, fill: UP });
+  g += `<circle cx="483" cy="84" r="8" fill="none" stroke="${LV}" stroke-width="2.2"/>`;
+  g += txt(495, 65, "ブレイク", { fill: LV, bold: true, size: 12 });
+  g += txt(320, 270, "ボックス（レンジ）：上下の水準の間を往復。逆張りが機能しやすい一方、ブレイクで環境が一変する", { anchor: "middle", size: 11.5, fill: SUB });
+  save("box-range", 640, 290, g);
+}
+
+/* ============ 65. カップウィズハンドル ============ */
+{
+  let g = "";
+  // カップ: U字
+  const cup = [];
+  for (let i = 0; i <= 40; i++) {
+    const t = i / 40;
+    const x = 60 + t * 320;
+    const y = 100 + Math.sin(Math.PI * t) * 110;
+    cup.push([x, y]);
+  }
+  g += poly(cup, { color: INK, w: 2.5 });
+  // ハンドル: 小さな下押し
+  g += poly([[380, 100], [420, 125], [455, 115], [485, 130], [510, 108], [540, 95], [575, 60]], { color: INK, w: 2.5 });
+  g += line(60, 98, 545, 98, { color: LV, w: 1.5, dash: "5 4" });
+  g += txt(220, 250, "カップ（丸い底）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += txt(465, 160, "ハンドル（小さな押し）", { anchor: "middle", size: 11.5, fill: INK });
+  g += `<circle cx="548" cy="92" r="8" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(556, 78, "縁の上抜けで完成とされる", { fill: UP, size: 11.5, bold: true, anchor: "end" });
+  g += txt(320, 290, "急角度のV字回復より、時間をかけた丸い底ほど信頼されやすい、という整理が知られる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("cup-handle", 640, 305, g);
+}
+
 console.log("done");
