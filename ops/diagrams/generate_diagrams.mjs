@@ -1574,4 +1574,159 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("unrealized-pl", 640, 270, g);
 }
 
+/* ===== バブル史シリーズ ===== */
+
+/* ============ 89. チューリップバブル ============ */
+{
+  let g = txt(320, 28, "チューリップ球根価格の推移（1634〜1637年・模式図）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 240], [140, 232], [220, 215], [300, 185], [360, 140], [400, 95], [430, 60], [445, 52], [460, 90], [480, 170], [510, 230], [560, 250]];
+  let g2 = poly(pts, { color: INK, w: 2.5 });
+  g += g2;
+  g += `<circle cx="445" cy="52" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(430, 40, "1637年2月：買い手が突然消える", { anchor: "end", fill: DN, bold: true, size: 12 });
+  g += txt(200, 200, "「球根1個＝家1軒」の逸話も", { size: 11.5, fill: SUB });
+  g += txt(320, 285, "現物の球根ではなく「球根を買う権利」の転売が投機の主戦場になっていた（先物的取引の原型）", { anchor: "middle", size: 11, fill: SUB });
+  save("tulip-bubble", 640, 300, g);
+}
+
+/* ============ 90. 南海泡沫事件とニュートン ============ */
+{
+  let g = txt(320, 28, "南海会社株とニュートンの売買（1720年・逸話に基づく模式図）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const pts = [[60, 240], [130, 225], [200, 195], [260, 150], [320, 90], [380, 55], [420, 50], [460, 100], [500, 180], [550, 245]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="200" cy="195" r="7" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(190, 178, "①購入", { fill: UP, size: 11, bold: true, anchor: "end" });
+  g += `<circle cx="260" cy="150" r="7" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(250, 133, "②利益確定（一度は勝ち逃げ）", { fill: UP, size: 11, anchor: "end" });
+  g += `<circle cx="380" cy="55" r="7" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(370, 40, "③高値圏で再参入", { fill: DN, size: 11, bold: true, anchor: "end" });
+  g += `<circle cx="500" cy="180" r="7" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(512, 185, "④暴落で大損", { fill: DN, size: 11, bold: true });
+  g += txt(320, 280, "「天体の動きは計算できるが、人々の狂気は計算できない」（ニュートンの言葉と伝えられる）", { anchor: "middle", size: 11, fill: SUB });
+  save("south-sea", 640, 295, g);
+}
+
+/* ============ 91. 平成バブル ============ */
+{
+  let g = txt(320, 28, "日経平均株価の軌跡（1985〜1992年・模式図）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 230], [120, 205], [180, 175], [240, 140], [300, 100], [350, 65], [390, 48], [430, 80], [470, 130], [510, 175], [560, 210]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="390" cy="48" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(390, 32, "1989年末 38,915円（史上最高値・当時）", { anchor: "middle", fill: DN, size: 11.5, bold: true });
+  g += txt(150, 155, "プラザ合意後の金融緩和", { size: 11, fill: SUB });
+  g += txt(170, 172, "「土地は下がらない」神話", { size: 11, fill: SUB });
+  g += txt(480, 110, "金融引き締め・", { size: 11, fill: DN });
+  g += txt(480, 126, "総量規制を機に崩壊", { size: 11, fill: DN });
+  g += txt(320, 275, "回復には30年以上を要した（2024年に最高値更新）。「バブルは崩壊後の処理が本番」の代表例", { anchor: "middle", size: 11, fill: SUB });
+  save("heisei-bubble", 640, 290, g);
+}
+
+/* ============ 92. ITバブル ============ */
+{
+  let g = txt(320, 28, "ナスダック総合指数の軌跡（1995〜2002年・模式図）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 235], [130, 220], [200, 195], [260, 160], [310, 115], [350, 70], [385, 45], [420, 85], [455, 140], [495, 185], [540, 225], [570, 240]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="385" cy="45" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(385, 30, "2000年3月 5,048（ピーク）", { anchor: "middle", fill: DN, size: 11.5, bold: true });
+  g += txt(180, 150, "「社名に.comを付ければ株価が上がる」", { size: 11, fill: SUB });
+  g += txt(200, 167, "利益なき企業への熱狂", { size: 11, fill: SUB });
+  g += txt(470, 250, "ピークから約78%下落", { size: 11, fill: DN, anchor: "middle" });
+  g += txt(320, 285, "ただしインターネット自体は本物だった——「技術の正しさ」と「価格の正しさ」は別問題", { anchor: "middle", size: 11, fill: SUB });
+  save("dotcom-bubble", 640, 300, g);
+}
+
+/* ============ 93. 住宅バブルとリーマン ============ */
+{
+  let g = txt(320, 28, "米住宅バブル（〜2008年）の連鎖構造", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const steps = [["住宅価格の上昇神話", "「住宅価格は全国では下がらない」", "#2b4a8b"], ["低所得者向けローン拡大", "サブプライムローン・審査の劣化", "#1f6e50"], ["証券化で世界に拡散", "ローンを束ねた金融商品を世界の投資家が保有", "#a3690f"], ["価格下落で連鎖崩壊", "2008年9月リーマン・ブラザーズ破綻→世界金融危機", "#c73e2e"]];
+  steps.forEach(([t, d, c], i) => {
+    const y = 52 + i * 56;
+    g += `<rect x="80" y="${y}" width="480" height="44" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+    g += txt(100, y + 20, t, { fill: c, bold: true, size: 12.5 });
+    g += txt(100, y + 37, d, { size: 10.5, fill: INK });
+    if (i < 3) g += arrow(320, y + 46, 320, y + 54, { color: SUB, w: 2 });
+  });
+  g += txt(320, 296, "レバレッジと複雑な金融商品が、局所的な住宅バブルを世界的な危機に増幅した", { anchor: "middle", size: 11, fill: SUB });
+  save("housing-lehman", 640, 310, g);
+}
+
+/* ============ 94. 暗号資産の熱狂サイクル ============ */
+{
+  let g = txt(320, 28, "ビットコインの急騰・急落サイクル（模式図・概数）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[50, 250], [110, 240], [150, 180], [180, 60], [210, 160], [240, 230], [290, 235], [340, 200], [380, 90], [410, 55], [450, 150], [480, 215], [520, 190], [560, 120], [590, 100]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="180" cy="60" r="7" fill="none" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(180, 45, "2017年末", { anchor: "middle", fill: DN, size: 11, bold: true });
+  g += txt(238, 255, "▲約8割下落", { anchor: "middle", fill: DN, size: 10.5 });
+  g += `<circle cx="410" cy="55" r="7" fill="none" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(410, 40, "2021年", { anchor: "middle", fill: DN, size: 11, bold: true });
+  g += txt(480, 240, "▲約7割下落", { anchor: "middle", fill: DN, size: 10.5 });
+  g += txt(320, 285, "急騰と大幅下落を繰り返してきた。過去のサイクルの反復が将来も続く保証はない", { anchor: "middle", size: 11, fill: SUB });
+  save("crypto-cycles", 640, 300, g);
+}
+
+/* ============ 95. バブルの5段階（キンドルバーガー＝ミンスキー） ============ */
+{
+  let g = txt(320, 26, "バブルの5段階モデル（キンドルバーガー＝ミンスキー・モデル）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const stages = [["① 転換点", "新技術・新制度の登場", "#2b4a8b"], ["② 信用膨張", "カネ余り・借入で買う", "#1f6e50"], ["③ 陶酔", "「今回は違う」の大合唱", "#a3690f"], ["④ 利益確定", "内部者・賢いカネが売る", "#6b4fa0"], ["⑤ パニック", "我先の売り・信用収縮", "#c73e2e"]];
+  stages.forEach(([t, d, c], i) => {
+    const x = 40 + i * 118;
+    g += `<rect x="${x}" y="55" width="102" height="90" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+    g += txt(x + 51, 82, t, { anchor: "middle", bold: true, fill: c, size: 12 });
+    d.split("・").forEach((line, j) => g += txt(x + 51, 106 + j * 16, line, { anchor: "middle", size: 9.5 }));
+    if (i < 4) g += arrow(x + 104, 100, x + 116, 100, { color: SUB, w: 2 });
+  });
+  // 価格カーブ
+  const pts = [[60, 250], [170, 235], [280, 200], [370, 155], [430, 175], [520, 260], [580, 275]];
+  g += poly(pts, { color: INK, w: 2 });
+  g += txt(320, 300, "17世紀のチューリップから現代まで、対象は変われど段階の骨格は繰り返し観察されてきた", { anchor: "middle", size: 11, fill: SUB });
+  save("minsky-stages", 640, 315, g);
+}
+
+/* ============ 96. AIブームをバブルの物差しで見る ============ */
+{
+  let g = txt(320, 28, "AIブームに「バブルの物差し」を当てる（判定は事後にしか確定しない）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="45" y="55" width="260" height="180" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(175, 80, "実体を示す側の材料", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 12.5 });
+  ["技術の実用は現実に進行", "一部企業には巨額の収益", "インフラ投資は実需を伴う", "（ITバブル期の「利益なき", "　熱狂」とは異なる面）"].forEach((t, i) => g += txt(175, 108 + i * 24, t, { anchor: "middle", size: 11 }));
+  g += `<rect x="335" y="55" width="260" height="180" rx="8" fill="#fdecea" stroke="#c73e2e" stroke-width="2"/>`;
+  g += txt(465, 80, "過熱を疑う側の材料", { anchor: "middle", fill: "#c73e2e", bold: true, size: 12.5 });
+  ["期待が業績の先を走る銘柄群", "「AI」を冠するだけの便乗", "設備投資の回収は未検証", "少数銘柄への資金集中", "「今回は違う」という語り"].forEach((t, i) => g += txt(465, 108 + i * 24, t, { anchor: "middle", size: 11 }));
+  g += txt(320, 262, "技術が本物であることと、個々の価格が正当であることは別問題（ITバブルの教訓）", { anchor: "middle", fill: INK, bold: true, size: 12 });
+  g += txt(320, 284, "投資家にできるのは判定ではなく、どちらに転んでも生き残るポジション設計", { anchor: "middle", size: 11, fill: SUB });
+  save("ai-boom-lens", 640, 300, g);
+}
+
+/* ============ 97. イナゴタワー ============ */
+{
+  let g = txt(320, 26, "「イナゴタワー」の典型形（模式図）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const pts = [[50, 240], [130, 235], [200, 228], [250, 180], [280, 100], [300, 60], [320, 55], [340, 90], [360, 150], [390, 210], [440, 235], [520, 242], [590, 245]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  // 出来高
+  const vols = [[250, 20], [280, 55], [300, 75], [320, 80], [340, 62], [360, 40], [390, 22]];
+  vols.forEach(([x, h]) => g += `<rect x="${x - 8}" y="${300 - h}" width="16" height="${h}" fill="${UP}" opacity="0.6"/>`);
+  g += txt(240, 165, "SNS・掲示板で話題化→買いが殺到", { size: 11, fill: UP, anchor: "end" });
+  g += `<circle cx="320" cy="55" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(335, 48, "数日で天井", { fill: DN, size: 11.5, bold: true });
+  g += txt(430, 180, "熱が冷めると買い手不在で急落", { size: 11, fill: DN });
+  g += txt(320, 322, "細く高く立ち上がり崩れる形が「タワー」の由来。上げの速さと下げの速さはほぼ対称になりやすい", { anchor: "middle", size: 11, fill: SUB });
+  save("inago-tower", 640, 335, g);
+}
+
+/* ============ 98. バブル格言マップ ============ */
+{
+  let g = txt(320, 26, "相場サイクルと「バブルの格言」", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const pts = [[50, 250], [130, 225], [210, 185], [290, 130], [360, 75], [420, 60], [480, 120], [540, 210], [590, 260]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += txt(120, 205, "「強気相場は悲観の中で生まれ…」", { size: 10.5, fill: SUB });
+  g += txt(255, 108, "「まだはもうなり」", { size: 10.5, fill: SUB });
+  g += txt(420, 42, "「靴磨きの少年が株を語ったら売り」", { anchor: "middle", size: 11, fill: DN, bold: true });
+  g += txt(505, 95, "「音楽が止まっても", { size: 10.5, fill: DN });
+  g += txt(505, 110, "　踊り続けてしまう」", { size: 10.5, fill: DN });
+  g += txt(545, 245, "「今回は違う、は", { size: 10.5, fill: SUB, anchor: "end" });
+  g += txt(545, 260, "　最も高くつく言葉」", { size: 10.5, fill: SUB, anchor: "end" });
+  g += txt(320, 300, "格言は予測の道具ではなく、熱狂の中で自分の位置を疑うためのチェックリスト", { anchor: "middle", size: 11.5, fill: SUB });
+  save("bubble-proverbs", 640, 315, g);
+}
+
 console.log("done");
