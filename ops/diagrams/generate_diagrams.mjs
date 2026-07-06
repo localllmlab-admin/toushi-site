@@ -1197,4 +1197,110 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("cup-handle", 640, 305, g);
 }
 
+/* ============ 66. ダウ理論（トレンドの定義と転換） ============ */
+{
+  let g = "";
+  const pts = [[40, 250], [95, 180], [140, 215], [195, 140], [240, 175], [295, 105], [345, 150], [395, 125], [445, 190], [495, 160], [560, 240]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  // 切り上げの印
+  [[95, 180], [195, 140], [295, 105]].forEach(([x, y]) => g += `<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${UP}" stroke-width="2"/>`);
+  [[140, 215], [240, 175]].forEach(([x, y]) => g += `<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${UP}" stroke-width="2" stroke-dasharray="3 2"/>`);
+  g += txt(150, 80, "高値も安値も切り上げ＝上昇トレンド継続", { fill: UP, bold: true, size: 12.5 });
+  // 転換
+  g += `<circle cx="395" cy="125" r="7" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += `<circle cx="445" cy="190" r="7" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(400, 95, "高値切り下げ＋", { fill: DN, size: 12, bold: true });
+  g += txt(400, 113, "安値切り下げ＝転換シグナル", { fill: DN, size: 12, bold: true });
+  g += line(240, 178, 470, 178, { color: LV, w: 1.5, dash: "5 4" });
+  g += txt(320, 285, "「明確な転換シグナルが出るまでトレンドは継続する」と考えるのがダウ理論の核心", { anchor: "middle", size: 12, fill: SUB });
+  save("dow-theory", 640, 300, g);
+}
+
+/* ============ 67. グランビルの法則（買いの4局面） ============ */
+{
+  let g = "";
+  const ma = [[40, 200], [120, 195], [200, 180], [280, 160], [360, 140], [440, 125], [520, 115], [600, 108]];
+  g += poly(ma, { color: LV, w: 2.5 });
+  g += txt(560, 95, "移動平均線", { fill: LV, size: 12 });
+  const price = [[40, 240], [90, 215], [130, 185], [170, 150], [210, 175], [250, 150], [290, 120], [330, 95], [370, 130], [410, 118], [450, 80], [490, 110], [530, 132], [570, 100], [600, 70]];
+  g += poly(price, { color: INK, w: 2 });
+  const marks = [[130, 185, "①上抜け"], [210, 177, "②押し目"], [370, 132, "③反発"], [530, 136, "④乖離後の戻り"]];
+  marks.forEach(([x, y, t]) => {
+    g += `<circle cx="${x}" cy="${y}" r="8" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+    g += txt(x, y + 28, t, { anchor: "middle", fill: UP, size: 11, bold: true });
+  });
+  g += txt(320, 290, "グランビルの買い4局面（売りはこの逆の4局面）。移動平均線と価格の位置関係で整理する", { anchor: "middle", size: 11.5, fill: SUB });
+  save("granville", 640, 305, g);
+}
+
+/* ============ 68. トレーリングストップ ============ */
+{
+  let g = "";
+  const price = [[40, 250], [100, 210], [150, 230], [210, 170], [260, 195], [320, 130], [370, 155], [430, 90], [480, 115], [530, 145], [570, 185]];
+  g += poly(price, { color: INK, w: 2.5 });
+  // 切り上がる損切りライン（階段）
+  g += poly([[40, 280], [150, 280]], { color: UP, w: 2.5 });
+  g += poly([[150, 245], [260, 245]], { color: UP, w: 2.5 });
+  g += poly([[260, 205], [370, 205]], { color: UP, w: 2.5 });
+  g += poly([[370, 165], [530, 165]], { color: UP, w: 2.5 });
+  [[150, 280, 245], [260, 245, 205], [370, 205, 165]].forEach(([x, y1, y2]) => g += line(x, y1, x, y2, { color: UP, w: 1.5, dash: "3 2" }));
+  g += `<circle cx="545" cy="165" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(430, 240, "上昇に合わせて損切りラインを切り上げる", { fill: UP, bold: true, size: 12, anchor: "middle" });
+  g += txt(548, 145, "ライン到達で決済", { fill: DN, size: 11.5, bold: true, anchor: "end" });
+  g += txt(320, 305, "利益を伸ばしつつ、確保した利益の一部を守る。「どこまで戻したら降りるか」を先に決める仕組み", { anchor: "middle", size: 11.5, fill: SUB });
+  save("trailing-stop", 640, 320, g);
+}
+
+/* ============ 69. 分割売買 ============ */
+{
+  let g = txt(320, 28, "一括と分割 ― 同じ資金でも入り方で結果のブレが変わる", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 左: 一括
+  g += poly([[50, 100], [110, 140], [170, 120], [230, 170], [280, 150]], { color: INK, w: 2 });
+  g += `<circle cx="65" cy="110" r="8" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(80, 95, "一括投入", { fill: DN, size: 12, bold: true });
+  g += txt(165, 230, "タイミングの当たり外れを", { anchor: "middle", size: 11.5 });
+  g += txt(165, 248, "1回の判断が全て背負う", { anchor: "middle", size: 11.5 });
+  // 右: 分割
+  const dx = 340;
+  g += poly([[dx, 100], [dx + 60, 140], [dx + 120, 120], [dx + 180, 170], [dx + 240, 150]], { color: INK, w: 2 });
+  [[dx + 10, 108], [dx + 90, 132], [dx + 180, 170]].forEach(([x, y], i) => {
+    g += `<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${UP}" stroke-width="2"/>`;
+    g += txt(x, y - 14, `1/3`, { anchor: "middle", fill: UP, size: 10.5, bold: true });
+  });
+  g += txt(dx + 120, 230, "複数回に分けて平均化。", { anchor: "middle", size: 11.5 });
+  g += txt(dx + 120, 248, "有利にも不利にもなり得るが、ブレは小さくなる", { anchor: "middle", size: 11.5 });
+  g += line(320, 55, 320, 260, { color: GRID, w: 1 });
+  save("scaling", 640, 275, g);
+}
+
+/* ============ 70. 見切り千両（損失の深さと回復必要率） ============ */
+{
+  let g = txt(320, 28, "損失が深いほど、取り返すのは急激に難しくなる", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const rows = [[10, 11], [20, 25], [30, 43], [50, 100], [70, 233]];
+  rows.forEach(([loss, need], i) => {
+    const y = 60 + i * 44;
+    g += txt(120, y + 16, `−${loss}%の損失`, { anchor: "end", fill: DN, size: 12.5, bold: true });
+    const w = Math.min(need * 1.7, 400);
+    g += `<rect x="140" y="${y}" width="${w}" height="22" rx="4" fill="${need > 100 ? DN : UP}" opacity="0.8"/>`;
+    g += txt(148 + w, y + 16, `回復に +${need}% 必要`, { size: 12, fill: INK });
+  });
+  g += txt(320, 295, "「見切り千両」＝浅い傷のうちに逃げる判断には千両の価値がある、という格言の数理的な裏付け", { anchor: "middle", size: 11.5, fill: SUB });
+  save("mikiri", 640, 310, g);
+}
+
+/* ============ 71. もうはまだなり ============ */
+{
+  let g = "";
+  const pts = [[40, 60], [100, 110], [150, 90], [210, 160], [260, 140], [320, 205], [370, 185], [430, 245], [490, 230], [550, 265], [600, 258]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  [[150, 90, "「もう底だろう」→まだ"], [260, 140, "「さすがにもう底」→まだ"], [370, 185, "「今度こそ底」→まだ"]].forEach(([x, y, t]) => {
+    g += `<circle cx="${x}" cy="${y}" r="7" fill="none" stroke="${DN}" stroke-width="2"/>`;
+    g += txt(x + 12, y - 8, t, { fill: DN, size: 11 });
+  });
+  g += `<circle cx="550" cy="265" r="7" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(543, 292, "誰も底と言わなくなった頃が底、ということも", { fill: UP, size: 11.5, anchor: "end" });
+  g += txt(320, 320, "「もう」と思うときはまだ途中、「まだ」と思うときはもう終わりに近い ― 自分の感覚を疑う格言", { anchor: "middle", size: 11.5, fill: SUB });
+  save("mou-mada", 640, 335, g);
+}
+
 console.log("done");
