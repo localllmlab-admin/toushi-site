@@ -1418,4 +1418,160 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("kelly", 640, 305, g);
 }
 
+/* ===== 用語集用ミニ図解 ===== */
+
+/* ============ 79. 板（オーダーブック） ============ */
+{
+  let g = txt(320, 26, "板（気配値）の見方", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const rows = [
+    ["", "1,005円", "3,200株", DN], ["", "1,004円", "1,800株", DN], ["", "1,003円", "2,500株", DN],
+    ["2,100株", "1,002円", "", UP], ["4,000株", "1,001円", "", UP], ["1,500株", "1,000円", "", UP],
+  ];
+  g += txt(180, 56, "買い注文（数量）", { anchor: "middle", size: 11.5, fill: UP, bold: true });
+  g += txt(460, 56, "売り注文（数量）", { anchor: "middle", size: 11.5, fill: DN, bold: true });
+  rows.forEach(([buy, price, sell, c], i) => {
+    const y = 66 + i * 30;
+    g += `<rect x="90" y="${y}" width="460" height="26" fill="${i % 2 ? "#f7fafd" : "#ffffff"}" stroke="${GRID}"/>`;
+    g += txt(320, y + 18, price, { anchor: "middle", size: 12.5, fill: INK, bold: true });
+    if (buy) g += txt(180, y + 18, buy, { anchor: "middle", size: 12, fill: UP });
+    if (sell) g += txt(460, y + 18, sell, { anchor: "middle", size: 12, fill: DN });
+  });
+  g += line(90, 156, 550, 156, { color: LV, w: 2 });
+  g += txt(566, 160, "↑最良売り気配と", { size: 10.5 });
+  g += txt(566, 174, "　最良買い気配の境", { size: 10.5 });
+  g += txt(320, 268, "価格ごとの売買注文の一覧表。厚い（数量が多い）価格帯は节目として意識される", { anchor: "middle", size: 11.5, fill: SUB });
+  save("order-board", 640, 285, g);
+}
+
+/* ============ 80. スプレッド ============ */
+{
+  let g = txt(320, 28, "スプレッド＝買値と売値の差", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += `<rect x="80" y="70" width="200" height="60" rx="8" fill="#e8f6ec" stroke="#1d7a3e" stroke-width="2"/>`;
+  g += txt(180, 95, "売れる値段（Bid）", { anchor: "middle", fill: "#1d7a3e", bold: true, size: 12.5 });
+  g += txt(180, 118, "100.00円", { anchor: "middle", fill: INK, size: 14, bold: true });
+  g += `<rect x="360" y="70" width="200" height="60" rx="8" fill="#e9f2fb" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(460, 95, "買える値段（Ask）", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += txt(460, 118, "100.05円", { anchor: "middle", fill: INK, size: 14, bold: true });
+  g += arrow(290, 100, 350, 100, { color: LV, w: 2 });
+  g += txt(320, 155, "差の0.05円＝スプレッド（実質的な取引コスト）", { anchor: "middle", fill: LV, bold: true, size: 12.5 });
+  g += txt(320, 185, "買った瞬間はスプレッド分だけ含み損から始まる。流動性が高いほど狭く、薄いほど広がる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("spread", 640, 205, g);
+}
+
+/* ============ 81. スリッページ ============ */
+{
+  let g = txt(320, 28, "スリッページ＝注文時の価格と約定価格のズレ", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 160], [140, 150], [220, 155], [300, 140], [340, 100], [400, 70], [480, 85], [560, 60]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<circle cx="300" cy="140" r="7" fill="none" stroke="${UP}" stroke-width="2.2"/>`;
+  g += txt(290, 175, "「ここで買う」と注文", { anchor: "end", size: 11.5, fill: UP });
+  g += `<circle cx="345" cy="97" r="7" fill="none" stroke="${DN}" stroke-width="2.2"/>`;
+  g += txt(358, 92, "実際に約定した価格", { size: 11.5, fill: DN });
+  g += arrow(310, 133, 338, 105, { color: SUB, w: 1.5 });
+  g += txt(320, 225, "急変時・流動性が薄いときほど大きくなる。成行注文・逆指値の執行で特に注意", { anchor: "middle", size: 11.5, fill: SUB });
+  save("slippage", 640, 240, g);
+}
+
+/* ============ 82. 証拠金・追証・ロスカットの流れ ============ */
+{
+  let g = txt(320, 28, "証拠金取引の防衛ライン（証拠金維持率の低下と措置）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const rows = [["含み損の拡大", "証拠金維持率が低下していく", "#71809a"], ["追証（マージンコール）", "維持率が基準を下回ると追加入金を要求される", "#a3690f"], ["ロスカット", "さらに下回ると強制決済（急変時は間に合わないことも）", "#c73e2e"]];
+  rows.forEach(([t, d, c], i) => {
+    const y = 55 + i * 62;
+    g += `<rect x="70" y="${y}" width="500" height="48" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+    g += txt(90, y + 22, t, { fill: c, bold: true, size: 13 });
+    g += txt(90, y + 40, d, { size: 11, fill: INK });
+    if (i < 2) g += arrow(320, y + 50, 320, y + 60, { color: SUB, w: 2 });
+  });
+  g += txt(320, 262, "ロスカットは投資家保護の仕組みだが、預けた資金以上の損失を防ぐ保証ではない", { anchor: "middle", size: 11.5, fill: SUB });
+  save("margin-flow", 640, 278, g);
+}
+
+/* ============ 83. イールドカーブ ============ */
+{
+  let g = txt(320, 28, "イールドカーブ＝期間ごとの金利をつないだ曲線", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 順イールド
+  g += poly([[80, 220], [180, 190], [280, 170], [380, 158], [480, 150], [560, 146]], { color: UP, w: 2.5 });
+  // 逆イールド
+  g += poly([[80, 160], [180, 175], [280, 190], [380, 200], [480, 208], [560, 212]], { color: DN, w: 2.5, dash: "6 3" });
+  g += line(80, 240, 560, 240, { color: INK, w: 1.5 });
+  ["1年", "5年", "10年", "20年", "30年"].forEach((t, i) => g += txt(130 + i * 100, 258, t, { anchor: "middle", size: 11 }));
+  g += txt(565, 150, "順イールド", { fill: UP, size: 11.5, bold: true });
+  g += txt(565, 216, "逆イールド", { fill: DN, size: 11.5, bold: true });
+  g += txt(320, 290, "通常は長い期間ほど金利が高い（順）。短期＞長期の逆転（逆イールド）は景気後退の先行サインとして注目されてきた", { anchor: "middle", size: 10.5, fill: SUB });
+  save("yield-curve", 640, 305, g);
+}
+
+/* ============ 84. ベーシスポイント ============ */
+{
+  let g = txt(320, 30, "1ベーシスポイント（bp）＝ 0.01%", { anchor: "middle", bold: true, fill: INK, size: 15 });
+  const rows = [["1bp", "0.01%", 6], ["25bp", "0.25%", 150], ["100bp", "1.00%", 400]];
+  rows.forEach(([bp, pct, w], i) => {
+    const y = 70 + i * 55;
+    g += txt(120, y + 17, bp, { anchor: "end", fill: DN, bold: true, size: 14 });
+    g += `<rect x="140" y="${y}" width="${w}" height="24" rx="4" fill="${DN}" opacity="${0.5 + i * 0.25}"/>`;
+    g += txt(150 + w, y + 17, `＝ ${pct}`, { size: 13, fill: INK });
+  });
+  g += txt(320, 265, "金利の変化を正確に伝えるための単位。「政策金利を25bp引き上げ」＝0.25%の利上げ", { anchor: "middle", size: 11.5, fill: SUB });
+  save("basis-point", 640, 280, g);
+}
+
+/* ============ 85. ロングとショート ============ */
+{
+  let g = txt(320, 28, "ロング（買い）とショート（売り）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  // ロング
+  g += poly([[60, 180], [130, 150], [200, 120], [270, 90]], { color: UP, w: 2.5 });
+  g += arrow(200, 120, 270, 90, { color: UP, w: 0.1 });
+  g += txt(165, 215, "ロング：安く買って高く売る", { anchor: "middle", fill: UP, bold: true, size: 12 });
+  g += txt(165, 235, "上がれば利益・下がれば損失", { anchor: "middle", size: 11 });
+  // ショート
+  const dx = 350;
+  g += poly([[dx, 90], [dx + 70, 120], [dx + 140, 150], [dx + 210, 180]], { color: DN, w: 2.5 });
+  g += txt(dx + 105, 215, "ショート：借りて売り、下がったら買い戻す", { anchor: "middle", fill: DN, bold: true, size: 12 });
+  g += txt(dx + 105, 235, "下がれば利益・上がれば損失（理論上損失無限定）", { anchor: "middle", size: 10.5 });
+  g += line(320, 55, 320, 245, { color: GRID, w: 1 });
+  save("long-short", 640, 260, g);
+}
+
+/* ============ 86. ヘッジ ============ */
+{
+  let g = txt(320, 28, "ヘッジ＝保有資産の値下がりリスクを打ち消す取引", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += poly([[70, 120], [150, 140], [230, 170], [310, 200]], { color: DN, w: 2.5 });
+  g += txt(190, 225, "保有株の下落（損失）", { anchor: "middle", fill: DN, size: 11.5 });
+  g += poly([[330, 200], [410, 170], [490, 140], [570, 120]], { color: UP, w: 2.5 });
+  g += txt(450, 225, "先物の売り等の利益が相殺", { anchor: "middle", fill: UP, size: 11.5 });
+  g += `<rect x="240" y="70" width="160" height="36" rx="18" fill="#e9f2fb" stroke="${DN}"/>`;
+  g += txt(320, 93, "損益がならされる", { anchor: "middle", fill: INK, bold: true, size: 12.5 });
+  g += txt(320, 262, "保険と同じで、コスト（ヘッジ費用）を払って不確実性を減らす。上昇の利益も削られる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("hedge", 640, 278, g);
+}
+
+/* ============ 87. 逆指値 ============ */
+{
+  let g = txt(320, 28, "逆指値＝「不利な方向に動いたら」執行される予約注文", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const pts = [[60, 150], [140, 130], [220, 145], [300, 125], [380, 140], [460, 165], [540, 185]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += line(60, 190, 560, 190, { color: DN, w: 2, dash: "6 4" });
+  g += txt(70, 210, "売り逆指値（ここまで下がったら売る＝損切りの自動化）", { size: 11.5, fill: DN, bold: true });
+  g += line(60, 100, 560, 100, { color: UP, w: 2, dash: "6 4" });
+  g += txt(70, 90, "買い逆指値（ここまで上がったら買う＝ブレイク追随）", { size: 11.5, fill: UP, bold: true });
+  g += txt(320, 250, "通常の指値が「有利な価格で」なのに対し、逆指値は「不利な方向への動きを条件に」執行される", { anchor: "middle", size: 11.5, fill: SUB });
+  save("stop-order", 640, 265, g);
+}
+
+/* ============ 88. 含み損益 ============ */
+{
+  let g = txt(320, 28, "含み損益＝決済していないポジションの評価上の損益", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += line(60, 150, 580, 150, { color: LV, w: 2, dash: "5 4" });
+  g += txt(66, 142, "買値", { size: 11.5, fill: LV });
+  const pts = [[100, 150], [170, 120], [240, 135], [310, 100], [380, 130], [450, 170], [520, 190]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  g += `<rect x="100" y="100" width="320" height="50" fill="${UP}" opacity="0.08"/>`;
+  g += `<rect x="420" y="150" width="140" height="45" fill="${DN}" opacity="0.10"/>`;
+  g += txt(260, 92, "含み益の期間", { anchor: "middle", fill: UP, size: 11.5, bold: true });
+  g += txt(500, 212, "含み損の期間", { anchor: "middle", fill: DN, size: 11.5, bold: true });
+  g += txt(320, 255, "決済して初めて損益は確定する。ただし「まだ損じゃない」は先送りの心理でもある（塩漬けの入口）", { anchor: "middle", size: 11.5, fill: SUB });
+  save("unrealized-pl", 640, 270, g);
+}
+
 console.log("done");
