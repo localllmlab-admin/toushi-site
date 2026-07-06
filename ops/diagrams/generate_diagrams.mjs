@@ -683,4 +683,153 @@ ${inner}
   save("yen-rate", 640, 305, g);
 }
 
+/* ===== 汎用ヘルパー: 見出し付きカード ===== */
+function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 } = {}) {
+  let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="#ffffff" stroke="${c}" stroke-width="2"/>`;
+  s += `<rect x="${x}" y="${y}" width="${w}" height="30" rx="8" fill="${c}"/>`;
+  s += `<rect x="${x}" y="${y + 22}" width="${w}" height="8" fill="${c}"/>`;
+  s += txt(x + w / 2, y + 21, title, { anchor: "middle", fill: "#fff", bold: true, size: titleSize });
+  lines.forEach((t, i) => { s += txt(x + 14, y + 52 + i * 20, t, { size: lineSize, fill: INK }); });
+  return s;
+}
+
+/* ============ 33. 新NISA ============ */
+{
+  let g = txt(320, 30, "NISA＝運用益が非課税になる制度の「箱」（2024年開始の新制度）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(60, 55, 250, 130, "つみたて投資枠", "#1f6e50", ["対象: 積立・分散に適した", "一定の投資信託", "買い方: 積立", "年間投資枠: 120万円"]);
+  g += card(330, 55, 250, 130, "成長投資枠", "#2b4a8b", ["対象: 上場株式・投資信託等", "（一部除外あり）", "買い方: 一括・積立", "年間投資枠: 240万円"]);
+  g += `<rect x="60" y="205" width="520" height="52" rx="8" fill="#e9f2fb" stroke="${GRID}"/>`;
+  g += txt(320, 227, "生涯の非課税保有限度額 1,800万円（うち成長投資枠は最大1,200万円）", { anchor: "middle", fill: INK, bold: true, size: 12.5 });
+  g += txt(320, 247, "非課税期間は無期限・売却すると翌年以降に枠が復活", { anchor: "middle", size: 11.5, fill: SUB });
+  g += txt(320, 285, "※金額・対象商品の最新条件は金融庁の公式情報を必ず確認してください", { anchor: "middle", size: 11, fill: SUB });
+  save("nisa", 640, 300, g);
+}
+
+/* ============ 34. iDeCo（3段階の税優遇） ============ */
+{
+  let g = txt(320, 30, "iDeCo＝自分でつくる年金。3つの場面で税制上の扱いが異なる", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(40, 60, 170, 120, "① 拠出時", "#2b4a8b", ["掛金が全額", "所得控除の対象", "（所得税・住民税が", "　軽くなる）"]);
+  g += card(235, 60, 170, 120, "② 運用時", "#1f6e50", ["運用益に", "課税されない", "（複利がそのまま", "　働く）"]);
+  g += card(430, 60, 170, 120, "③ 受取時", "#a3690f", ["受け取り方に応じ", "課税（ただし", "退職所得控除等の", "控除がある）"]);
+  g += arrow(212, 120, 232, 120, { color: SUB, w: 2 });
+  g += arrow(407, 120, 427, 120, { color: SUB, w: 2 });
+  g += `<rect x="40" y="200" width="560" height="46" rx="8" fill="#fff3e6" stroke="#f3d6b3"/>`;
+  g += txt(320, 220, "最大の注意点: 原則60歳まで引き出せない（老後資金専用の制度）", { anchor: "middle", fill: "#b05a12", bold: true, size: 12.5 });
+  g += txt(320, 238, "掛金の上限は職業・企業年金の有無で異なる（公式サイトで要確認）", { anchor: "middle", size: 11.5, fill: SUB });
+  save("ideco", 640, 265, g);
+}
+
+/* ============ 35. 投資信託とETF ============ */
+{
+  let g = txt(320, 30, "どちらも「詰め合わせパック」。違いは売買のしかた", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(55, 55, 255, 165, "投資信託（非上場）", "#2b4a8b", ["取引: 販売会社経由で購入", "価格: 1日1回の基準価額", "　（注文時は価格未確定）", "最低額: 100円からも可", "積立: 自動積立が容易"]);
+  g += card(330, 55, 255, 165, "ETF（上場投資信託）", "#1f6e50", ["取引: 証券取引所で売買", "価格: 取引時間中に変動", "　（指値・成行が使える）", "最低額: 1口数千円〜", "コスト: 信託報酬が低め傾向"]);
+  g += txt(320, 250, "「リアルタイムに売買したいか」「自動積立を重視するか」が使い分けの軸とされる", { anchor: "middle", size: 12, fill: SUB });
+  save("fund-etf", 640, 270, g);
+}
+
+/* ============ 36. インデックス投資 ============ */
+{
+  let g = "";
+  const idx = [[40, 200], [110, 180], [180, 195], [250, 160], [320, 170], [390, 140], [460, 150], [530, 115], [590, 100]];
+  const fund = idx.map(([x, y]) => [x, y + 7]);
+  g += poly(idx, { color: INK, w: 2.5 });
+  g += poly(fund, { color: UP, w: 2.5, dash: "6 3" });
+  g += txt(560, 85, "市場平均（指数）", { anchor: "end", fill: INK, bold: true, size: 12.5 });
+  g += txt(560, 130, "インデックスファンド（指数に連動）", { anchor: "end", fill: UP, size: 12 });
+  g += txt(320, 250, "個別銘柄を選ばず「市場全体の平均点」を低コストで取りにいく考え方", { anchor: "middle", fill: INK, bold: true, size: 12.5 });
+  g += txt(320, 272, "例: TOPIX・日経平均・S&P500 などの指数に連動する投資信託・ETF", { anchor: "middle", size: 11.5, fill: SUB });
+  save("index-invest", 640, 290, g);
+}
+
+/* ============ 37. レバレッジ型ETFの減価 ============ */
+{
+  let g = txt(320, 28, "原指数が上下して元に戻っても、2倍型は元に戻らない（例: 100→90→99）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 原指数: 100 -> 90 (-10%) -> 99 (+10%)
+  // 2倍型: 100 -> 80 (-20%) -> 96 (+20%)
+  const X = [140, 320, 500];
+  const Y = (v) => 250 - (v - 75) * 1.6;
+  g += poly(X.map((x, i) => [x, Y([100, 90, 99][i])]), { color: INK, w: 2.5 });
+  g += poly(X.map((x, i) => [x, Y([100, 80, 96][i])]), { color: DN, w: 2.5, dash: "6 3" });
+  [[100, 90, 99], [100, 80, 96]].forEach((vals, s) => {
+    vals.forEach((v, i) => {
+      g += `<circle cx="${X[i]}" cy="${Y(v)}" r="4" fill="${s === 0 ? INK : DN}"/>`;
+      g += txt(X[i] + (i === 2 ? 14 : 0), Y(v) + (s === 0 ? -10 : 20), `${v}`, { anchor: "middle", size: 12, fill: s === 0 ? INK : DN, bold: true });
+    });
+  });
+  g += txt(555, Y(99) - 8, "原指数", { fill: INK, size: 12, bold: true });
+  g += txt(555, Y(96) + 24, "2倍型", { fill: DN, size: 12, bold: true });
+  [["当初", 0], ["-10%の日", 1], ["+10%の日", 2]].forEach(([t, i]) => g += txt(X[i], 285, t, { anchor: "middle", size: 11.5 }));
+  g += txt(320, 315, "毎日「その日の2倍」を目指す仕組みのため、上下動を繰り返すと徐々に目減りする（減価）", { anchor: "middle", size: 12, fill: SUB });
+  save("leveraged-etf", 640, 330, g);
+}
+
+/* ============ 38. FXの証拠金の仕組み ============ */
+{
+  let g = txt(320, 30, "FX＝証拠金を担保に、その何倍もの外貨を売買する取引", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += `<rect x="70" y="70" width="120" height="70" rx="6" fill="#e9f2fb" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(130, 100, "証拠金", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += txt(130, 122, "10万円", { anchor: "middle", fill: DN, bold: true, size: 14 });
+  g += arrow(200, 105, 300, 105, { color: SUB, w: 2 });
+  g += txt(250, 92, "最大25倍", { anchor: "middle", size: 11.5, fill: SUB });
+  g += `<rect x="310" y="55" width="260" height="100" rx="6" fill="#fff3e6" stroke="#f3d6b3" stroke-width="2"/>`;
+  g += txt(440, 90, "取引できる金額", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += txt(440, 118, "最大250万円分", { anchor: "middle", fill: "#b05a12", bold: true, size: 15 });
+  g += txt(440, 140, "（国内個人の上限は25倍）", { anchor: "middle", size: 11, fill: SUB });
+  g += txt(320, 195, "利益も損失も「取引金額」に対して発生 → 証拠金に対する損益の振れは25倍", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += txt(320, 220, "損失が膨らむと強制決済（ロスカット）。急変時は証拠金以上の損失が生じることもある", { anchor: "middle", size: 11.5, fill: SUB });
+  save("fx-margin", 640, 240, g);
+}
+
+/* ============ 39. ブロックチェーン ============ */
+{
+  let g = txt(320, 30, "取引記録を「ブロック」にまとめ、鎖のようにつないで皆で持ち合う台帳", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  [0, 1, 2].forEach((i) => {
+    const x = 90 + i * 170;
+    g += `<rect x="${x}" y="70" width="130" height="80" rx="6" fill="#e9f2fb" stroke="${DN}" stroke-width="2"/>`;
+    g += txt(x + 65, 95, `ブロック ${i + 1}`, { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+    g += txt(x + 65, 115, "取引記録の束", { anchor: "middle", size: 11 });
+    g += txt(x + 65, 133, "＋前ブロックの指紋", { anchor: "middle", size: 10.5, fill: SUB });
+    if (i < 2) g += arrow(x + 132, 110, x + 168, 110, { color: SUB, w: 2 });
+  });
+  g += txt(320, 180, "前のブロックの内容から作った「指紋（ハッシュ）」を次に埋め込むため、", { anchor: "middle", size: 12 });
+  g += txt(320, 200, "過去の改ざんは後続すべてと矛盾して発覚する", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += txt(320, 232, "さらに同じ台帳を多数の参加者が持ち合う（分散）ため、単独での書き換えが困難とされる", { anchor: "middle", size: 11.5, fill: SUB });
+  save("blockchain", 640, 250, g);
+}
+
+/* ============ 40. ビットコイン半減期 ============ */
+{
+  let g = txt(320, 28, "新規発行量（マイニング報酬）が約4年ごとに半分になる", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  const steps = [["2009", 50], ["2012", 25], ["2016", 12.5], ["2020", 6.25], ["2024", 3.125]];
+  steps.forEach(([yr, v], i) => {
+    const x = 60 + i * 108;
+    const h = v * 3.4;
+    g += `<rect x="${x}" y="${240 - h}" width="70" height="${h}" rx="3" fill="${UP}" opacity="${1 - i * 0.13}"/>`;
+    g += txt(x + 35, 232 - h, `${v}`, { anchor: "middle", fill: UP, bold: true, size: 12.5 });
+    g += txt(x + 35, 260, `${yr}年〜`, { anchor: "middle", size: 11.5 });
+  });
+  g += txt(320, 290, "単位: 1ブロックあたりの新規発行BTC。発行上限2,100万枚に向けて供給ペースが逓減する設計", { anchor: "middle", size: 11.5, fill: SUB });
+  save("btc-halving", 640, 305, g);
+}
+
+/* ============ 41. ミームコインのリスク構造 ============ */
+{
+  let g = txt(320, 30, "ミームコインの典型的なリスク構造", { anchor: "middle", bold: true, fill: INK, size: 14 });
+  g += card(45, 60, 260, 105, "価値の裏付け", "#6b4fa0", ["収益・利用実態などの", "裏付け資産がない", "→ 価格の拠り所は話題性のみ"]);
+  g += card(335, 60, 260, 105, "保有の偏り", "#a3690f", ["少数の大口保有者に集中", "しがち → 大口の売りで", "価格が崩れやすい"]);
+  g += card(45, 185, 260, 105, "流動性", "#1f6e50", ["買い手が細ると", "売りたくても売れない", "→ 急落が加速しやすい"]);
+  g += card(335, 185, 260, 105, "詐欺・規制", "#c73e2e", ["開発者の持ち逃げ（ラグプル）", "や詐欺的な宣伝の事例", "→ 規制・注意喚起の対象に"]);
+  save("memecoin-risk", 640, 310, g);
+}
+
+/* ============ 42. 先物とオプション ============ */
+{
+  let g = txt(320, 30, "先物＝約束（義務）、オプション＝チケット（権利）", { anchor: "middle", bold: true, fill: INK, size: 13.5 });
+  g += card(55, 60, 255, 150, "先物取引", "#2b4a8b", ["将来の期日に、決めた価格で", "売買する「約束」", "", "買い手も売り手も義務を負う", "→ 損益はどちらも無限定"]);
+  g += card(330, 60, 255, 150, "オプション取引", "#1f6e50", ["決めた価格で「買える／売れる", "権利」そのものを売買", "", "買い手: 損失は支払った代金まで", "売り手: 損失は無限定になりうる"]);
+  g += txt(320, 245, "いずれも証拠金取引でレバレッジがかかる上級者向けの商品。仕組みの理解が先", { anchor: "middle", size: 12, fill: SUB });
+  save("futures-options", 640, 265, g);
+}
+
 console.log("done");
