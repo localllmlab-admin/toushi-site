@@ -6,8 +6,13 @@ cd "$(dirname "$0")/../.."
 
 git checkout main && git pull --ff-only
 
+# APIキーは ops/local/.env（gitignore済）から読む。未設定なら磨きなしで運転（完全ゼロコスト）
+[ -f ops/local/.env ] && { set -a; . ops/local/.env; set +a; }
+POLISH_FLAG=""
+[ -z "${OPENROUTER_API_KEY:-}" ] && POLISH_FLAG="--no-polish"
+
 # 1. ローカル生成（API磨きを止めたい日は --no-polish を付ける）
-OUT=$(node ops/local/pipeline.mjs) || { echo "生成失敗/品質未達: $(date -Is)"; exit 0; }
+OUT=$(node ops/local/pipeline.mjs $POLISH_FLAG) || { echo "生成失敗/品質未達: $(date -Is)"; exit 0; }
 
 # 2. 全体検証（コンプラ・出典等級・再現性・鮮度）
 node ops/validate_content.mjs || { echo "validate失敗。生成物を退避"; mkdir -p ops/local/rejected; mv "$OUT" ops/local/rejected/; git checkout .; exit 0; }
