@@ -21,7 +21,10 @@ loadEnv();
 if (!tgConfigured()) process.exit(0);
 
 const git = (...args) => execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).trim();
-const run = (cmd, args) => execFileSync(cmd, args, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+// Windowsではnpm(.cmd)をexecFileできないため、validateはnode直叩き
+const validate = () => execFileSync("node", ["ops/validate_content.mjs"], { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+// answerCallbackは押下から時間が経つと期限切れ400になる（15分ポーリングでは常態）→失敗は無視
+const answerQuiet = (id, text) => answerCallback(id, text).catch(() => {});
 
 /** リモートの draft/* ブランチをIDで解決（callback_dataの64byte制限対策） */
 function resolveBranch(id) {
@@ -52,7 +55,7 @@ async function approve(branch) {
   const p = join(ROOT, file);
   const flipped = readFileSync(p, "utf8").replace("reviewed: false", `reviewed: true\nreviewedAt: ${today}`);
   writeFileSync(p, flipped);
-  run("npm", ["run", "validate"]); // 公開前の最終ゲート。失敗時はcatch側でロールバック
+  validate(); // 公開前の最終ゲート。失敗時はcatch側でロールバック
   git("add", file);
   git("commit", "-q", "-m", `reviewed:true化（Telegram承認 ${today}）`);
   git("push", "-q");
@@ -86,13 +89,13 @@ for (const u of updates) {
   const [act, id] = (cq.data || "").split(":");
   const branch = resolveBranch(id);
   try {
-    if (!branch) { await answerCallback(cq.id, "対象ブランチが見つかりません（処理済み？）"); continue; }
+    if (!branch) { await answerQuiet(cq.id, "対象ブランチが見つかりません（処理済み？）"); continue; }
     const msg = act === "a" ? await approve(branch) : await reject(branch);
-    await answerCallback(cq.id, act === "a" ? "承認を受け付けました" : "却下を記録しました");
+    await answerQuiet(cq.id, act === "a" ? "承認を受け付けました" : "却下を記録しました");
     await sendMessage(msg);
   } catch (e) {
     rollback();
-    await answerCallback(cq.id, "処理に失敗しました");
+    await answerQuiet(cq.id, "処理に失敗しました");
     await sendMessage(`⚠️ 処理失敗（安全側でロールバック済み）: ${String(e.message).slice(0, 300)}\nClaude Codeで確認してください。`);
   }
 }
