@@ -7,3 +7,4 @@ ops/local/rejected/
 design/samples/*.png
 ops/local/.env
 ops/local/.tmp_draft.md
+ops/local/review_queue.md

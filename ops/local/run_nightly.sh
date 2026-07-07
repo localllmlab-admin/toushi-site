@@ -31,4 +31,10 @@ git checkout main
 git add ops/hermes/topics_backlog.md
 git diff --cached --quiet || { git commit -m "backlog: 消化済みマーク（自動）"; git push; }
 
+# レビューURLをキューに記録（Masaruへの提示用・gitignore済）
+ENC=$(node -e "console.log(encodeURIComponent(process.argv[1]))" "$BRANCH")
+URL="https://github.com/localllmlab-admin/toushi-site/compare/main...$ENC"
+echo "- $(date '+%F %H:%M') $BRANCH → $URL" >> ops/local/review_queue.md
+echo "レビューURL: $URL"
+
 echo "PR作成完了: $BRANCH $(date -Is)"
