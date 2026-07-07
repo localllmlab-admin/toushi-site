@@ -2068,4 +2068,31 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("profit-proverbs", 640, 290, g);
 }
 
+/* ============ 119. スキャルピング ============ */
+{
+  let g = txt(320, 26, "スキャルピング：極小の値幅を高頻度で積み上げる", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 1分足イメージ：細かい波を高頻度で出入り
+  const wave = [[60, 170], [95, 150], [125, 160], [160, 135], [190, 148], [225, 120], [255, 133], [290, 110], [320, 125], [355, 100], [385, 115], [420, 95]];
+  g += poly(wave, { color: INK, w: 2 });
+  g += arrow(95, 190, 95, 155, { color: UP, w: 2 });
+  g += txt(95, 205, "入", { anchor: "middle", size: 10.5, fill: UP });
+  g += arrow(160, 100, 160, 130, { color: DN, w: 2 });
+  g += txt(160, 92, "出", { anchor: "middle", size: 10.5, fill: DN });
+  g += arrow(225, 155, 225, 125, { color: UP, w: 2 });
+  g += txt(225, 170, "入", { anchor: "middle", size: 10.5, fill: UP });
+  g += arrow(290, 75, 290, 105, { color: DN, w: 2 });
+  g += txt(290, 67, "出", { anchor: "middle", size: 10.5, fill: DN });
+  g += txt(240, 235, "保有時間：数秒〜数分 ／ 1回の狙い幅：ごく小さい ／ 取引回数：多い", { anchor: "middle", size: 11, fill: SUB });
+  // 右側：コストの壁
+  g += `<rect x="450" y="60" width="160" height="150" rx="8" fill="#ffffff" stroke="${LV}" stroke-width="2"/>`;
+  g += txt(530, 84, "コストの壁", { anchor: "middle", fill: LV, bold: true, size: 12 });
+  g += txt(462, 108, "狙う値幅が小さいほど", { size: 10.5 });
+  g += txt(462, 126, "スプレッド・手数料の", { size: 10.5 });
+  g += txt(462, 144, "比率が大きくなる", { size: 10.5 });
+  g += txt(462, 172, "例：狙い幅の2割が", { size: 10.5, fill: INK });
+  g += txt(462, 190, "コストなら期待値は激減", { size: 10.5, fill: INK });
+  g += txt(320, 262, "利益の源泉が小さいぶん、執行コストと約定品質が成否を直接左右する", { anchor: "middle", size: 11, fill: SUB });
+  save("scalping-basics", 640, 280, g);
+}
+
 console.log("done");
