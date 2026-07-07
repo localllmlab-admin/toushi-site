@@ -2534,4 +2534,32 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("execution-quality", 640, 290, g);
 }
 
+/* ============ 142. 値幅制限とストップ高 ============ */
+{
+  let g = txt(320, 24, "制限値幅：1日に動ける範囲は基準値段で決まる", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 左：値幅レンジ
+  g += line(80, 60, 80, 240, { color: GRID, w: 1.5 });
+  g += line(60, 90, 300, 90, { color: UP, w: 2, dash: "6 4" });
+  g += txt(310, 94, "上限＝ストップ高", { size: 11, fill: UP, bold: true });
+  g += line(60, 150, 300, 150, { color: INK, w: 2 });
+  g += txt(310, 154, "基準値段（前日終値）", { size: 11 });
+  g += line(60, 210, 300, 210, { color: DN, w: 2, dash: "6 4" });
+  g += txt(310, 214, "下限＝ストップ安", { size: 11, fill: DN, bold: true });
+  g += arrow(90, 150, 90, 95, { color: UP, w: 2 });
+  g += arrow(90, 150, 90, 205, { color: DN, w: 2 });
+  g += txt(110, 122, "水準別の金額で", { size: 10 });
+  g += txt(110, 137, "上下幅が決まる", { size: 10 });
+  g += poly([[130, 190], [160, 170], [185, 178], [215, 130], [240, 110], [265, 92], [295, 90]], { color: INK, w: 2.2 });
+  // 右：張り付きと比例配分
+  g += `<rect x="440" y="60" width="170" height="180" rx="8" fill="#ffffff" stroke="${LV}" stroke-width="2"/>`;
+  g += txt(525, 84, "ストップ高に張り付き", { anchor: "middle", fill: LV, bold: true, size: 11.5 });
+  for (let i = 0; i < 5; i++) { g += `<rect x="${455 + (i % 3) * 50}" y="${100 + Math.floor(i / 3) * 20}" width="42" height="14" rx="2" fill="${UP}" opacity="0.55"/>`; }
+  g += txt(525, 152, "買い注文が積み上がる", { anchor: "middle", size: 10 });
+  g += txt(525, 176, "取引は停止しない。", { anchor: "middle", size: 10, fill: INK });
+  g += txt(525, 194, "引けまで対当しなければ", { anchor: "middle", size: 10 });
+  g += txt(525, 212, "大引けに比例配分", { anchor: "middle", size: 10.5, fill: INK, bold: true });
+  g += txt(320, 272, "ストップ高でも売買は成立しうる／買えない・売れないまま翌日へ持ち越すリスクが制度上ありえる", { anchor: "middle", size: 10.5, fill: SUB });
+  save("price-limit", 640, 300, g);
+}
+
 console.log("done");
