@@ -2095,4 +2095,132 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("scalping-basics", 640, 280, g);
 }
 
+/* ============ 120. デイトレード ============ */
+{
+  let g = txt(320, 26, "デイトレード：その日のうちに完結させ、翌日に持ち越さない", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 1日の値動きと寄り・引け
+  g += line(70, 60, 70, 210, { color: GRID, w: 1.5 });
+  g += line(430, 60, 430, 210, { color: GRID, w: 1.5 });
+  g += txt(70, 232, "寄付き", { anchor: "middle", size: 11, bold: true });
+  g += txt(430, 232, "大引け", { anchor: "middle", size: 11, bold: true });
+  g += poly([[70, 160], [110, 140], [150, 155], [200, 115], [250, 130], [300, 100], [350, 118], [430, 95]], { color: INK, w: 2.2 });
+  g += arrow(150, 190, 150, 160, { color: UP, w: 2.2 });
+  g += txt(150, 205, "仕掛け", { anchor: "middle", size: 10.5, fill: UP });
+  g += arrow(350, 85, 350, 112, { color: DN, w: 2.2 });
+  g += txt(350, 76, "手仕舞い", { anchor: "middle", size: 10.5, fill: DN });
+  // オーバーナイト遮断
+  g += `<rect x="450" y="70" width="160" height="130" rx="8" fill="#ffffff" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(530, 94, "持ち越さない理由", { anchor: "middle", fill: DN, bold: true, size: 12 });
+  g += txt(462, 118, "夜間・海外市場の急変や", { size: 10.5 });
+  g += txt(462, 136, "決算・要人発言による", { size: 10.5 });
+  g += txt(462, 154, "翌朝の窓開けリスクを", { size: 10.5 });
+  g += txt(462, 172, "構造的に遮断する", { size: 10.5, fill: INK });
+  g += txt(320, 262, "保有時間：数分〜数時間 ／ 判断材料：当日の値動き・出来高・板 ／ 損益は毎日確定する", { anchor: "middle", size: 11, fill: SUB });
+  save("daytrading-basics", 640, 280, g);
+}
+
+/* ============ 121. スイングトレード ============ */
+{
+  let g = txt(320, 26, "スイングトレード：数日〜数週間の「波のひと振り」を取りにいく", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 大きな上昇トレンドの中の押し目〜戻り
+  g += poly([[60, 200], [110, 170], [140, 185], [200, 140], [235, 158], [300, 110], [335, 130], [400, 85], [440, 100], [500, 60]], { color: INK, w: 2.2 });
+  g += arrow(140, 215, 140, 190, { color: UP, w: 2.5 });
+  g += txt(140, 230, "押し目で仕掛け", { anchor: "middle", size: 10.5, fill: UP });
+  g += arrow(300, 80, 300, 105, { color: DN, w: 2.5 });
+  g += txt(300, 71, "波の終わりで手仕舞い", { anchor: "middle", size: 10.5, fill: DN });
+  g += line(60, 245, 500, 245, { color: GRID, w: 1 });
+  g += txt(280, 264, "1回の波：数日〜数週間 ／ 日をまたいで保有する＝夜間のリスクも引き受ける", { anchor: "middle", size: 11, fill: SUB });
+  g += txt(555, 150, "日足・週足が主戦場。", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(555, 168, "画面に張り付かず", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(555, 186, "夜の分析で完結しやすい", { anchor: "middle", size: 10.5, fill: SUB });
+  save("swing-trading", 640, 285, g);
+}
+
+/* ============ 122. 時間軸の選び方 ============ */
+{
+  let g = txt(320, 26, "トレードスタイル比較：時間軸が変わると「別の競技」になる", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const col = (x, title, color, lines) => {
+    let s = `<rect x="${x}" y="52" width="136" height="185" rx="8" fill="#ffffff" stroke="${color}" stroke-width="2"/>`;
+    s += txt(x + 68, 76, title, { anchor: "middle", fill: color, bold: true, size: 12 });
+    lines.forEach((l, i) => { s += txt(x + 10, 100 + i * 19, l, { size: 10 }); });
+    return s;
+  };
+  g += col(38, "スキャルピング", UP, ["保有：数秒〜数分", "足：1分・ティック", "回数：1日数十回", "生命線：執行コスト", "拘束：張り付き必須", "口座資金の回転：極大"]);
+  g += col(188, "デイトレード", "#a3690f", ["保有：数分〜数時間", "足：1分〜15分＋日足", "回数：1日数回", "生命線：当日の規律", "拘束：市場時間中", "持ち越しリスク：なし"]);
+  g += col(338, "スイング", "#1f6e50", ["保有：数日〜数週間", "足：1時間〜週足", "回数：月数回", "生命線：損切り位置", "拘束：小さい", "持ち越しリスク：あり"]);
+  g += col(488, "長期投資", DN, ["保有：数年〜", "足：週足・月足", "回数：年数回", "生命線：配分と継続", "拘束：ごく小さい", "源泉：成長・複利"]);
+  g += txt(320, 262, "右へ行くほど時間の拘束と取引コストは減り、1回の判断の重みと忍耐の比重が増える", { anchor: "middle", size: 11, fill: SUB });
+  save("timeframe-styles", 640, 280, g);
+}
+
+/* ============ 123. マルチタイムフレーム ============ */
+{
+  let g = txt(320, 26, "マルチタイムフレーム分析：上位足で環境認識、下位足でタイミング", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const panel = (x, label, pts, note, color) => {
+    let s = `<rect x="${x}" y="52" width="170" height="150" rx="8" fill="#ffffff" stroke="${GRID}" stroke-width="1.5"/>`;
+    s += txt(x + 85, 72, label, { anchor: "middle", bold: true, fill: color, size: 12 });
+    s += poly(pts.map(([px, py]) => [x + px, 82 + py]), { color: INK, w: 2 });
+    s += txt(x + 85, 220, note, { anchor: "middle", size: 10.5 });
+    return s;
+  };
+  g += panel(35, "月足・週足（森）", [[15, 95], [45, 70], [70, 82], [100, 50], [125, 62], [155, 30]], "大きな流れ＝上昇", DN);
+  g += arrow(215, 125, 245, 125, { color: SUB, w: 2.5 });
+  g += panel(255, "日足（木）", [[15, 40], [40, 70], [60, 55], [85, 90], [110, 75], [130, 95], [155, 60]], "流れの中の押し目", "#1f6e50");
+  g += arrow(435, 125, 465, 125, { color: SUB, w: 2.5 });
+  g += panel(475 - 30, "1時間足（枝）", [[15, 95], [40, 85], [60, 92], [85, 70], [110, 78], [130, 55], [155, 45]], "反転の兆しで仕掛け", UP);
+  g += txt(320, 258, "時間足ごとに見える景色は違う。上位足の方向と下位足のタイミングを一致させるのが基本形", { anchor: "middle", size: 11, fill: SUB });
+  save("multi-timeframe", 640, 275, g);
+}
+
+/* ============ 124. インジケーター組み合わせ ============ */
+{
+  let g = txt(320, 26, "インジケーターの組み合わせ：役割の違うものを重ねる", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += card(40, 55, 270, 105, "トレンド系（方向を測る）", DN, ["移動平均線・MACD・一目均衡表", "「今どちらに流れているか」", "レンジ相場ではダマシが増える"], { lineSize: 10.5 });
+  g += card(330, 55, 270, 105, "オシレーター系（過熱を測る）", UP, ["RSI・ストキャスティクス", "「行き過ぎていないか」", "強いトレンドでは張り付く"], { lineSize: 10.5 });
+  g += arrow(175, 170, 285, 205, { color: SUB, w: 2 });
+  g += arrow(465, 170, 355, 205, { color: SUB, w: 2 });
+  g += `<rect x="200" y="200" width="240" height="60" rx="8" fill="#ffffff" stroke="#1f6e50" stroke-width="2"/>`;
+  g += txt(320, 224, "弱点を補い合う組み合わせ", { anchor: "middle", fill: "#1f6e50", bold: true, size: 12 });
+  g += txt(320, 245, "例：トレンド系で方向、オシレーターで入り時", { anchor: "middle", size: 10.5 });
+  g += txt(320, 284, "同じ系統を複数並べても情報は増えない（多重共線）。「方向×過熱×出来高」のように役割で分ける", { anchor: "middle", size: 10.5, fill: SUB });
+  save("indicator-combination", 640, 300, g);
+}
+
+/* ============ 125. さや取り（ペアトレード） ============ */
+{
+  let g = txt(320, 26, "さや取り（ペアトレード）：2つの値動きの「差」だけを取る", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 2本の連動する線とサヤの開閉
+  g += poly([[60, 150], [120, 130], [180, 140], [240, 110], [300, 95], [360, 115], [420, 100], [480, 108]], { color: DN, w: 2.2 });
+  g += poly([[60, 165], [120, 148], [180, 160], [240, 145], [300, 150], [360, 132], [420, 118], [480, 122]], { color: "#1f6e50", w: 2.2 });
+  g += txt(500, 105, "銘柄A", { fill: DN, size: 11, bold: true });
+  g += txt(500, 128, "銘柄B", { fill: "#1f6e50", size: 11, bold: true });
+  // サヤ拡大部分
+  g += line(300, 95, 300, 150, { color: LV, w: 2, dash: "4 3" });
+  g += txt(300, 175, "サヤ拡大", { anchor: "middle", size: 10.5, fill: LV, bold: true });
+  g += txt(300, 192, "割高Aを売り・割安Bを買い", { anchor: "middle", size: 10 });
+  g += line(480, 108, 480, 122, { color: LV, w: 2, dash: "4 3" });
+  g += txt(462, 145, "サヤ収縮で両建て解消", { anchor: "middle", size: 10 });
+  g += txt(320, 235, "市場全体が上がっても下がっても、2つの「差」が縮めば利益になる＝相場の方向に賭けない", { anchor: "middle", size: 11, fill: SUB });
+  g += txt(320, 256, "前提は「AとBは長期的に連動する」という関係の持続。関係が壊れると両側で損失もありうる", { anchor: "middle", size: 10.5, fill: UP });
+  save("pair-trading", 640, 275, g);
+}
+
+/* ============ 126. アービトラージ ============ */
+{
+  let g = txt(320, 26, "アービトラージ：同じ価値のものが違う値段で売られている瞬間を突く", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="60" y="60" width="200" height="90" rx="8" fill="#ffffff" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(160, 88, "市場X", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += txt(160, 115, "同一資産：100.0", { anchor: "middle", size: 12 });
+  g += txt(160, 136, "→ ここで買う", { anchor: "middle", size: 11, fill: UP, bold: true });
+  g += `<rect x="380" y="60" width="200" height="90" rx="8" fill="#ffffff" stroke="#1f6e50" stroke-width="2"/>`;
+  g += txt(480, 88, "市場Y", { anchor: "middle", fill: "#1f6e50", bold: true, size: 12.5 });
+  g += txt(480, 115, "同一資産：100.4", { anchor: "middle", size: 12 });
+  g += txt(480, 136, "→ ここで売る", { anchor: "middle", size: 11, fill: DN, bold: true });
+  g += arrow(270, 105, 370, 105, { color: LV, w: 2.5 });
+  g += txt(320, 95, "差0.4が理論上の利益", { anchor: "middle", size: 10.5, fill: LV });
+  g += txt(320, 185, "ただし価格差は皆が狙うため一瞬で消える。コスト（手数料・送金・時間）を引いた残りが実際の利益", { anchor: "middle", size: 11, fill: SUB });
+  g += txt(320, 207, "「無リスク」と呼ばれるのは教科書の中だけ。執行・カウンターパーティ・規制のリスクは常に残る", { anchor: "middle", size: 10.5, fill: UP });
+  save("arbitrage", 640, 225, g);
+}
+
 console.log("done");
