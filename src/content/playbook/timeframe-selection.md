@@ -3,7 +3,8 @@ title: "短期・中期・長期：自分の時間軸をどう選ぶか"
 description: "スキャルピングから長期投資まで、時間軸ごとの利益の源泉・コスト・拘束時間の違いを比較し、生活と資金に合った選び方を解説します。"
 tags: ["手法", "時間軸", "スタイル選択"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

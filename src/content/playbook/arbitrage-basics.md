@@ -3,7 +3,8 @@ title: "アービトラージ（裁定取引）とは何か：価格差はなぜ
 description: "同じ価値のものが市場によって違う値段で取引される瞬間を突くアービトラージの仕組みと、「無リスク」と呼ばれる取引に実際に残るリスクを解説します。"
 tags: ["手法", "アービトラージ", "裁定取引"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（先物・オプション、裁定取引の基礎）"

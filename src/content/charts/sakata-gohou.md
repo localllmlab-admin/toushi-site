@@ -3,7 +3,8 @@ title: "酒田五法 ― 三山・三川・三空・三兵・三法の全体像"
 description: "江戸時代の米相場に由来するとされるローソク足の伝統的パターン体系「酒田五法」の5つの型と、現代のチャート分析での位置づけを解説します。"
 tags: ["ローソク足", "酒田五法", "プライスアクション"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "スティーブ・ニソン『日本ローソク足チャート術』（パンローリング）"

@@ -3,7 +3,8 @@ title: "デイトレードとは何か：その日のうちに完結させる売
 description: "ポジションを翌日に持ち越さないデイトレードの仕組みと、オーバーナイトリスクを遮断する意味・必要な規律を解説します。"
 tags: ["手法", "短期売買", "デイトレード"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

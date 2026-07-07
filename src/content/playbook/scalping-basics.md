@@ -3,7 +3,8 @@ title: "スキャルピングとは何か：数秒〜数分の超短期売買"
 description: "ごく小さな値幅を高頻度で積み重ねるスキャルピングの仕組みと、スプレッド・約定スピードがなぜ決定的に重要かを解説します。"
 tags: ["手法", "短期売買", "スキャルピング"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

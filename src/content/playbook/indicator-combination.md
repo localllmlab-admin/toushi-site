@@ -3,7 +3,8 @@ title: "インジケーターを組み合わせた取引戦略の作り方"
 description: "トレンド系とオシレーター系の役割の違いを踏まえ、弱点を補い合うインジケーターの組み合わせ方と、条件を増やしすぎる罠を解説します。"
 tags: ["手法", "インジケーター", "テクニカル"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

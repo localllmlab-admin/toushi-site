@@ -3,7 +3,8 @@ title: "スイングトレードとは何か：数日〜数週間の波を取る
 description: "日をまたいで保有し、相場の「波のひと振り」を狙うスイングトレードの仕組みと、兼業との相性・持ち越しリスクの管理を解説します。"
 tags: ["手法", "スイングトレード", "短期売買"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

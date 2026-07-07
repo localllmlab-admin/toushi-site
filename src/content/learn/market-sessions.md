@@ -3,7 +3,8 @@ title: "世界の取引時間 ― 東京・ロンドン・ニューヨークの2
 description: "為替市場は24時間眠りませんが、時間帯ごとに主役と値動きの性格が変わります。東京・ロンドン・NYの3大市場の特徴を解説します。"
 tags: ["基礎", "為替", "取引時間", "FX"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.bis.org/"
     title: "国際決済銀行（BIS）外国為替市場サーベイ（3年毎調査）"

@@ -3,7 +3,8 @@ title: "為替介入とは何か ― 単独・協調・覆面介入の仕組み"
 description: "通貨当局が為替市場で直接売買する「為替介入」の仕組みを解説します。決定は財務省・実行は日本銀行という役割分担と、介入の3つの型を整理します。"
 tags: ["基礎", "為替", "為替介入", "FX"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.mof.go.jp/policy/international_policy/reference/feio/"
     title: "財務省「外国為替平衡操作の実施状況」"

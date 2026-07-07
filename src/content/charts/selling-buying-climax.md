@@ -3,7 +3,8 @@ title: "セリングクライマックスとバイイングクライマックス
 description: "急落の最終局面で投げ売りが集中するセリングクライマックスと、その逆のバイイングクライマックスの構造・出来高との関係・見分けの難しさを解説します。"
 tags: ["プライスアクション", "出来高", "反転", "セリングクライマックス"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
