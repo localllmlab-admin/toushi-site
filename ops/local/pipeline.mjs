@@ -146,6 +146,19 @@ function slugify(t) {
     .replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || `draft-${Date.now()}`;
 }
 
+// 英語スラッグをローカルLLMに提案させる（URL/SEOの一貫性。失敗時は従来slugifyへフォールバック）
+async function proposeSlug(topic) {
+  try {
+    const raw = await ollamaChat(cfg, [
+      { role: "user", content: `次の投資教育記事のタイトルに対する英語URLスラッグを1つだけ出力してください。条件: 小文字英数字とハイフンのみ・2〜5語・冠詞不要・説明や引用符や前置きは一切書かない。\nタイトル: ${topic}\nスラッグ:` },
+    ], { model: cfg.ollama.judgeModel, options: { temperature: 0 } });
+    const s = (raw || "").replace(/<think>[\s\S]*?<\/think>/g, "").trim().split("\n").filter(Boolean).pop()
+      .trim().toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    if (/^[a-z0-9][a-z0-9-]{2,58}[a-z0-9]$/.test(s)) return s;
+  } catch { /* フォールバックへ */ }
+  return slugify(topic);
+}
+
 // ---------- main ----------
 const { line: topic, collection } = pickTopic();
 console.error(`▶ トピック: ${topic}（${collection}）`);
@@ -154,7 +167,9 @@ article = await polish(article);
 
 if (DRY) { console.log(article); process.exit(0); }
 
-const outPath = join(ROOT, "src", "content", collection, `${slugify(topic)}.md`);
+const slug = await proposeSlug(topic);
+console.error(`  スラッグ: ${slug}`);
+const outPath = join(ROOT, "src", "content", collection, `${slug}.md`);
 if (existsSync(outPath)) throw new Error(`既存ファイルと衝突: ${outPath}`);
 writeFileSync(outPath, article);
 
