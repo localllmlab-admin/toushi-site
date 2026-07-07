@@ -17,9 +17,10 @@ try { title = readFileSync(outPath, "utf8").match(/^title:\s*"(.+)"/m)?.[1] ?? b
 
 const id = branchId(branch);
 await sendMessage(
-  `📝 <b>新しいドラフト記事ができました</b>\n\n${title}\n\n差分レビュー:\n${reviewUrl}\n\n✅承認すると reviewed:true 化→merge→約10分で本番公開されます。`,
+  `📝 <b>新しいドラフト記事ができました</b>\n\n${title}\n\n差分レビュー:\n${reviewUrl}\n\n✅を押すと「承認を確認」の返信後、<b>最終レビュー・監査・ファクトチェックを必ず実行</b>し、合格した場合のみ公開します（不合格なら公開保留で報告します）。`,
   { reply_markup: { inline_keyboard: [[
-    { text: "✅ 承認して公開", callback_data: `a:${id}` },
+    { text: "✅ 最終レビュー監査ファクトチェックしてから公開することを承認", callback_data: `a:${id}` },
+  ], [
     { text: "❌ 却下", callback_data: `r:${id}` },
   ]] } },
 );
