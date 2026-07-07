@@ -11,9 +11,6 @@ sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融市場に関する解説）"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "パンローリング（裁定取引・市場構造関連書）"
-    grade: "B"
 kind: "手法"
 ---
 

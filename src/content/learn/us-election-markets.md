@@ -6,14 +6,11 @@ updated: 2026-07-07
 reviewed: false
 sources:
   - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎・市場データ)"
+    title: "日本取引所グループ（投資の基礎・市場データ）"
     grade: "A"
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融市場に関する公表資料）"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "パンローリング（アノマリー・市場サイクル関連書）"
-    grade: "B"
 level: 3
 order: 96
 chapter: "お金と市場の基礎"

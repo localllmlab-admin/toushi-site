@@ -11,9 +11,6 @@ sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の時間）"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "パンローリング（サヤ取り・ペアトレード関連書）"
-    grade: "B"
 kind: "手法"
 ---
 
