@@ -2313,4 +2313,225 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("selling-climax", 640, 350, g);
 }
 
+/* ============ 131. 市場参加者の全体像 ============ */
+{
+  let g = txt(320, 24, "市場参加者の全体像：時間軸も目的もバラバラの人々が同じ土俵にいる", { anchor: "middle", bold: true, fill: INK, size: 12 });
+  g += card(30, 46, 185, 100, "個人投資家", UP, ["資金：小〜中", "時間軸：秒〜数十年", "強み：時間の自由・小回り", "縛り：資金と情報の規模"], { lineSize: 10 });
+  g += card(228, 46, 185, 100, "機関投資家", DN, ["年金・保険・投信など", "時間軸：月〜年", "強み：資金力・調査体制", "縛り：運用ルール・説明責任"], { lineSize: 10 });
+  g += card(426, 46, 185, 100, "ヘッジファンド", "#6b4fa0", ["私募の運用集団", "時間軸：日〜年", "強み：売りも自由・レバレッジ", "縛り：解約と成績のプレッシャー"], { lineSize: 10 });
+  g += card(130, 160, 185, 100, "HFT・アルゴリズム", "#1f6e50", ["時間軸：ミリ秒〜分", "強み：速度・執行技術", "役割：流動性の供給と裁定"], { lineSize: 10 });
+  g += card(328, 160, 185, 100, "当局（中央銀行・政府）", LV, ["目的：物価・金融システム安定", "利益目的でない唯一の大口", "金融政策・為替介入で関与"], { lineSize: 10 });
+  g += txt(320, 285, "「誰の損切りが、誰の利益になるか」――参加者の目的の違いを知ることが市場理解の出発点", { anchor: "middle", size: 10.5, fill: SUB });
+  save("market-participants", 640, 300, g);
+}
+
+/* ============ 132. ヘッジファンドの戦略マップ ============ */
+{
+  let g = txt(320, 24, "ヘッジファンドの代表的な戦略", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += card(35, 48, 275, 100, "株式ロング・ショート", DN, ["割安を買い・割高を売る", "市場全体の方向への", "依存を減らす王道型"], { lineSize: 10.5 });
+  g += card(330, 48, 275, 100, "グローバルマクロ", "#6b4fa0", ["金利・為替・商品まで", "マクロ経済の歪みに", "大きな方向で賭ける"], { lineSize: 10.5 });
+  g += card(35, 162, 275, 100, "マネージドフューチャーズ（CTA）", "#1f6e50", ["先物のトレンドを", "システムで追随", "上げでも下げでも追う"], { lineSize: 10.5, titleSize: 11.5 });
+  g += card(330, 162, 275, 100, "アービトラージ系", LV, ["価格の歪みの収束を取る", "薄い利益×レバレッジ", "＝平時は安定・危機に脆い"], { lineSize: 10.5 });
+  g += txt(320, 287, "共通項は「空売り・レバレッジ・成功報酬」。市場平均に勝つことではなく絶対収益を狙う建て付け", { anchor: "middle", size: 10.5, fill: SUB });
+  save("hedge-fund-strategies", 640, 300, g);
+}
+
+/* ============ 133. 為替ディーラーとインターバンク市場 ============ */
+{
+  let g = txt(320, 24, "為替取引の階層：顧客の注文はディーラーを経て銀行間市場へ", { anchor: "middle", bold: true, fill: INK, size: 12 });
+  // 顧客層
+  g += `<rect x="40" y="50" width="160" height="56" rx="8" fill="#ffffff" stroke="${SUB}" stroke-width="1.5"/>`;
+  g += txt(120, 72, "輸出入企業", { anchor: "middle", size: 11, bold: true });
+  g += txt(120, 90, "実需のドル売買", { anchor: "middle", size: 9.5 });
+  g += `<rect x="240" y="50" width="160" height="56" rx="8" fill="#ffffff" stroke="${SUB}" stroke-width="1.5"/>`;
+  g += txt(320, 72, "機関投資家", { anchor: "middle", size: 11, bold: true });
+  g += txt(320, 90, "対外投資のヘッジ", { anchor: "middle", size: 9.5 });
+  g += `<rect x="440" y="50" width="160" height="56" rx="8" fill="#ffffff" stroke="${SUB}" stroke-width="1.5"/>`;
+  g += txt(520, 72, "個人（FX会社経由）", { anchor: "middle", size: 11, bold: true });
+  g += txt(520, 90, "証拠金取引", { anchor: "middle", size: 9.5 });
+  g += arrow(120, 106, 250, 150, { color: SUB, w: 2 });
+  g += arrow(320, 106, 320, 150, { color: SUB, w: 2 });
+  g += arrow(520, 106, 390, 150, { color: SUB, w: 2 });
+  // 銀行ディーラー
+  g += `<rect x="190" y="152" width="260" height="60" rx="8" fill="#ffffff" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(320, 176, "銀行の為替ディーラー", { anchor: "middle", fill: DN, bold: true, size: 12.5 });
+  g += txt(320, 196, "顧客の注文を吸収し、自行の持ち高（ポジション）を管理", { anchor: "middle", size: 9.5 });
+  g += arrow(320, 212, 320, 248, { color: DN, w: 2.5 });
+  // インターバンク
+  g += `<rect x="140" y="250" width="360" height="58" rx="8" fill="#ffffff" stroke="${LV}" stroke-width="2"/>`;
+  g += txt(320, 274, "インターバンク市場（銀行間の直接・電子取引）", { anchor: "middle", fill: LV, bold: true, size: 12 });
+  g += txt(320, 294, "ここで成立するレートが「市場レート」の実体。取引所は存在しない（相対型・OTC）", { anchor: "middle", size: 9.5 });
+  save("fx-interbank", 640, 322, g);
+}
+
+/* ============ 134. 東京仲値 ============ */
+{
+  let g = txt(320, 24, "東京仲値：午前9時55分頃のレートが「その日の社内基準」になる", { anchor: "middle", bold: true, fill: INK, size: 12 });
+  // タイムライン
+  g += line(60, 120, 580, 120, { color: INK, w: 2 });
+  const tick = (x, label, sub, color = INK) => {
+    let s = line(x, 112, x, 128, { color, w: 2 });
+    s += txt(x, 100, label, { anchor: "middle", size: 10.5, bold: true, fill: color });
+    if (sub) s += txt(x, 145, sub, { anchor: "middle", size: 9.5 });
+    return s;
+  };
+  g += tick(110, "9:00", "東京市場の朝");
+  g += tick(300, "9:55頃", "仲値の決定", UP);
+  g += tick(470, "10:00〜", "仲値公示・適用");
+  g += `<rect x="210" y="160" width="220" height="66" rx="8" fill="#ffffff" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(320, 182, "仲値（TTM）", { anchor: "middle", fill: UP, bold: true, size: 12 });
+  g += txt(320, 200, "銀行が対顧客取引の基準にする", { anchor: "middle", size: 9.5 });
+  g += txt(320, 216, "1日1回の社内レート", { anchor: "middle", size: 9.5 });
+  g += txt(320, 252, "輸入企業の決済などのドル需要が仲値の決定時刻の前に集中しやすく、", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(320, 270, "特に5・10日（ゴトー日）は需要が偏りやすい――とされるのが「仲値の値動きの癖」の正体", { anchor: "middle", size: 10.5, fill: SUB });
+  save("tokyo-nakane", 640, 290, g);
+}
+
+/* ============ 135. 世界の取引時間 ============ */
+{
+  let g = txt(320, 24, "為替市場の24時間：3つの主要市場が主役を交代しながら回る", { anchor: "middle", bold: true, fill: INK, size: 12 });
+  // 24時間バー（日本時間）
+  const X0 = 60, W24 = 520;
+  const hx = (h) => X0 + (h / 24) * W24;
+  g += line(X0, 210, X0 + W24, 210, { color: INK, w: 1.5 });
+  for (let h = 0; h <= 24; h += 3) {
+    g += line(hx(h), 206, hx(h), 214, { color: INK, w: 1 });
+    g += txt(hx(h), 230, `${h}時`, { anchor: "middle", size: 9 });
+  }
+  const band = (h1, h2, y, label, color) => {
+    let s = `<rect x="${hx(h1)}" y="${y}" width="${hx(h2) - hx(h1)}" height="30" rx="4" fill="${color}" opacity="0.75"/>`;
+    s += txt((hx(h1) + hx(h2)) / 2, y + 20, label, { anchor: "middle", size: 10.5, fill: "#ffffff", bold: true });
+    return s;
+  };
+  g += band(9, 17, 55, "東京時間（9〜17時頃）", DN);
+  g += band(16, 24, 100, "ロンドン時間（16時頃〜）", "#1f6e50");
+  g += band(21, 24, 145, "NY時間（21時頃〜）", UP);
+  g += band(0, 6, 145, "（〜翌6時頃）", UP);
+  g += `<rect x="${hx(21)}" y="95" width="${hx(24) - hx(21)}" height="85" fill="${LV}" opacity="0.15"/>`;
+  g += txt(hx(22.5), 88, "重複帯＝最も取引が厚い", { anchor: "middle", size: 9.5, fill: LV, bold: true });
+  g += txt(320, 258, "時刻は日本時間・夏時間のおおよその目安（冬時間は約1時間後ろへ）。市場は途切れず、主役と値動きの性格が入れ替わる", { anchor: "middle", size: 10, fill: SUB });
+  save("market-sessions", 640, 275, g);
+}
+
+/* ============ 136. 為替介入の仕組み ============ */
+{
+  let g = txt(320, 24, "円買い介入の仕組み：決定は財務省、実行は日本銀行", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="60" y="50" width="200" height="66" rx="8" fill="#ffffff" stroke="${DN}" stroke-width="2"/>`;
+  g += txt(160, 74, "財務省（財務大臣）", { anchor: "middle", fill: DN, bold: true, size: 12 });
+  g += txt(160, 94, "介入の実施を判断・指示", { anchor: "middle", size: 10 });
+  g += arrow(260, 83, 370, 83, { color: SUB, w: 2.5 });
+  g += txt(315, 72, "指示", { anchor: "middle", size: 10, fill: SUB });
+  g += `<rect x="380" y="50" width="200" height="66" rx="8" fill="#ffffff" stroke="${UP}" stroke-width="2"/>`;
+  g += txt(480, 74, "日本銀行", { anchor: "middle", fill: UP, bold: true, size: 12 });
+  g += txt(480, 94, "国の代理人として市場で執行", { anchor: "middle", size: 10 });
+  g += arrow(480, 116, 480, 152, { color: UP, w: 2.5 });
+  g += `<rect x="330" y="154" width="300" height="60" rx="8" fill="#ffffff" stroke="${LV}" stroke-width="2"/>`;
+  g += txt(480, 176, "外国為替市場でドル売り・円買い", { anchor: "middle", fill: LV, bold: true, size: 11.5 });
+  g += txt(480, 196, "原資＝外貨準備（円売り介入なら政府短期証券で円を調達）", { anchor: "middle", size: 9 });
+  g += card(40, 140, 250, 100, "介入の3つの型", INK, ["単独介入：日本だけで実施", "協調介入：複数の通貨当局が同時に", "覆面介入：実施を公表せずに行う"], { lineSize: 10.5 });
+  g += txt(320, 268, "実績は財務省が「外国為替平衡操作の実施状況」として月次・四半期で公表する", { anchor: "middle", size: 10.5, fill: SUB });
+  save("fx-intervention", 640, 285, g);
+}
+
+/* ============ 137. 為替介入の歴史年表 ============ */
+{
+  let g = txt(320, 24, "為替介入の歴史：円高局面の円売り、円安局面の円買い", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += line(90, 50, 90, 285, { color: INK, w: 2 });
+  const ev = (y, year, label, color) => {
+    let s = `<circle cx="90" cy="${y}" r="5" fill="${color}"/>`;
+    s += txt(78, y + 4, year, { anchor: "end", size: 10.5, bold: true, fill: color });
+    s += txt(106, y + 4, label, { size: 10.5 });
+    return s;
+  };
+  g += ev(62, "1985", "プラザ合意：G5がドル高是正で協調（この後、急速な円高へ）", DN);
+  g += ev(97, "1995", "1ドル=80円割れの超円高に円売り介入・日米協調も", DN);
+  g += ev(132, "2003-04", "大規模な円売り介入（いわゆる溝口介入・総額約35兆円）", DN);
+  g += ev(167, "2011", "震災後の円急騰にG7協調介入（3月）・史上最高値75円台で単独介入（10月）", UP);
+  g += ev(202, "2022", "24年ぶりの円買い介入：9/22に2.8兆円、10月に覆面で約6.3兆円", UP);
+  g += ev(237, "2024-26", "円安局面で断続的に大規模な円買い介入（財務省公表データ参照）", UP);
+  g += txt(320, 300, "方向は時代で逆転する：かつては「円高と戦う」介入、2022年以降は「円安と戦う」介入", { anchor: "middle", size: 10.5, fill: SUB });
+  save("intervention-history", 640, 315, g);
+}
+
+/* ============ 138. 米大統領選と相場 ============ */
+{
+  let g = txt(320, 24, "大統領選挙と相場：市場が織り込むのは「政策」と「不確実性」", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  // 不確実性の山
+  g += poly([[70, 200], [150, 190], [230, 160], [310, 90], [340, 80], [370, 130], [450, 180], [560, 195]], { color: "#6b4fa0", w: 2.5 });
+  g += line(340, 60, 340, 230, { color: GRID, w: 1.5, dash: "5 4" });
+  g += txt(340, 52, "投票日", { anchor: "middle", size: 11, bold: true, fill: INK });
+  g += txt(200, 140, "選挙前：結果が読めない", { anchor: "middle", size: 10.5, fill: "#6b4fa0" });
+  g += txt(200, 156, "＝不確実性が積み上がる", { anchor: "middle", size: 10.5, fill: "#6b4fa0" });
+  g += txt(470, 140, "結果判明：勝敗がどちらでも", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(470, 156, "「決まったこと」自体が材料に", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(590, 205, "不確実性", { anchor: "end", size: 10, fill: "#6b4fa0" });
+  g += txt(320, 262, "「選挙の年は株高」等のアノマリーは事後の集計にすぎず、サンプル数が少なく将来の保証にならない", { anchor: "middle", size: 10.5, fill: SUB });
+  save("election-markets", 640, 280, g);
+}
+
+/* ============ 139. トランプラリー ============ */
+{
+  let g = txt(320, 24, "トランプラリー（2016年）：期待の連鎖が急激な相場つきを作った", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const step = (x, y, w, title, sub, color) => {
+    let s = `<rect x="${x}" y="${y}" width="${w}" height="58" rx="8" fill="#ffffff" stroke="${color}" stroke-width="2"/>`;
+    s += txt(x + w / 2, y + 24, title, { anchor: "middle", fill: color, bold: true, size: 11 });
+    s += txt(x + w / 2, y + 44, sub, { anchor: "middle", size: 9.5 });
+    return s;
+  };
+  g += step(40, 60, 160, "選挙結果の判明", "当初は急落（リスク回避）", "#6b4fa0");
+  g += arrow(200, 89, 240, 89, { color: SUB, w: 2.5 });
+  g += step(242, 60, 160, "政策への期待", "減税・インフラ投資・規制緩和", DN);
+  g += arrow(402, 89, 442, 89, { color: SUB, w: 2.5 });
+  g += step(444, 60, 160, "米金利の上昇", "財政拡張→インフレ期待", LV);
+  g += arrow(524, 118, 524, 152, { color: SUB, w: 2.5 });
+  g += step(444, 155, 160, "ドル高・円安", "日米金利差の拡大", UP);
+  g += arrow(442, 184, 402, 184, { color: SUB, w: 2.5 });
+  g += step(242, 155, 160, "株高（日米とも）", "円安が日本株の追い風に", UP);
+  g += txt(140, 190, "※「期待」が先に価格を動かし、", { anchor: "middle", size: 10 });
+  g += txt(140, 206, "実現の検証は後から来る", { anchor: "middle", size: 10 });
+  g += txt(320, 248, "選挙当日の急落から一転、年末までドル高・株高が続いた。ただし期待主導の相場は期待の修正にも脆い", { anchor: "middle", size: 10.5, fill: SUB });
+  save("trump-rally", 640, 265, g);
+}
+
+/* ============ 140. ストップ狩りと流動性 ============ */
+{
+  let g = txt(320, 24, "「損刈り」の構造：節目の外側は損切り注文＝流動性の溜まり場", { anchor: "middle", bold: true, fill: INK, size: 12 });
+  g += line(60, 170, 560, 170, { color: LV, w: 2, dash: "6 4" });
+  g += txt(575, 174, "直近安値", { size: 10, fill: LV });
+  // 損切り注文の溜まり
+  for (let i = 0; i < 7; i++) {
+    g += `<rect x="${150 + i * 45}" y="${182 + (i % 3) * 12}" width="34" height="9" rx="2" fill="${DN}" opacity="0.5"/>`;
+  }
+  g += txt(320, 232, "買い方の損切り（売り逆指値）が安値の少し下に集中", { anchor: "middle", size: 10, fill: DN });
+  // 価格の動き：割り込んで反発
+  g += poly([[70, 120], [130, 140], [190, 128], [250, 150], [310, 165], [350, 195], [380, 205], [410, 175], [470, 130], [540, 100]], { color: INK, w: 2.2 });
+  g += arrow(380, 240, 380, 212, { color: UP, w: 2 });
+  g += txt(430, 250, "損切りを巻き込んで下げた後、", { anchor: "middle", size: 10, fill: SUB });
+  g += txt(430, 266, "売りが枯れて急反発することがある", { anchor: "middle", size: 10, fill: SUB });
+  g += txt(320, 296, "大口にとって損切り注文の集中帯は「大きな注文を約定させられる場所」。陰謀ではなく注文分布の帰結", { anchor: "middle", size: 10.5, fill: SUB });
+  save("stop-hunting", 640, 310, g);
+}
+
+/* ============ 141. 約定スピードと執行品質 ============ */
+{
+  let g = txt(320, 24, "注文が約定するまで：どの区間でも「遅れ」は滑りに変わる", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const stage = (x, title, sub, color) => {
+    let s = `<rect x="${x}" y="70" width="120" height="70" rx="8" fill="#ffffff" stroke="${color}" stroke-width="2"/>`;
+    s += txt(x + 60, 95, title, { anchor: "middle", fill: color, bold: true, size: 11 });
+    s += txt(x + 60, 115, sub, { anchor: "middle", size: 9 });
+    return s;
+  };
+  g += stage(35, "発注", "クリック／自動発注", INK);
+  g += arrow(155, 105, 180, 105, { color: SUB, w: 2 });
+  g += stage(182, "伝送", "回線・サーバー", DN);
+  g += arrow(302, 105, 327, 105, { color: SUB, w: 2 });
+  g += stage(329, "取引システム", "マッチング処理", "#6b4fa0");
+  g += arrow(449, 105, 474, 105, { color: SUB, w: 2 });
+  g += stage(476, "約定", "価格が確定", UP);
+  g += txt(320, 160, "この間も市場は動き続ける → 見た価格と約定価格の差＝スリッページ", { anchor: "middle", size: 11, fill: SUB });
+  g += card(80, 180, 220, 92, "滑りが大きくなる場面", UP, ["経済指標の発表直後", "急変動・流動性の薄い時間", "成行注文・大きな注文"], { lineSize: 10.5 });
+  g += card(340, 180, 220, 92, "実務的な対策", "#1f6e50", ["指値・逆指値の使い分け", "指標時間をまたぐ注文を避ける", "約定履歴で滑りを記録・計測"], { lineSize: 10.5 });
+  save("execution-quality", 640, 290, g);
+}
+
 console.log("done");
