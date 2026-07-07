@@ -3,7 +3,8 @@ title: "トレーリングストップ ― 利益を伸ばしながら守る"
 description: "価格の上昇に合わせて損切りラインを切り上げていくトレーリングストップの仕組みと、「損小利大」を実装する使い方を解説します。"
 tags: ["手法", "利益確定", "リスク管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"

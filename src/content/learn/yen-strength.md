@@ -3,7 +3,8 @@ title: "円安・円高とは何か ― 数字と直感のねじれを解く"
 description: "「1ドル150円は円安」がなぜ混乱しやすいのか。円の価値で考える整理法と、円安・円高が生活や投資に与える影響を解説します。"
 tags: ["基礎", "為替"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん）"

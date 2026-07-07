@@ -3,7 +3,8 @@ title: "「見切り千両」の解釈 ― 早い撤退に千両の価値"
 description: "小さな損のうちに見切りをつける判断の価値を説いた相場格言を、損失の深さと回復必要率の数理から解説します。"
 tags: ["格言", "損切り"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

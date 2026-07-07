@@ -3,7 +3,8 @@ title: "PER・PBR・配当利回りの意味と限界"
 description: "株価の割安・割高を測る3つの基本指標の計算式と意味、そして「低ければ買い」とは言えない理由を解説します。"
 tags: ["分析手法", "ファンダメンタル", "指標"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（株式関連指標の解説・統計）"

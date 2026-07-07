@@ -3,7 +3,8 @@ title: "損切りと税金 ― 損益通算と繰越控除という副産物"
 description: "上場株式等の損失は利益と相殺でき、確定申告で3年間繰り越せる。損切りの税務上の副産物と年末の実務、注意点を解説します。"
 tags: ["制度", "税金", "損切り"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1474.htm"
     title: "国税庁 タックスアンサー No.1474（上場株式等に係る譲渡損失の損益通算及び繰越控除）"

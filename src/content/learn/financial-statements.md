@@ -3,7 +3,8 @@ title: "決算書の読み方入門 ― 3表のつながり"
 description: "損益計算書・貸借対照表・キャッシュフロー計算書の役割と相互のつながりを、投資家目線の最初の一歩として解説します。"
 tags: ["分析手法", "ファンダメンタル", "決算書"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/"
     title: "金融庁（EDINET・開示制度の解説）"

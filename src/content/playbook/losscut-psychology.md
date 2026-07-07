@@ -3,7 +3,8 @@ title: "損切りできない心理とその対処"
 description: "なぜ損切りは頭で分かっていても実行できないのか。プロスペクト理論による説明と、心理に頼らない仕組み化の方法を解説します。"
 tags: ["心理", "リスク管理", "損切り"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory: An Analysis of Decision under Risk, Econometrica"

@@ -3,7 +3,8 @@ title: "ポジションサイジングの基本 ― 1回の損失を口座の何
 description: "「いくら買うか」を決めるポジションサイジングの考え方と、損失を口座残高の一定割合に抑える定率ルールを解説します。"
 tags: ["リスク管理", "資金管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

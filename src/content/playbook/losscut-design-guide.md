@@ -3,7 +3,8 @@ title: "損切りの設計図 ― なぜ・どこで・どう実行するか"
 description: "損切りを「なぜ切るのか」「どこで切るのか」「どう実行するか」の3つの問いに分解し、シリーズ全体の見取り図を示します。"
 tags: ["リスク管理", "損切り", "シリーズ総論"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

@@ -3,7 +3,8 @@ title: "金利とは何か ― お金の「値段」"
 description: "金利はお金を借りる値段。なぜ金利が存在し、何で高低が決まり、経済全体にどう波及するのかを基礎から解説します。"
 tags: ["基礎", "金利"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん）"

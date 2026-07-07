@@ -3,7 +3,8 @@ title: "株式・債券・為替・コモディティ ― 市場の全体地図"
 description: "投資対象となる主な4つの市場の役割と値動きの理由を1枚の地図に整理し、それぞれの関係を基礎から解説します。"
 tags: ["基礎", "市場"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎・市場の仕組み）"

@@ -3,7 +3,8 @@ title: "ATRで決める損切り幅 ― 銘柄の「呼吸」に合わせる"
 description: "固定%の損切りがうまくいかない理由と、平均的な値動き幅ATRを使って銘柄ごとに損切り距離を調整する方法を解説します。"
 tags: ["手法", "損切り", "ATR", "ボラティリティ"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "J・ウエルズ・ワイルダー『ワイルダーのテクニカル分析入門』（パンローリング・ATR考案者の原典）"

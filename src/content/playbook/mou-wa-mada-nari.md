@@ -3,7 +3,8 @@ title: "「もうはまだなり、まだはもうなり」の解釈"
 description: "天井・底の判断における自分の感覚のあてにならなさを説いた相場格言の意味と、感覚を検証可能な基準に置き換える方法を解説します。"
 tags: ["格言", "心理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

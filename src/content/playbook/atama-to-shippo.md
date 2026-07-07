@@ -3,7 +3,8 @@ title: "「頭と尻尾はくれてやれ」の解釈"
 description: "天井と底を狙わず値動きの中間部分で満足せよ、という相場格言の意味と、現代のトレードでの実践的な解釈を解説します。"
 tags: ["格言", "利益確定"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

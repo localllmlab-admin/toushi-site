@@ -5,7 +5,8 @@ term: "含み損益"
 reading: "ふくみそんえき"
 tags: ["用語"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（金融・証券用語の解説）"

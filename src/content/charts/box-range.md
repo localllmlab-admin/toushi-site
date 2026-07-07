@@ -3,7 +3,8 @@ title: "ボックス（レンジ）相場の見方とブレイク"
 description: "上限と下限の間を往復するボックス相場の性質と、レンジ内の定石・ブレイク時の環境変化への対応を解説します。"
 tags: ["チャート", "継続", "レンジ"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

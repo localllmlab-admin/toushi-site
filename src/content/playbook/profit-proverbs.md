@@ -3,7 +3,8 @@ title: "利益確定の格言集 ― 「利食い千人力」の本当の意味"
 description: "利食い千人力・二度に買うべし二度に売るべし・売りは早かれ。利益確定にまつわる格言が警告する心理を解説します。"
 tags: ["格言", "利益確定"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

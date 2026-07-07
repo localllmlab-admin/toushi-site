@@ -3,7 +3,8 @@ title: "NISAの制度概要 ― 非課税の「箱」の仕組み"
 description: "運用益が非課税になるNISA制度の全体像。つみたて投資枠と成長投資枠の違い、生涯投資枠、利用前に知るべき注意点を解説します。"
 tags: ["制度", "NISA", "基礎"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/policy/nisa2/"
     title: "金融庁（NISA特設ウェブサイト）"

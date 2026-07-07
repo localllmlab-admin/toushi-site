@@ -3,7 +3,8 @@ title: "アルゴリズム取引と高頻度取引（HFT）の概観"
 description: "現代の市場の主役となったアルゴリズム取引の類型と、高頻度取引（HFT）の実像、個人投資家への実際の影響を解説します。"
 tags: ["テクノロジー", "アルゴリズム取引"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/"
     title: "金融庁（高速取引行為者の登録制度）"

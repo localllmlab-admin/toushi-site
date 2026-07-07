@@ -3,7 +3,8 @@ title: "ゴールデンクロスとデッドクロス"
 description: "短期移動平均線と長期移動平均線の交差で相場の転換を読む、最も有名なテクニカルシグナルの見方と限界を図解します。"
 tags: ["インジケーター", "移動平均線"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

@@ -3,7 +3,8 @@ title: "プロスペクト理論 ― 損失回避の心理を知る"
 description: "人は利益と損失を非対称に感じる。行動経済学の中核・プロスペクト理論の3つの発見と、投資行動に現れる歪みを解説します。"
 tags: ["心理", "行動経済学"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory: An Analysis of Decision under Risk, Econometrica"

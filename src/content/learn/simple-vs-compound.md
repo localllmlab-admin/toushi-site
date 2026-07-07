@@ -3,7 +3,8 @@ title: "単利と複利の違い ― 時間が味方になる仕組み"
 description: "利息が元本だけに付く単利と、利息にも利息が付く複利。長期で差が開いていく仕組みを、数式なしの図解で解説します。"
 tags: ["基礎", "複利"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/"
     title: "金融庁（資産形成の基礎）"

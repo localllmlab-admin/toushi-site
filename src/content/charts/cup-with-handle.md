@@ -3,7 +3,8 @@ title: "カップウィズハンドル ― 丸い底と小さな取っ手"
 description: "U字型の底（カップ）と小さな押し（ハンドル）からなる継続パターンの形と、縁の上抜けを確認とする考え方を解説します。"
 tags: ["チャート", "継続"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ウィリアム・オニール『オニールの成長株発掘法』（パンローリング）"

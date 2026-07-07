@@ -3,7 +3,8 @@ title: "AI・機械学習と相場予測の限界"
 description: "AIは相場を予測できるのか。ノイズ・非定常性・反射性という3つの構造的な壁と、現実的なAIの使いどころを解説します。"
 tags: ["テクノロジー", "AI", "機械学習"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融市場とテクノロジーに関する公表資料）"

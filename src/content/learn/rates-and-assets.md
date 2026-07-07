@@ -3,7 +3,8 @@ title: "金利と株価・為替の関係 ― 波及の経路を地図にする"
 description: "金利が動くと株・債券・為替はどう反応するのか。教科書的な波及経路と、単純な公式が外れる場合を解説します。"
 tags: ["基礎", "金利", "マクロ"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん）"

@@ -3,7 +3,8 @@ title: "利益確定の設計図 ― 3つの流派と選び方"
 description: "利確には目標値型・追随型・時間型の3流派がある。どれを選ぶかは好みではなく手法との整合で決まることを、シリーズ総論として解説します。"
 tags: ["リスク管理", "利益確定", "シリーズ総論"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

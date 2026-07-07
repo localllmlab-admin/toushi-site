@@ -3,7 +3,8 @@ title: "ナンピンの数学的性質と危険"
 description: "下がるたびに買い増すナンピンが平均取得単価と損失に与える影響を数字で整理し、なぜ危険とされるのかを解説します。"
 tags: ["リスク管理", "ナンピン"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

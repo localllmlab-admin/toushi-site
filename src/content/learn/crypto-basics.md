@@ -3,7 +3,8 @@ title: "暗号資産の仕組み ― ブロックチェーンの基礎"
 description: "ビットコインなどの暗号資産を支えるブロックチェーン技術の基本と、法定通貨との違い、投資対象として見る際の注意点を解説します。"
 tags: ["制度", "暗号資産", "ブロックチェーン"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん・暗号資産の解説）"

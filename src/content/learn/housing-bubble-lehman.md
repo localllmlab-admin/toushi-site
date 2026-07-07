@@ -3,7 +3,8 @@ title: "米住宅バブルとリーマンショック ― 連鎖の解剖"
 description: "「住宅価格は下がらない」という信念が世界金融危機に至るまでの連鎖構造を、サブプライム・証券化・レバレッジから解説します。"
 tags: ["バブル", "歴史", "金融危機"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融システムレポート・世界金融危機に関する公表資料）"

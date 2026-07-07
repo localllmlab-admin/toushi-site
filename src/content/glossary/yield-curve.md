@@ -5,7 +5,8 @@ term: "イールドカーブ"
 reading: "いーるどかーぶ"
 tags: ["用語"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん）"

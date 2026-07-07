@@ -3,7 +3,8 @@ title: "「休むも相場」の解釈"
 description: "常にポジションを持つ必要はない、という相場格言の意味と、「待つ」ことが技術である理由を解説します。"
 tags: ["格言", "心理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

@@ -3,7 +3,8 @@ title: "ミームコインとは何か ― リスクの構造を分解する"
 description: "ネットミーム発の暗号資産「ミームコイン」の特徴と、裏付けの欠如・保有の偏り・流動性・詐欺という4つのリスク構造を解説します。"
 tags: ["制度", "暗号資産", "リスク"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/"
     title: "金融庁（暗号資産に関する注意喚起）"

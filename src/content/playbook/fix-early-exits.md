@@ -3,7 +3,8 @@ title: "利確が早すぎる癖の矯正法 ― 損益分布の形を変える"
 description: "チキン利食いはなぜ起きるのか。プロスペクト理論による説明と、損益分布の右裾を取り戻す具体的な矯正手順を解説します。"
 tags: ["心理", "利益確定", "行動経済学"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory, Econometrica"

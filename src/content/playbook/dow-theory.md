@@ -3,7 +3,8 @@ title: "ダウ理論 ― トレンドの定義と転換の読み方"
 description: "テクニカル分析の土台とされるダウ理論の6原則のうち、実践で最も使われる「トレンドの定義」と「転換シグナル」を解説します。"
 tags: ["定石", "トレンド", "ダウ理論"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

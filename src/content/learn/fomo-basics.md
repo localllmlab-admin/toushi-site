@@ -3,7 +3,8 @@ title: "FOMO（取り残される恐怖）との付き合い方"
 description: "急騰相場で「乗り遅れたくない」と飛び乗ってしまうFOMOの正体と、高値づかみを防ぐ実践的な対処法を解説します。"
 tags: ["心理", "FOMO"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

@@ -3,7 +3,8 @@ title: "クオンツ運用とは何か ― 数字とルールで運用する"
 description: "数量的手法で投資判断を行うクオンツ運用の基本プロセス（データ→仮説→検証→運用→監視）と、裁量運用との違いを解説します。"
 tags: ["テクノロジー", "クオンツ"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

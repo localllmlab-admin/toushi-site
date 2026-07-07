@@ -3,7 +3,8 @@ title: "損切り注文の実務 ― 逆指値・OCO・執行の落とし穴"
 description: "決めた損切りを確実に実行するための注文技術。逆指値の種類、OCO注文、ストップ成行と指値の違い、執行時の落とし穴を解説します。"
 tags: ["リスク管理", "損切り", "注文方法"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（売買制度・注文方法の解説）"

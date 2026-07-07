@@ -3,7 +3,8 @@ title: "グランビルの法則 ― 移動平均線と価格の8つの局面"
 description: "移動平均線と価格の位置関係から売買の局面を8つに整理したグランビルの法則を、買いの4局面を中心に解説します。"
 tags: ["定石", "移動平均線"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

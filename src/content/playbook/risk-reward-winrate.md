@@ -3,7 +3,8 @@ title: "リスクリワード比と勝率のトレードオフ"
 description: "1回の損失と利益の比率（リスクリワード比）と勝率の関係を整理し、「勝率が高い＝儲かる」ではない理由を解説します。"
 tags: ["リスク管理", "資金管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

@@ -3,7 +3,8 @@ title: "インフレとデフレが資産に与える影響"
 description: "物価の持続的な上昇（インフレ）と下落（デフレ）の意味と、現金・株式・債券など各資産への影響を基礎から解説します。"
 tags: ["基礎", "インフレ", "物価"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（教えて！にちぎん・物価の解説）"

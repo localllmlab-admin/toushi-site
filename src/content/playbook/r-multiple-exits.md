@@ -3,7 +3,8 @@ title: "R倍数で出口を設計する ― 2Rルールという背骨"
 description: "損切り距離（1R）を単位に利確目標を設計する方法。2R目標の意味、期待値との接続、エントリー選別への応用を解説します。"
 tags: ["手法", "利益確定", "資金管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"

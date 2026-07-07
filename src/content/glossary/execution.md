@@ -5,7 +5,8 @@ term: "約定（やくじょう）"
 reading: "やくじょう"
 tags: ["用語"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎・用語解説）"

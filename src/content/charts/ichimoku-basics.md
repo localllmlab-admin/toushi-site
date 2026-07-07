@@ -3,7 +3,8 @@ title: "一目均衡表の基礎 ― 「雲」で相場の位置を読む"
 description: "日本発のテクニカル指標・一目均衡表の基本構成と、最も使われる「雲」と価格の位置関係の読み方を入門レベルで解説します。"
 tags: ["インジケーター", "一目均衡表"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "佐々木英信『一目均衡表の研究』（パンローリング）"

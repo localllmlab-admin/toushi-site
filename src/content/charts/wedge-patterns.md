@@ -3,7 +3,8 @@ title: "ウェッジ（上昇・下降くさび型）"
 description: "三角形に似て両辺が同方向に傾く「くさび型」パターン。上昇ウェッジ・下降ウェッジの形と、傾きと逆に放れやすいとされる理由を解説します。"
 tags: ["チャート", "反転"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

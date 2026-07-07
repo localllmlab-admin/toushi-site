@@ -3,7 +3,8 @@ title: "ITバブル（ドットコムバブル）― 本物の技術と間違っ
 description: "2000年に崩壊したインターネット株バブル。技術は本物だったのに株価は約8割下落した経緯から、最重要の教訓を学びます。"
 tags: ["バブル", "歴史", "テクノロジー"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://bookplus.nikkei.com/"
     title: "ロバート・シラー『投機バブル 根拠なき熱狂』（ダイヤモンド社/日経BP系列刊行の邦訳）"

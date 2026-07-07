@@ -5,7 +5,8 @@ term: "ロスカット"
 reading: "ろすかっと"
 tags: ["用語"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.ffaj.or.jp/"
     title: "金融先物取引業協会（FXの基礎知識）"

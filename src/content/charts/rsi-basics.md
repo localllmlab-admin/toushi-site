@@ -3,7 +3,8 @@ title: "RSIの見方と限界（買われすぎ・売られすぎ）"
 description: "値動きの勢いを0〜100で表すオシレーター系指標RSIの仕組み、70/30の目安、ダイバージェンス、そして誤用しやすい点を解説します。"
 tags: ["インジケーター", "オシレーター"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "J・ウエルズ・ワイルダー『ワイルダーのテクニカル分析入門』（パンローリング）"

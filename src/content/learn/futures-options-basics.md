@@ -3,7 +3,8 @@ title: "先物・オプションの基礎概念 ― 義務と権利の違い"
 description: "デリバティブの二大基本形、先物（約束＝義務）とオプション（チケット＝権利）の違いを、損益の非対称性から解説します。"
 tags: ["制度", "デリバティブ", "上級"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（先物・オプション取引の基礎）"

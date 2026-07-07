@@ -3,7 +3,8 @@ title: "分割エントリー・分割利確の考え方"
 description: "一度に全量を売買せず、複数回に分けて建てる・降りる分割売買の効果と、ナンピンとの違い、設計の原則を解説します。"
 tags: ["手法", "資金管理"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

@@ -3,7 +3,8 @@ title: "「人の行く裏に道あり花の山」の解釈"
 description: "多数派と同じ行動では大きな成果は得にくい、という相場格言の意味と、単純な逆張りとの違い・実践上の注意を解説します。"
 tags: ["格言", "心理", "逆張り"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

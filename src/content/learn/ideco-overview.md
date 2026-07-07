@@ -3,7 +3,8 @@ title: "iDeCoの制度概要 ― 自分でつくる年金と3つの税優遇"
 description: "私的年金制度iDeCoの仕組みを解説。拠出・運用・受取の3場面での税制上の扱いと、「60歳まで引き出せない」制約を整理します。"
 tags: ["制度", "iDeCo", "年金"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.ideco-koushiki.jp/"
     title: "iDeCo公式サイト（国民年金基金連合会）"

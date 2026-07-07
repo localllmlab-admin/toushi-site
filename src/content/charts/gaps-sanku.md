@@ -3,7 +3,8 @@ title: "窓（ギャップ）と三空 ― 空白が語る需給の偏り"
 description: "前日の値幅と重ならずに寄り付く「窓」の意味と種類、窓が3つ続く「三空」を過熱のサインと読む伝統的な整理を解説します。"
 tags: ["ローソク足", "プライスアクション", "酒田五法"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "スティーブ・ニソン『日本ローソク足チャート術』（パンローリング）"

@@ -3,7 +3,8 @@ title: "相場操縦の禁止 ― 見せ玉・仮装売買とは何か"
 description: "人為的に価格や出来高を演出する相場操縦の代表類型（見せ玉・仮装売買・馴合売買）と、個人も摘発対象になる現実を解説します。"
 tags: ["法規制", "コンプライアンス"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/sesc/"
     title: "証券取引等監視委員会（相場操縦事案の公表資料）"

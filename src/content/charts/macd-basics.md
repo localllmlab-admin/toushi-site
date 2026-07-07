@@ -3,7 +3,8 @@ title: "MACDの見方 ― 移動平均の「差」で勢いを読む"
 description: "2本の移動平均の差から勢いの変化を読むMACDの仕組みと、シグナル線とのクロス・0ライン・ダイバージェンスの見方を解説します。"
 tags: ["インジケーター", "MACD"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

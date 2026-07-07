@@ -3,7 +3,8 @@ title: "金融商品取引法の全体像 ― 何を守るための法律か"
 description: "投資に関わる最重要法規・金商法の目的と、業者規制・開示規制・不公正取引規制という3つの柱を大づかみに解説します。"
 tags: ["法規制", "金商法"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.fsa.go.jp/"
     title: "金融庁（金融商品取引法の概要）"

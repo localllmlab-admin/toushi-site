@@ -3,7 +3,8 @@ title: "地政学リスクと市場 ― 歴史的事例で学ぶ波及経路"
 description: "紛争や国際対立が市場に波及する3つの経路（資源・リスク回避・安全資産）と、歴史的事例から得られる教訓を解説します。"
 tags: ["基礎", "地政学", "マクロ"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融システムレポート等の公表資料）"

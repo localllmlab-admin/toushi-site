@@ -3,7 +3,8 @@ title: "値幅観測で目標値を決める ― N計算とパターンの目標
 description: "直前の波と同じ値幅を投影するN計算、チャートパターンの値幅目標。値幅観測の考え方と正しい使い方を解説します。"
 tags: ["手法", "利益確定", "値幅観測"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

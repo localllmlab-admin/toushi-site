@@ -3,7 +3,8 @@ title: "ドローダウンと復元の数学 ― 深い傷ほど戻れない"
 description: "資産のピークからの下落率「ドローダウン」の意味と、回復に必要な上昇率の非対称性、戦略評価での使い方を解説します。"
 tags: ["リスク管理", "ドローダウン"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.panrolling.com/"
     title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"

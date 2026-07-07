@@ -3,7 +3,8 @@ title: "売った後に上がる問題 ― 利確後の再エントリー規律"
 description: "計画通り利確したのに上昇が続く苦しみの正体と、悔しさではなく条件で判断する再エントリーのルール化を解説します。"
 tags: ["心理", "利益確定", "再エントリー"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"

@@ -3,7 +3,8 @@ title: "自動売買botの一般的な構成要素"
 description: "自動売買システムを構成する5つの層（データ取得・シグナル判定・リスク管理・執行・監視）と、実運用で本当に難しい部分を解説します。"
 tags: ["テクノロジー", "自動売買"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（売買制度の解説）"

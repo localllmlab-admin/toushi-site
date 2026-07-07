@@ -3,7 +3,8 @@ title: "投資信託とETFの違い ― 同じ「詰め合わせ」の2つの買
 description: "多くの銘柄を1本にまとめた投資信託とETF。価格の決まり方・取引方法・コスト・積立のしやすさの違いを整理します。"
 tags: ["制度", "投資信託", "ETF"]
 updated: 2026-07-07
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-07
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（ETFの仕組み）"
