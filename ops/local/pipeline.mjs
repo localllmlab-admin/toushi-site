@@ -157,5 +157,14 @@ if (DRY) { console.log(article); process.exit(0); }
 const outPath = join(ROOT, "src", "content", collection, `${slugify(topic)}.md`);
 if (existsSync(outPath)) throw new Error(`既存ファイルと衝突: ${outPath}`);
 writeFileSync(outPath, article);
+
+// バックログを消化済みにする（生成成功時のみ・--topic直指定時は対象なし）
+if (!topicArg) {
+  const blPath = join(ROOT, "ops/hermes/topics_backlog.md");
+  const bl = readFileSync(blPath, "utf8");
+  const marked = bl.replace(`- [ ] ${topic}`, `- [x] ${topic} → done ${today}`);
+  if (marked !== bl) { writeFileSync(blPath, marked); console.error("  バックログ: done 記録"); }
+}
+
 console.error(`✅ 出力: ${outPath}（reviewed:false。validate → PR は run_nightly.sh が実行）`);
 console.log(outPath);

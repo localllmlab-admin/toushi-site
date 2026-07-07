@@ -26,4 +26,9 @@ git commit -m "draft: ${SLUG}（ローカル生成・要レビュー）"
 git push -u origin "$BRANCH"
 command -v gh >/dev/null && gh pr create --fill --label draft || echo "gh 未導入: 手動でPR作成"
 git checkout main
+
+# バックログの消化済みマークは main に直接記録（重複生成の防止。記事本体はPRレビュー経由のまま）
+git add ops/hermes/topics_backlog.md
+git diff --cached --quiet || { git commit -m "backlog: 消化済みマーク（自動）"; git push; }
+
 echo "PR作成完了: $BRANCH $(date -Is)"
