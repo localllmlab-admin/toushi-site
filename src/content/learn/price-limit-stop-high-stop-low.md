@@ -3,7 +3,8 @@ title: "値幅制限とストップ高・ストップ安の仕組み"
 description: "日本の株式市場にある1日の値動きの上限・下限（制限値幅）と、ストップ高・ストップ安で何が起きるか、比例配分・拡大措置までを解説します。"
 tags: ["基礎", "売買制度", "ストップ高", "値幅制限"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（売買制度・制限値幅の解説）"
