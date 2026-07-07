@@ -8,3 +8,5 @@ design/samples/*.png
 ops/local/.env
 ops/local/.tmp_draft.md
 ops/local/review_queue.md
+ops/local/.tg_offset
+ops/local/poller.log

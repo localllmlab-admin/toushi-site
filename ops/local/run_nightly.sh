@@ -37,4 +37,7 @@ URL="https://github.com/localllmlab-admin/toushi-site/compare/main...$ENC"
 echo "- $(date '+%F %H:%M') $BRANCH → $URL" >> ops/local/review_queue.md
 echo "レビューURL: $URL"
 
+# Telegramへ承認ボタン付き通知（トークン未設定なら自動スキップ）
+node ops/local/notify_draft.mjs "$BRANCH" "$URL" "$OUT" || echo "Telegram通知失敗（続行）"
+
 echo "PR作成完了: $BRANCH $(date -Is)"
