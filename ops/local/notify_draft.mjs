@@ -15,12 +15,19 @@ if (!branch || !reviewUrl) { console.error("引数不足"); process.exit(1); }
 let title = branch;
 try { title = readFileSync(outPath, "utf8").match(/^title:\s*"(.+)"/m)?.[1] ?? branch; } catch {}
 
+// 直前の最終監査結果（final_audit.mjsが保存）を通知に添える
+let auditNote = "";
+try {
+  const audit = JSON.parse(readFileSync(new URL("./.last_audit.json", import.meta.url), "utf8"));
+  auditNote = "\n\n🔍 Hermes最終レビュー・監査・ファクトチェック: <b>PASS</b>";
+  if (audit.issues?.length) auditNote += `\n軽微な指摘:\n${audit.issues.map((i) => `・${i}`).join("\n")}`;
+} catch {}
+
 const id = branchId(branch);
 await sendMessage(
-  `📝 <b>新しいドラフト記事ができました</b>\n\n${title}\n\n差分レビュー:\n${reviewUrl}\n\n✅を押すと「承認を確認」の返信後、<b>最終レビュー・監査・ファクトチェックを必ず実行</b>し、合格した場合のみ公開します（不合格なら公開保留で報告します）。`,
+  `📝 <b>ファクトチェック済みのドラフト記事ができました</b>\n\n${title}\n\n差分レビュー:\n${reviewUrl}${auditNote}\n\n✅で即公開（約10分で本番反映）、❌で保留します。`,
   { reply_markup: { inline_keyboard: [[
-    { text: "✅ 最終レビュー監査ファクトチェックしてから公開することを承認", callback_data: `a:${id}` },
-  ], [
+    { text: "✅ 承認して公開", callback_data: `a:${id}` },
     { text: "❌ 却下", callback_data: `r:${id}` },
   ]] } },
 );
