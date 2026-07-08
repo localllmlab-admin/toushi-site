@@ -2,8 +2,31 @@
 import Base from "./Base.astro";
 import Disclaimer from "../components/Disclaimer.astro";
 import Toc from "../components/Toc.astro";
+import { getCollection } from "astro:content";
+import { topicsOf } from "../data/topics.mjs";
 const { entry, headings = [] } = Astro.props;
 const { title, description, updated, reviewedAt, sources = [] } = entry.data;
+
+// 同じテーマの記事（テーマ別カテゴリの実データ分類から。根拠のない「おすすめ」は作らない）
+const myTopics = topicsOf(entry.collection, entry.data);
+let relatedTopic = null;
+let related = [];
+if (myTopics.length > 0) {
+  relatedTopic = myTopics[0];
+  const pub = (arr, collection) =>
+    arr.filter((e) => e.data.reviewed).map((e) => ({ collection, e }));
+  const all = [
+    ...pub(await getCollection("learn"), "learn"),
+    ...pub(await getCollection("playbook"), "playbook"),
+    ...pub(await getCollection("charts"), "charts"),
+  ];
+  related = all
+    .filter(({ collection, e }) =>
+      relatedTopic.match(collection, e.data) &&
+      !(collection === entry.collection && e.slug === entry.slug))
+    .sort((a, b) => new Date(b.e.data.updated) - new Date(a.e.data.updated))
+    .slice(0, 4);
+}
 const upd = new Date(updated).toLocaleDateString("ja-JP");
 const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
 const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道" };
@@ -42,6 +65,18 @@ const jsonLd = {
       </section>
     )}
 
+    {related.length > 0 && (
+      <section class="related">
+        <h2>同じテーマの記事</h2>
+        <ul>
+          {related.map(({ collection, e }) => (
+            <li><a href={`/${collection}/${e.slug}/`}>{e.data.title}</a></li>
+          ))}
+        </ul>
+        <p class="related-more"><a href={`/topics/${relatedTopic.slug}/`}>「{relatedTopic.title}」の記事一覧を見る ›</a></p>
+      </section>
+    )}
+
     <!-- 免責は常に機械描画。frontmatter では消せない。 -->
     <Disclaimer />
   </article>
@@ -68,6 +103,15 @@ const jsonLd = {
       line-height: 1.6;
       margin-top: .5rem;
     }
+    .related { margin-top: 2.5rem; font-size: .92rem; }
+    .related h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
+    .related ul { list-style: none; padding: 0; margin: .6rem 0 0; }
+    .related li { padding: .45rem 0; border-bottom: 1px dashed var(--color-border); }
+    .related li a { font-weight: 700; text-decoration: none; }
+    .related li a:hover { text-decoration: underline; }
+    .related-more { font-size: .82rem; margin-top: .6rem; text-align: right; }
+    .related-more a { font-weight: 700; text-decoration: none; }
+    .related-more a:hover { text-decoration: underline; }
     .sources { margin-top: 2.5rem; font-size: .9rem; }
     .sources h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
     .sources li { margin: .5rem 0; }

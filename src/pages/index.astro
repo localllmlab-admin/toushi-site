@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { collectTopics } from "../data/topics.mjs";
 
 const pub = (arr) => arr.filter((e) => e.data.reviewed);
 const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.data.order);
@@ -49,6 +50,13 @@ const mapRows = CHAPTERS.map((chapter, i) => {
   const items = learn.filter((e) => e.data.chapter === chapter);
   return { n: i + 1, chapter, levels: [1, 2, 3, 4].map((lv) => items.some((e) => e.data.level === lv)) };
 });
+
+// テーマから探す（横断カテゴリ・frontmatter実データのみで分類）
+const topicTiles = collectTopics([
+  ...learn.map((entry) => ({ collection: "learn", entry })),
+  ...playbook.map((entry) => ({ collection: "playbook", entry })),
+  ...charts.map((entry) => ({ collection: "charts", entry })),
+]).filter((t) => t.items.length > 0);
 
 // 用語ピックアップ（最新の用語1件）
 const pickWord = secGlos.length ? glossary.sort((a, b) => new Date(b.data.updated) - new Date(a.data.updated))[0] : null;
@@ -126,6 +134,25 @@ const sections = [
           </ul>
         )}
       </div>
+
+      <section>
+        <div class="sec-h">
+          <span class="bar" style="background:var(--color-accent)"></span>
+          <h2>テーマから探す</h2>
+          <a class="more" href="/topics/">すべてのテーマ ›</a>
+        </div>
+        <div class="card">
+          <div class="topic-grid">
+            {topicTiles.map((t) => (
+              <a class="topic-tile" href={`/topics/${t.slug}/`}>
+                <span class="topic-thumb" style={`background:${t.grad}`}>{t.thumb}</span>
+                <span class="topic-name">{t.title}</span>
+                <span class="topic-count">{t.items.length}本</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {sections.map((s) => (
         <section>
@@ -281,6 +308,23 @@ const sections = [
     .c-play { background: var(--color-sec-playbook); }
     .c-chart { background: var(--color-sec-charts); }
     .c-glos { background: var(--color-sec-glossary); }
+
+    /* テーマから探す */
+    .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 0; }
+    .topic-tile {
+      display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
+      padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--color-border);
+      border-right: 1px solid var(--color-border); min-height: 44px;
+    }
+    .topic-tile:hover { background: var(--color-surface); }
+    .topic-tile:hover .topic-name { color: var(--color-accent); text-decoration: underline; }
+    .topic-thumb {
+      width: 34px; height: 34px; border-radius: 7px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.85rem; font-weight: 800;
+    }
+    .topic-name { font-size: 0.82rem; font-weight: 800; color: var(--color-text); min-width: 0; }
+    .topic-count { margin-left: auto; font-family: var(--font-num); font-size: 0.68rem; font-weight: 700; color: var(--color-text-muted); flex-shrink: 0; }
 
     /* セクション見出し */
     .sec-h { display: flex; align-items: center; margin: 1.5rem 0 0.6rem; gap: 0.6rem; }

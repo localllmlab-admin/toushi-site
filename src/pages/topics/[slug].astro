@@ -1,0 +1,101 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { collectTopics } from "../../data/topics.mjs";
+
+export async function getStaticPaths() {
+  const pub = (arr, collection) =>
+    arr.filter((e) => e.data.reviewed).map((entry) => ({ collection, entry }));
+  const all = [
+    ...pub(await getCollection("learn"), "learn"),
+    ...pub(await getCollection("playbook"), "playbook"),
+    ...pub(await getCollection("charts"), "charts"),
+  ];
+  return collectTopics(all)
+    .filter((t) => t.items.length > 0)
+    .map((t) => ({ params: { slug: t.slug }, props: { topic: t } }));
+}
+
+const { topic } = Astro.props;
+const CAT = {
+  learn: { label: "学ぶ", cls: "c-learn" },
+  playbook: { label: "手法", cls: "c-play" },
+  charts: { label: "チャート", cls: "c-chart" },
+};
+const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+const bestGrade = (sources = []) =>
+  ["A", "B", "C", "D"].find((g) => sources.some((s) => s.grade === g)) ?? null;
+const fmt = (d) => new Date(d).toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" });
+---
+<Base
+  title={`${topic.title}の記事一覧｜投資の学び舎（まなびや）`}
+  description={`${topic.lead}（全${topic.items.length}本・出典付き）`}
+  pagebg={true}
+>
+  <div class="container wrap">
+    <nav class="crumb" aria-label="パンくず"><a href="/topics/">テーマ別に学ぶ</a> › {topic.title}</nav>
+    <div class="head">
+      <span class="thumb" style={`background:${topic.grad}`}>{topic.thumb}</span>
+      <div>
+        <h1>{topic.title}<span class="count">{topic.items.length}本</span></h1>
+        <p class="lead">{topic.lead}</p>
+      </div>
+    </div>
+    <div class="card">
+      <ul class="rows">
+        {topic.items.map(({ collection, entry }) => (
+          <li>
+            <span class={`b-cat ${CAT[collection].cls}`}>{CAT[collection].label}</span>
+            <div class="row-body">
+              <a class="tt" href={`/${collection}/${entry.slug}/`}>{entry.data.title}</a>
+              <div class="meta">
+                {bestGrade(entry.data.sources) && <span class="bg bg-src">出典{bestGrade(entry.data.sources)}</span>}
+                {entry.data.level && <span class="bg bg-lv">Lv.{entry.data.level} {LEVELS[entry.data.level]}</span>}
+                {(entry.data.chapter ?? entry.data.kind ?? entry.data.patternType) && (
+                  <span class="sub">{entry.data.chapter ?? entry.data.kind ?? entry.data.patternType}</span>
+                )}
+                <time datetime={new Date(entry.data.updated).toISOString()}>{fmt(entry.data.updated)} 更新</time>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <p class="back"><a href="/topics/">← 他のテーマを見る</a></p>
+  </div>
+  <style>
+    .wrap { padding: 1.6rem 1.25rem 3.5rem; }
+    .crumb { font-size: .78rem; color: var(--color-text-muted); margin-bottom: 1rem; }
+    .crumb a { font-weight: 700; text-decoration: none; }
+    .crumb a:hover { text-decoration: underline; }
+    .head { display: flex; gap: .9rem; align-items: flex-start; margin-bottom: 1.1rem; }
+    .thumb {
+      width: 56px; height: 56px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.3rem; font-weight: 800;
+    }
+    h1 { margin: 0; font-size: 1.45rem; }
+    .count { font-family: var(--font-num); font-size: .8rem; color: var(--color-text-muted); font-weight: 700; margin-left: .6em; }
+    .lead { margin: .35rem 0 0; color: var(--color-text-muted); font-size: .85rem; line-height: 1.7; }
+    .card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-card); overflow: hidden; }
+    .rows { list-style: none; margin: 0; padding: 0; }
+    .rows li { display: flex; gap: .7rem; align-items: flex-start; padding: .8rem 1rem; border-bottom: 1px solid var(--color-border); }
+    .rows li:last-child { border-bottom: none; }
+    .rows li:hover { background: var(--color-surface); }
+    .b-cat { font-size: .64rem; color: #fff; padding: .14rem .55rem; border-radius: var(--radius-s); flex-shrink: 0; font-weight: 800; margin-top: .2rem; }
+    .c-learn { background: var(--color-sec-learn); }
+    .c-play { background: var(--color-sec-playbook); }
+    .c-chart { background: var(--color-sec-charts); }
+    .row-body { min-width: 0; }
+    .tt { font-weight: 800; font-size: .95rem; line-height: 1.55; color: var(--color-text); display: block; text-decoration: none; }
+    .tt:hover { color: var(--color-accent); text-decoration: underline; }
+    .meta { font-size: .72rem; color: var(--color-text-muted); margin-top: .3rem; display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+    .meta time { font-family: var(--font-num); }
+    .bg { font-size: .68rem; font-weight: 700; border-radius: 3px; padding: .05rem .5rem; border: 1px solid; }
+    .bg-src { background: var(--badge-src-bg); color: var(--badge-src-fg); border-color: var(--badge-src-bd); }
+    .bg-lv { background: var(--badge-lv-bg); color: var(--badge-lv-fg); border-color: var(--badge-lv-bd); }
+    .back { margin-top: 1.2rem; font-size: .85rem; }
+    .back a { font-weight: 700; text-decoration: none; }
+    .back a:hover { text-decoration: underline; }
+  </style>
+</Base>

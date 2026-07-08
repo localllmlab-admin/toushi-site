@@ -1,0 +1,59 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { collectTopics } from "../../data/topics.mjs";
+
+const pub = (arr, collection) =>
+  arr.filter((e) => e.data.reviewed).map((entry) => ({ collection, entry }));
+const all = [
+  ...pub(await getCollection("learn"), "learn"),
+  ...pub(await getCollection("playbook"), "playbook"),
+  ...pub(await getCollection("charts"), "charts"),
+];
+const topics = collectTopics(all).filter((t) => t.items.length > 0);
+---
+<Base
+  title="テーマ別に学ぶ｜投資の学び舎（まなびや）"
+  description="テクニカル指標・チャートパターン・損切りと資金管理・相場心理など、テーマ別に記事をまとめています。関心のあるテーマから体系的に学べます。"
+  pagebg={true}
+>
+  <div class="container-wide wrap">
+    <p class="section-label">TOPICS</p>
+    <h1>テーマ別に学ぶ</h1>
+    <p class="lead">章立て（<a href="/learn/">学習マップ</a>）が「教科書の順番」だとすれば、テーマ別は「関心からの入口」です。気になるテーマから読み始めて、関連記事へ横に広げてください。</p>
+    <div class="grid">
+      {topics.map((t) => (
+        <a class="tile" href={`/topics/${t.slug}/`}>
+          <span class="thumb" style={`background:${t.grad}`}>{t.thumb}</span>
+          <span class="body">
+            <span class="tt">{t.title}<span class="count">{t.items.length}本</span></span>
+            <span class="ld">{t.lead}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+  <style>
+    .wrap { padding: 2.4rem 1.25rem 3.5rem; }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; color: var(--color-accent); margin: 0 0 .3rem; }
+    h1 { margin: 0 0 .5rem; }
+    .lead { color: var(--color-text-muted); font-size: .9rem; margin: 0 0 1.6rem; max-width: 46em; line-height: 1.8; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .8rem; }
+    .tile {
+      display: flex; gap: .8rem; align-items: flex-start; text-decoration: none;
+      background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius);
+      padding: .85rem .9rem; box-shadow: var(--shadow-card); min-height: 44px;
+    }
+    .tile:hover { border-color: var(--color-accent); }
+    .tile:hover .tt { color: var(--color-accent); text-decoration: underline; }
+    .thumb {
+      width: 52px; height: 52px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.15rem; font-weight: 800;
+    }
+    .body { min-width: 0; }
+    .tt { display: block; font-weight: 800; color: var(--color-text); font-size: .95rem; }
+    .count { font-family: var(--font-num); font-size: .68rem; font-weight: 700; color: var(--color-text-muted); margin-left: .5em; }
+    .ld { display: block; font-size: .76rem; color: var(--color-text-muted); line-height: 1.65; margin-top: .3rem; }
+  </style>
+</Base>

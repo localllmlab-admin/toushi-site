@@ -3,6 +3,7 @@ import "../styles/tokens.css";
 const { title, description, pagebg = false } = Astro.props;
 const nav = [
   { href: "/", label: "ホーム" },
+  { href: "/topics/", label: "テーマ別" },
   { href: "/learn/", label: "学ぶ" },
   { href: "/playbook/", label: "手法・定石" },
   { href: "/charts/", label: "チャート図解" },
@@ -61,6 +62,7 @@ const canonicalURL = new URL(path, Astro.site);
     <footer class="site-foot">
       <div class="site-foot-inner">
         <nav class="foot-links" aria-label="フッターリンク">
+          <a href="/topics/">テーマ別</a>
           <a href="/learn/">学ぶ</a>
           <a href="/playbook/">手法・定石</a>
           <a href="/charts/">チャート図解</a>
