@@ -5,7 +5,8 @@ term: "ダイバージェンス"
 reading: "だいばーじぇんす"
 tags: ["用語"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

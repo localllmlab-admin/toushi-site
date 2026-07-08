@@ -3,7 +3,8 @@ title: "移動平均線の種類と使い分け ― SMA・EMA・WMAの違い"
 description: "単純移動平均（SMA）・指数平滑移動平均（EMA）・加重移動平均（WMA）などの計算の違いと、反応速度と安定性のトレードオフを解説します。"
 tags: ["インジケーター", "移動平均", "基礎"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

@@ -3,7 +3,8 @@ title: "ギャン理論の基本 ― 時間と価格の角度で相場を測る"
 description: "W.D.ギャンが残したギャンアングル（1×1線など）とギャンスクエアの考え方、価値の残る部分と神秘化された部分の切り分けを解説します。"
 tags: ["ギャン理論", "ギャンアングル", "トレンド"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"

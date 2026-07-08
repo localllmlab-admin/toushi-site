@@ -3,7 +3,8 @@ title: "モメンタムとROC ― 価格の「加速度」を先に読む"
 description: "最も原始的なオシレーターであるモメンタム（n日前との差）とROC（変化率）の仕組みと、ピークアウトによる減速検出を解説します。"
 tags: ["インジケーター", "モメンタム", "ROC", "オシレーター"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.panrolling.com/"
     title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
