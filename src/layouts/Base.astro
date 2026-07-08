@@ -12,6 +12,7 @@ const nav = [
 ];
 const path = Astro.url.pathname;
 const isActive = (href) => (href === "/" ? path === "/" : path.startsWith(href));
+const canonicalURL = new URL(path, Astro.site);
 ---
 <!doctype html>
 <html lang="ja">
@@ -20,9 +21,11 @@ const isActive = (href) => (href === "/" ? path === "/" : path.startsWith(href))
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={path === "/" ? "website" : "article"} />
     <meta property="og:locale" content="ja_JP" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="投資の学び舎（まなびや）" href="/rss.xml" />
