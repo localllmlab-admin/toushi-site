@@ -9,9 +9,6 @@ sources:
   - url: "https://www.panrolling.com/"
     title: "J・ウエルズ・ワイルダー『ワイルダーのテクニカル分析入門』（パンローリング）"
     grade: "B"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次）」"
-    grade: "C"
 patternType: "インジケーター"
 ---
 

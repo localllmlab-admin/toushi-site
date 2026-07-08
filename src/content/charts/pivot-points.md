@@ -6,9 +6,6 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次・第3分冊第23章にピボットを収載）」"
-    grade: "C"
   - url: "https://www.jsda.or.jp/"
     title: "日本証券業協会（投資の学習コンテンツ）"
     grade: "A"

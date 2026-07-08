@@ -14,9 +14,6 @@ sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"
     grade: "A"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次）」"
-    grade: "C"
 ---
 
 ## 結論

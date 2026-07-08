@@ -13,9 +13,6 @@ sources:
   - url: "https://www.esri.cao.go.jp/jp/stat/di/hiduke.html"
     title: "内閣府 経済社会総合研究所「景気基準日付」"
     grade: "A"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次・第2分冊第12章）」"
-    grade: "C"
 ---
 
 ## 結論

@@ -14,9 +14,6 @@ sources:
   - url: "https://www.boj.or.jp/"
     title: "日本銀行（金融政策・マーケット関連資料）"
     grade: "A"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次）」"
-    grade: "C"
 ---
 
 ## 結論

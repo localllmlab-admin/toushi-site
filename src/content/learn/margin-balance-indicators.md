@@ -14,9 +14,6 @@ sources:
   - url: "https://www.taisyaku.jp/"
     title: "日本証券金融（貸借取引情報）"
     grade: "C"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次）」"
-    grade: "C"
 ---
 
 ## 結論

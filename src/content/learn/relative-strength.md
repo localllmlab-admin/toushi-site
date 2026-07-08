@@ -10,9 +10,6 @@ sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（TOPIX・業種別指数）"
     grade: "A"
-  - url: "https://www.ntaa.or.jp/certification/shikaku_1st/shikaku_1st_text"
-    title: "日本テクニカルアナリスト協会「第1次レベル通信教育講座テキスト（目次・第2分冊第17章）」"
-    grade: "C"
 ---
 
 ## 結論
