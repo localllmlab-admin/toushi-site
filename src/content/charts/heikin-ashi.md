@@ -3,7 +3,8 @@ title: "平均足の見方 ― トレンドを「色の連続」で読む"
 description: "始値と終値を平均化してノイズを均す平均足の仕組みと、ローソク足との違い、トレンド判定への使い方・弱点を解説します。"
 tags: ["平均足", "プライスアクション", "トレンド"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://www.jpx.co.jp/"
     title: "日本取引所グループ（投資の基礎）"

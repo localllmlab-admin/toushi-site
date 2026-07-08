@@ -5,7 +5,8 @@ term: "NT倍率"
 reading: "えぬてぃーばいりつ"
 tags: ["用語"]
 updated: 2026-07-08
-reviewed: false
+reviewed: true
+reviewedAt: 2026-07-08
 sources:
   - url: "https://indexes.nikkei.co.jp/"
     title: "日経平均プロフィル（日本経済新聞社）"
