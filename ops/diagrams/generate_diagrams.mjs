@@ -2562,4 +2562,323 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("price-limit", 640, 300, g);
 }
 
+/* ============ 143. 平均足 ============ */
+{
+  let g = txt(320, 24, "ローソク足と平均足：同じ値動きでも「見え方」が変わる", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += txt(170, 52, "ローソク足（陽陰が入り混じる）", { anchor: "middle", size: 11, fill: SUB });
+  g += candle(70, 210, 240, 200, 250, { w: 14 });
+  g += candle(100, 190, 205, 225, 230, { w: 14 });
+  g += candle(130, 170, 215, 180, 220, { w: 14 });
+  g += candle(160, 165, 175, 195, 200, { w: 14 });
+  g += candle(190, 140, 190, 150, 195, { w: 14 });
+  g += candle(220, 120, 145, 155, 160, { w: 14 });
+  g += candle(250, 105, 150, 115, 155, { w: 14 });
+  g += txt(450, 52, "平均足（トレンド中は同色が続きやすい）", { anchor: "middle", size: 11, fill: SUB });
+  g += candle(380, 215, 245, 220, 245, { w: 14 });
+  g += candle(410, 195, 228, 200, 228, { w: 14 });
+  g += candle(440, 175, 208, 182, 208, { w: 14 });
+  g += candle(470, 155, 190, 160, 190, { w: 14 });
+  g += candle(500, 135, 168, 140, 168, { w: 14 });
+  g += candle(530, 115, 148, 122, 148, { w: 14 });
+  g += candle(560, 95, 128, 102, 128, { w: 14 });
+  g += line(320, 60, 320, 260, { color: GRID, w: 1.5 });
+  g += txt(320, 290, "平均足の始値＝前の足の実体の中心、終値＝4本値の平均。ノイズが均される分、転換の反映は遅れやすい", { anchor: "middle", size: 10.5, fill: SUB });
+  save("heikin-ashi", 640, 305, g);
+}
+
+/* ============ 144. 新値足・カギ足・P&F ============ */
+{
+  let g = txt(320, 24, "時間を捨てるチャート：値段が動いたときだけ描く", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += txt(110, 52, "新値足", { anchor: "middle", bold: true, size: 11, fill: INK });
+  const bar = (x, y, h, up) => `<rect x="${x}" y="${y}" width="16" height="${h}" fill="${up ? UP : DN}" rx="1.5"/>`;
+  g += bar(60, 200, 40, true) + bar(80, 175, 45, true) + bar(100, 150, 45, true) + bar(120, 185, 60, false) + bar(140, 160, 45, true);
+  g += txt(110, 268, "直近の高値・安値を", { anchor: "middle", size: 9.5 });
+  g += txt(110, 282, "抜いたときだけ1本追加", { anchor: "middle", size: 9.5 });
+  g += txt(320, 52, "カギ足", { anchor: "middle", bold: true, size: 11, fill: INK });
+  g += poly([[260, 220], [260, 150], [290, 150], [290, 190], [320, 190], [320, 110], [350, 110], [350, 160], [380, 160], [380, 90]], { color: INK, w: 2.5 });
+  g += txt(320, 268, "一定幅以上の反転で", { anchor: "middle", size: 9.5 });
+  g += txt(320, 282, "折れ曲がる一筆書き", { anchor: "middle", size: 9.5 });
+  g += txt(530, 52, "ポイント・アンド・フィギュア", { anchor: "middle", bold: true, size: 11, fill: INK });
+  const pfc = (x, y, o) => txt(x, y, o ? "○" : "×", { anchor: "middle", size: 15, fill: o ? DN : UP, bold: true });
+  for (let i = 0; i < 5; i++) g += pfc(480, 220 - i * 22, false);
+  for (let i = 0; i < 3; i++) g += pfc(505, 176 - i * 22, true);
+  for (let i = 0; i < 6; i++) g += pfc(530, 220 - i * 22, false);
+  for (let i = 0; i < 2; i++) g += pfc(555, 154 - i * 22, true);
+  for (let i = 0; i < 4; i++) g += pfc(580, 198 - i * 22, false);
+  g += txt(530, 268, "×＝上昇、○＝下落。", { anchor: "middle", size: 9.5 });
+  g += txt(530, 282, "一定の反転幅で列を替える", { anchor: "middle", size: 9.5 });
+  g += txt(320, 308, "3種とも横軸は時間でなく「値動きの回数」。小さなノイズを無視しトレンドだけを残す設計（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("kagi-pf", 640, 322, g);
+}
+
+/* ============ 145. フィボナッチ・リトレースメント ============ */
+{
+  let g = txt(320, 24, "リトレースメント：上昇幅の何割まで押したかを測る", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const lv = (y, label) => line(80, y, 560, y, { color: LV, w: 1.5, dash: "6 4" }) + txt(568, y + 4, label, { size: 10, fill: LV });
+  g += lv(78, "0%（高値）");
+  g += lv(120, "23.6%");
+  g += lv(146, "38.2%");
+  g += lv(167, "50%");
+  g += lv(188, "61.8%");
+  g += lv(255, "100%（安値）");
+  g += poly([[90, 255], [150, 215], [200, 230], [260, 160], [320, 78], [370, 110], [400, 148], [430, 138], [470, 100], [530, 60]], { color: INK, w: 2.5 });
+  g += arrow(405, 200, 405, 158, { color: UP, w: 2 });
+  g += txt(415, 215, "38.2%押しで下げ止まり再上昇（の一例）", { size: 10, fill: SUB });
+  g += txt(320, 292, "38.2・50・61.8%は「広く意識される目安」であり、そこで止まることを保証する水準ではない（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("fibonacci", 640, 305, g);
+}
+
+/* ============ 146. トレンドラインの引き方 ============ */
+{
+  let g = txt(320, 24, "トレンドライン：安値2点で引き、3点目のタッチで信頼度が上がる", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += line(60, 250, 560, 110, { color: UP, w: 2.5 });
+  g += line(60, 175, 560, 35, { color: UP, w: 1.8, dash: "7 5" });
+  g += txt(505, 42, "チャネルライン（平行線）", { size: 10, fill: UP });
+  g += poly([[70, 245], [110, 195], [150, 230], [200, 160], [250, 205], [300, 130], [350, 180], [400, 105], [450, 155], [500, 80], [540, 120]], { color: INK, w: 2.2 });
+  const pt = (x, y, n) => `<circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${UP}" stroke-width="2.5"/>` + txt(x, y + 24, n, { anchor: "middle", size: 10.5, fill: UP, bold: true });
+  g += pt(70, 245, "①") + pt(150, 230, "②") + pt(350, 180, "③");
+  g += txt(320, 290, "①②で仮に引き、③で「機能しているライン」と確認。ヒゲと実体のどちらで引くかは一貫させる（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("trendline", 640, 305, g);
+}
+
+/* ============ 147. DMI・ADX ============ */
+{
+  let g = txt(320, 24, "DMI／ADX：向き（±DI）と強さ（ADX）を分けて測る", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[60, 110], [100, 95], [140, 112], [180, 98], [220, 108], [260, 95], [300, 80], [350, 62], [400, 72], [450, 48], [510, 55], [560, 35]], { color: INK, w: 2.2 });
+  g += txt(160, 60, "レンジ", { size: 10.5, fill: SUB });
+  g += txt(450, 30, "トレンド発生", { size: 10.5, fill: UP });
+  g += line(40, 130, 600, 130, { color: GRID, w: 1.5 });
+  g += poly([[60, 200], [140, 215], [220, 205], [300, 185], [380, 170], [460, 165], [560, 158]], { color: UP, w: 2 });
+  g += txt(575, 160, "+DI", { size: 10, fill: UP, bold: true });
+  g += poly([[60, 190], [140, 185], [220, 200], [300, 225], [380, 240], [460, 248], [560, 255]], { color: DN, w: 2 });
+  g += txt(575, 258, "−DI", { size: 10, fill: DN, bold: true });
+  g += poly([[60, 245], [140, 250], [220, 248], [300, 230], [380, 205], [460, 185], [560, 172]], { color: LV, w: 2.5 });
+  g += txt(575, 176, "ADX", { size: 10, fill: LV, bold: true });
+  g += line(40, 232, 600, 232, { color: GRID, w: 1, dash: "4 4" });
+  g += txt(48, 228, "25", { size: 9.5, fill: SUB });
+  g += txt(320, 290, "+DIが−DIの上＝上向き優勢。ADXの上昇＝トレンドが強い（方向は示さない）。25超が目安とされる（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("dmi-adx", 640, 305, g);
+}
+
+/* ============ 148. バンド3種比較 ============ */
+{
+  let g = txt(320, 24, "バンド系の3つの設計：何で「幅」を決めるか", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const panel = (x, title, sub1, sub2, color) => {
+    let s = `<rect x="${x}" y="48" width="180" height="170" rx="8" fill="#ffffff" stroke="${color}" stroke-width="2"/>`;
+    s += txt(x + 90, 70, title, { anchor: "middle", fill: color, bold: true, size: 11.5 });
+    s += txt(x + 90, 192, sub1, { anchor: "middle", size: 9.5 });
+    s += txt(x + 90, 206, sub2, { anchor: "middle", size: 9.5 });
+    return s;
+  };
+  g += panel(30, "エンベロープ", "中心線から一定％", "幅は常に一定", INK);
+  g += poly([[45, 150], [85, 130], [125, 140], [165, 115], [195, 120]], { color: INK, w: 2 });
+  g += poly([[45, 125], [85, 105], [125, 115], [165, 90], [195, 95]], { color: SUB, w: 1.5, dash: "5 4" });
+  g += poly([[45, 175], [85, 155], [125, 165], [165, 140], [195, 145]], { color: SUB, w: 1.5, dash: "5 4" });
+  g += panel(230, "ケルトナーチャネル", "幅＝ATR（値動きの実勢）", "荒れると自動で広がる", "#1f6e50");
+  g += poly([[245, 150], [285, 130], [325, 140], [365, 115], [395, 120]], { color: INK, w: 2 });
+  g += poly([[245, 128], [285, 102], [325, 110], [365, 78], [395, 82]], { color: "#1f6e50", w: 1.5, dash: "5 4" });
+  g += poly([[245, 172], [285, 158], [325, 170], [365, 152], [395, 158]], { color: "#1f6e50", w: 1.5, dash: "5 4" });
+  g += panel(430, "ドンチャンチャネル", "幅＝過去n日の高値・安値", "更新＝ブレイクの定義", LV);
+  g += poly([[445, 150], [485, 130], [525, 140], [565, 115], [595, 120]], { color: INK, w: 2 });
+  g += poly([[445, 112], [485, 112], [485, 98], [525, 98], [565, 88], [595, 88]], { color: LV, w: 2 });
+  g += poly([[445, 168], [485, 168], [525, 162], [565, 162], [595, 155]], { color: LV, w: 2 });
+  g += txt(320, 248, "ボリンジャーバンド（幅＝標準偏差）を含め、「幅の決め方」の違いがそのまま使い所の違いになる（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("band-trio", 640, 262, g);
+}
+
+/* ============ 149. エリオット波動 ============ */
+{
+  let g = txt(320, 24, "エリオット波動：推進5波と修正3波の基本形", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[50, 260], [120, 180], [160, 215], [250, 110], [300, 150], [370, 70]], { color: UP, w: 2.5 });
+  g += poly([[370, 70], [420, 130], [460, 100], [520, 175]], { color: DN, w: 2.5 });
+  const lb = (x, y, s, c = INK) => txt(x, y, s, { anchor: "middle", size: 12, fill: c, bold: true });
+  g += lb(120, 168, "1", UP) + lb(160, 235, "2", SUB) + lb(250, 98, "3", UP) + lb(300, 170, "4", SUB) + lb(370, 58, "5", UP);
+  g += lb(420, 150, "A", DN) + lb(460, 88, "B", SUB) + lb(520, 195, "C", DN);
+  g += txt(320, 292, "主なルール：2波は1波の起点を割らない／3波は最短にならない／4波は1波の高値と重ならない（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("elliott-wave", 640, 305, g);
+}
+
+/* ============ 150. OBVとダイバージェンス ============ */
+{
+  let g = txt(320, 24, "OBV：出来高を「上げた日は足し、下げた日は引く」だけの累積線", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[60, 110], [130, 70], [200, 95], [280, 60], [360, 85], [450, 52], [560, 75]], { color: INK, w: 2.2 });
+  g += txt(60, 55, "価格：高値を更新", { size: 10.5, fill: INK });
+  g += `<circle cx="280" cy="60" r="5" fill="none" stroke="${UP}" stroke-width="2"/><circle cx="450" cy="52" r="5" fill="none" stroke="${UP}" stroke-width="2"/>`;
+  g += line(40, 135, 600, 135, { color: GRID, w: 1.5 });
+  g += poly([[60, 220], [130, 185], [200, 205], [280, 178], [360, 210], [450, 195], [560, 230]], { color: LV, w: 2.2 });
+  g += txt(60, 170, "OBV：高値を更新できない", { size: 10.5, fill: LV });
+  g += line(280, 178, 450, 195, { color: DN, w: 2, dash: "5 4" });
+  g += txt(500, 245, "弱気ダイバージェンス", { anchor: "middle", size: 10.5, fill: DN, bold: true });
+  g += txt(320, 285, "価格の高値更新に出来高の裏付けがない状態。転換の予告ではなく「注意信号」として扱う（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("obv-divergence", 640, 300, g);
+}
+
+/* ============ 151. ピボットポイント ============ */
+{
+  let g = txt(320, 24, "ピボット：前日の高値・安値・終値から当日の目安水準を計算する", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  const lv2 = (y, label, c) => line(70, y, 500, y, { color: c, w: 1.8, dash: "6 4" }) + txt(510, y + 4, label, { size: 10.5, fill: c, bold: true });
+  g += lv2(70, "R2", UP);
+  g += lv2(110, "R1", UP);
+  g += lv2(160, "P（ピボット）", INK);
+  g += lv2(210, "S1", DN);
+  g += lv2(250, "S2", DN);
+  g += poly([[80, 175], [130, 150], [170, 165], [220, 118], [270, 140], [320, 108], [360, 155], [410, 200], [460, 175]], { color: INK, w: 2.2 });
+  g += txt(320, 288, "P＝(前日高値＋安値＋終値)÷3。R1・S1等はPからの派生。式が公開されており誰が引いても同じ線になる", { anchor: "middle", size: 10.5, fill: SUB });
+  save("pivot-points", 640, 302, g);
+}
+
+/* ============ 152. ランダムウォーク ============ */
+{
+  let g = txt(320, 24, "どちらかがコイン投げ・どちらかが実際の相場（という思考実験）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="40" y="50" width="260" height="180" rx="8" fill="#ffffff" stroke="${GRID}" stroke-width="1.5"/>`;
+  g += poly([[55, 160], [75, 145], [95, 155], [115, 130], [135, 142], [155, 120], [175, 132], [195, 110], [215, 125], [235, 105], [255, 118], [275, 98], [288, 108]], { color: INK, w: 2 });
+  g += txt(170, 218, "A", { anchor: "middle", size: 12, bold: true, fill: INK });
+  g += `<rect x="340" y="50" width="260" height="180" rx="8" fill="#ffffff" stroke="${GRID}" stroke-width="1.5"/>`;
+  g += poly([[355, 130], [375, 150], [395, 138], [415, 165], [435, 148], [455, 172], [475, 160], [495, 185], [515, 168], [535, 190], [555, 175], [575, 195], [588, 185]], { color: INK, w: 2 });
+  g += txt(470, 218, "B", { anchor: "middle", size: 12, bold: true, fill: INK });
+  g += txt(320, 262, "コイン投げの累積和のグラフには、トレンドや支持線・抵抗線「のようなもの」が自然に現れる。", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(320, 280, "見た目だけでは区別しにくいことが、テクニカル分析への批判（ランダムウォーク仮説）の出発点になった", { anchor: "middle", size: 10.5, fill: SUB });
+  save("random-walk", 640, 295, g);
+}
+
+/* ============ 153. 市場間分析 ============ */
+{
+  let g = txt(320, 24, "市場間分析：4つの市場は互いに影響し合う", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  const box = (x, y, title, sub, color) => {
+    let s = `<rect x="${x}" y="${y}" width="170" height="62" rx="8" fill="#ffffff" stroke="${color}" stroke-width="2"/>`;
+    s += txt(x + 85, y + 25, title, { anchor: "middle", fill: color, bold: true, size: 12 });
+    s += txt(x + 85, y + 45, sub, { anchor: "middle", size: 9.5 });
+    return s;
+  };
+  g += box(60, 55, "金利（債券）", "利回り上昇＝債券価格下落", DN);
+  g += box(410, 55, "株式", "将来利益の割引価値", UP);
+  g += box(60, 185, "為替", "金利差・資金フロー", "#1f6e50");
+  g += box(410, 185, "商品", "インフレ・需給", LV);
+  g += arrow(235, 86, 405, 86, { color: SUB, w: 2 });
+  g += txt(320, 76, "金利上昇は株の逆風になりやすい", { anchor: "middle", size: 9.5 });
+  g += arrow(145, 122, 145, 180, { color: SUB, w: 2 });
+  g += txt(152, 155, "金利差が通貨の強弱に", { size: 9.5 });
+  g += arrow(235, 216, 405, 216, { color: SUB, w: 2 });
+  g += txt(320, 240, "通貨の強弱が輸出入価格に", { anchor: "middle", size: 9.5 });
+  g += arrow(495, 180, 495, 122, { color: SUB, w: 2 });
+  g += txt(502, 155, "資源高はインフレ→金利へ", { size: 9.5 });
+  g += txt(320, 285, "関係の向きや強さは時代・局面で変わる。「常に成り立つ法則」ではなく点検の枠組みとして使う（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("intermarket", 640, 300, g);
+}
+
+/* ============ 154. 業種循環 ============ */
+{
+  let g = txt(320, 24, "業種循環：景気の局面ごとに物色されやすいとされる業種が移る", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[50, 200], [130, 130], [210, 95], [290, 90], [370, 120], [450, 185], [530, 215], [590, 205]], { color: INK, w: 2.5 });
+  g += line(40, 150, 600, 150, { color: GRID, w: 1.5, dash: "4 4" });
+  const ph = (x, y, t1, t2, c) => txt(x, y, t1, { anchor: "middle", size: 10.5, fill: c, bold: true }) + txt(x, y + 15, t2, { anchor: "middle", size: 9.5 });
+  g += ph(105, 240, "回復初期", "金利敏感（金融・不動産）", UP);
+  g += ph(250, 55, "拡大期", "景気敏感（素材・機械）", UP);
+  g += ph(410, 240, "後退期", "エネルギー・資源", LV);
+  g += ph(540, 120, "収縮期", "ディフェンシブ（食品・医薬・公益）", DN);
+  g += txt(320, 285, "米国市場の経験則として整理されてきた順序。毎回この通りに巡る保証はない（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("sector-rotation", 640, 300, g);
+}
+
+/* ============ 155. 信用取引の指標 ============ */
+{
+  let g = txt(320, 24, "信用倍率＝買い残÷売り残：将来の「反対売買の予約」を測る", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += `<rect x="80" y="70" width="300" height="36" rx="4" fill="${UP}" opacity="0.75"/>`;
+  g += txt(90, 93, "信用買い残（将来の売り圧力になりうる）", { size: 11, fill: "#ffffff", bold: true });
+  g += `<rect x="80" y="120" width="120" height="36" rx="4" fill="${DN}" opacity="0.75"/>`;
+  g += txt(210, 143, "信用売り残（将来の買い戻し）", { size: 11, fill: DN, bold: true });
+  g += txt(400, 93, "← 買い残が大きい＝倍率が高い", { size: 10.5, fill: SUB });
+  g += line(60, 180, 580, 180, { color: GRID, w: 1.5 });
+  g += txt(90, 205, "逆日歩：貸借取引で株不足が起きたとき、売り方が払う追加コスト", { size: 11, fill: INK, bold: true });
+  g += txt(90, 228, "売り残が積み上がった銘柄で買い戻しが連鎖する（踏み上げ）背景になることがある", { size: 10.5, fill: SUB });
+  g += txt(320, 262, "残高は「その後の反対売買」を予約した建玉。需給の偏りを読む材料になり、数値は定期的に公表される", { anchor: "middle", size: 10.5, fill: SUB });
+  save("margin-signals", 640, 278, g);
+}
+
+/* ============ 156. 騰落レシオ ============ */
+{
+  let g = txt(320, 24, "騰落レシオ（25日）：市場全体の「体温計」", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  g += `<rect x="60" y="55" width="520" height="40" fill="${UP}" opacity="0.10"/>`;
+  g += `<rect x="60" y="185" width="520" height="40" fill="${DN}" opacity="0.10"/>`;
+  g += line(60, 95, 580, 95, { color: UP, w: 1.5, dash: "6 4" });
+  g += txt(588, 99, "120%", { size: 10.5, fill: UP, bold: true });
+  g += line(60, 140, 580, 140, { color: INK, w: 1.5, dash: "3 4" });
+  g += txt(588, 144, "100%", { size: 10.5 });
+  g += line(60, 185, 580, 185, { color: DN, w: 1.5, dash: "6 4" });
+  g += txt(588, 189, "70%", { size: 10.5, fill: DN, bold: true });
+  g += poly([[70, 150], [120, 120], [170, 85], [220, 105], [270, 145], [320, 175], [370, 200], [420, 170], [470, 130], [520, 110], [570, 125]], { color: INK, w: 2.2 });
+  g += txt(170, 72, "過熱の目安とされる領域", { size: 10, fill: UP });
+  g += txt(370, 218, "悲観の目安とされる領域", { size: 10, fill: DN });
+  g += txt(320, 262, "値上がり銘柄数÷値下がり銘柄数（25日合計）×100。指数が上がっていても中身が痩せていないかを点検する", { anchor: "middle", size: 10.5, fill: SUB });
+  save("market-breadth", 640, 278, g);
+}
+
+/* ============ 157. アノマリーカレンダー ============ */
+{
+  let g = txt(320, 24, "語り継がれるカレンダー・アノマリーの例（再現性は保証されない）", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  for (let i = 0; i < 12; i++) {
+    const x = 45 + i * 46;
+    g += `<rect x="${x}" y="60" width="40" height="34" rx="4" fill="#ffffff" stroke="${GRID}" stroke-width="1.5"/>`;
+    g += txt(x + 20, 82, `${i + 1}月`, { anchor: "middle", size: 10.5, fill: INK });
+  }
+  const mark = (m, y, label, c) => {
+    const x = 45 + (m - 1) * 46 + 20;
+    return line(x, 94, x, y - 14, { color: c, w: 1.5, dash: "3 3" }) + txt(x, y, label, { anchor: "middle", size: 9.5, fill: c, bold: true });
+  };
+  g += mark(1, 122, "1月効果", UP);
+  g += mark(2, 150, "節分天井", LV);
+  g += mark(3, 122, "彼岸底・期末", DN);
+  g += mark(5, 122, "セル・イン・メイ", DN);
+  g += mark(8, 150, "夏枯れ相場", SUB);
+  g += mark(10, 122, "10月の急落連想", DN);
+  g += mark(12, 150, "掉尾の一振", UP);
+  g += txt(320, 190, "いずれも「そう言われてきた」経験則。統計的に弱まったり消えたりするものが多く、", { anchor: "middle", size: 10.5, fill: SUB });
+  g += txt(320, 208, "根拠（税制・決算・資金の季節性）が説明できるものだけ参考程度に扱うのが安全", { anchor: "middle", size: 10.5, fill: SUB });
+  save("anomaly-calendar", 640, 225, g);
+}
+
+/* ============ 158. 材料出尽くし ============ */
+{
+  let g = txt(320, 24, "材料出尽くし：「噂で買って事実で売る」の値動き構造", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[60, 240], [120, 215], [180, 190], [240, 150], [300, 110], [340, 80]], { color: UP, w: 2.5 });
+  g += poly([[340, 80], [370, 95], [400, 130], [450, 160], [510, 185], [560, 200]], { color: DN, w: 2.5 });
+  g += line(340, 60, 340, 250, { color: LV, w: 2, dash: "6 4" });
+  g += txt(340, 52, "好材料の発表", { anchor: "middle", size: 11, fill: LV, bold: true });
+  g += txt(180, 130, "期待で買われる局面", { anchor: "middle", size: 10.5, fill: UP });
+  g += txt(180, 146, "（観測報道・思惑）", { anchor: "middle", size: 9.5 });
+  g += txt(480, 110, "発表を境に下落", { anchor: "middle", size: 10.5, fill: DN });
+  g += txt(480, 126, "＝新たに買う人が残っていない", { anchor: "middle", size: 9.5 });
+  g += txt(320, 285, "価格は「事実そのもの」でなく「事実と織り込みの差」で動く。良い決算で下がる現象の多くはこの構造（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("zairyo-dedukushi", 640, 300, g);
+}
+
+/* ============ 159. デッド・キャット・バウンス ============ */
+{
+  let g = txt(320, 24, "デッド・キャット・バウンス：急落後の反発が続かない", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[60, 70], [110, 85], [150, 110], [190, 170], [230, 220]], { color: DN, w: 2.5 });
+  g += poly([[230, 220], [270, 195], [310, 180]], { color: UP, w: 2.5 });
+  g += poly([[310, 180], [350, 200], [400, 235], [460, 255], [530, 270]], { color: DN, w: 2.5 });
+  g += txt(140, 70, "急落（悪材料）", { size: 10.5, fill: DN });
+  g += txt(310, 148, "小さな反発：売り方の買い戻し・値ごろ感の買い", { anchor: "middle", size: 9.5 });
+  g += txt(310, 166, "戻りは浅い", { anchor: "middle", size: 10.5, fill: UP, bold: true });
+  g += txt(470, 230, "戻り切れずに再下落", { size: 10.5, fill: DN });
+  g += line(60, 180, 560, 180, { color: GRID, w: 1, dash: "4 4" });
+  g += txt(320, 300, "急落後の反発だけでは転換と判断できない。出来高や戻りの深さなど複数の根拠で点検する（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("dead-cat-bounce", 640, 315, g);
+}
+
+/* ============ 160. NT倍率 ============ */
+{
+  let g = txt(320, 24, "NT倍率＝日経平均÷TOPIX：2つの指数の「性格の差」を測る", { anchor: "middle", bold: true, fill: INK, size: 12.5 });
+  g += poly([[60, 120], [140, 100], [220, 110], [300, 85], [380, 95], [460, 70], [560, 80]], { color: UP, w: 2.2 });
+  g += txt(80, 88, "日経平均（値がさ株の影響が大きい）", { size: 10, fill: UP });
+  g += poly([[60, 150], [140, 140], [220, 148], [300, 135], [380, 142], [460, 128], [560, 135]], { color: DN, w: 2.2 });
+  g += txt(80, 172, "TOPIX（時価総額加重・市場全体）", { size: 10, fill: DN });
+  g += line(40, 195, 600, 195, { color: GRID, w: 1.5 });
+  g += poly([[60, 250], [140, 238], [220, 245], [300, 225], [380, 232], [460, 212], [560, 220]], { color: LV, w: 2.5 });
+  g += txt(80, 268, "NT倍率（上昇＝日経平均優位の相場）", { size: 10, fill: LV, bold: true });
+  g += txt(320, 300, "倍率の上昇は値がさ株主導、低下は時価総額の大きい銘柄群主導の目安とされる（模式図）", { anchor: "middle", size: 10.5, fill: SUB });
+  save("nt-ratio", 640, 315, g);
+}
+
 console.log("done");
