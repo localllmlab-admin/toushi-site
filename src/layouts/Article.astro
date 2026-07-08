@@ -4,8 +4,13 @@ import Disclaimer from "../components/Disclaimer.astro";
 import Toc from "../components/Toc.astro";
 import { getCollection } from "astro:content";
 import { topicsOf } from "../data/topics.mjs";
+import { existsSync } from "node:fs";
 const { entry, headings = [] } = Astro.props;
 const { title, description, updated, reviewedAt, sources = [] } = entry.data;
+
+// OGP画像（ops/og/generate_og.mjs で事前生成・コミット済のもののみ参照。未生成はdefaultへ）
+const ogName = `${entry.collection}-${entry.slug}`;
+const ogImage = existsSync(`public/og/${ogName}.jpg`) ? `/og/${ogName}.jpg` : "/og/default.jpg";
 
 // 同じテーマの記事（テーマ別カテゴリの実データ分類から。根拠のない「おすすめ」は作らない）
 const myTopics = topicsOf(entry.collection, entry.data);
@@ -42,7 +47,7 @@ const jsonLd = {
   publisher: { "@type": "Organization", name: "投資の学び舎（まなびや）" },
 };
 ---
-<Base title={`${title}｜投資の学び舎（まなびや）`} description={description}>
+<Base title={`${title}｜投資の学び舎（まなびや）`} description={description} ogImage={ogImage}>
   <article class="container">
     <h1>{title}</h1>
     <p class="meta">
