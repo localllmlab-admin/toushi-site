@@ -1,11 +1,11 @@
 # ADR-0003: 収益化Phase 0-1着手（アフィリエイト導入解禁とPR表記基盤）
 
-- 日付: 2026-07-12
+- 日付: 2026-07-11
 - ステータス: 承認
 
 ## 背景
 
-- 収益導線企画書 `docs/research/monetization-plan-2026-07.md`（WO-TOUSHI-001・r2 = evidence-auditor / expert-reviewer 指摘11件反映済み）をMasaru（CEO）が2026-07-12に承認（「アフィリ入れて良い・Phase 0〜1着手して良い」）。
+- 収益導線企画書 `docs/research/monetization-plan-2026-07.md`（WO-TOUSHI-001・r2 = evidence-auditor / expert-reviewer 指摘11件反映済み）をMasaru（CEO）が2026-07-11に承認（「アフィリ入れて良い・Phase 0〜1着手して良い」）。
 - 従来のCLAUDE.md絶対制約7は「アフィリエイトは当面入れない」であり、導入にはこの制約の改定と意思決定の記録（ADR）が必要（企画書 §8 注記・§10-3）。
 - 現状は月間GSCクリック1・収益ゼロ。収益の従属変数はSEO成長であり、本決定は「流量成長に先行して、法的に堅牢な収益基盤を低コスト・可逆に敷設する」ことが目的。
 
@@ -37,4 +37,5 @@
 - CLAUDE.md絶対制約7の文言変更（本ADRで承認）。v5ルールの「書籍出典はAmazonアフィリ導入時にisPRとセットで解禁」が実行可能になる。
 - コード: `src/content/config.ts`（sources[].ad）・`src/layouts/Article.astro`（PR表記・広告バッジ・sponsored）・`ops/validate_content.mjs`（ad→isPR強制）・`src/pages/policy.astro`（広告掲載方針）。
 - 運用: Phase 1申請は月間クリック300到達後（それまで収益リンクは貼らない）。Phase 2着手前に匿名運用の扱いを別ADRで決裁（未決のままの提携申請は禁止）。撤回基準（SEO悪化30%×2ヶ月でリンク撤去等）は monetization-plan §8 に従う。
+- 技術的負債（**Phase 1着手時の必須前提**）: 現行の「ad:true → isPR:true」強制は validate_content.mjs の正規表現検知のみ。実リンク掲載を始める Phase 1 着手前に、`src/content/config.ts` の Zod スキーマへ superRefine で同制約を実装し、型レベル（ビルド時）でも強制すること（レビュー指摘 2026-07-11・regex検知はYAML表記ゆれに弱いため）。
 - リスク: E-E-A-T低下・ステマ規制違反・案件審査非承認等は monetization-plan §9 のリスク一覧と緩和策を正とする。
