@@ -51,10 +51,13 @@ function parseFrontmatter(raw) {
   fm.reviewed = get("reviewed") === "true";
   fm.reviewedAt = get("reviewedAt");
   fm.kind = get("kind")?.replace(/["']/g, "");
+  fm.isPR = get("isPR") === "true";
   // 等級付き出典: "grade: A" 形式の行を数える（E=当サイト編集部調べ・リンクなし）
   fm.gradesABC = (y.match(/grade:\s*["']?[ABC]["']?/g) || []).length;
   fm.gradesE = (y.match(/grade:\s*["']?E["']?/g) || []).length;
   fm.gradesAll = (y.match(/grade:\s*["']?[ABCDE]["']?/g) || []).length;
+  // 広告リンク: sources[].ad: true の件数（ADR-0003 / PR表記の強制に使用）
+  fm.adLinks = (y.match(/^\s*ad:\s*true\s*$/gm) || []).length;
   return fm;
 }
 
@@ -73,6 +76,11 @@ function check(path) {
   if (fm.gradesAll < 1) errors.push(`${path}: 等級付き出典(sources[].grade)が必要`);
   else if (fm.gradesABC < 1 && fm.gradesE < 1)
     errors.push(`${path}: 等級A/B/C（公的・学術・一次発表）の出典、なければE（編集部調べ）を最低1件`);
+
+  // 広告リンク（ad:true）を含むページは isPR:true を強制（PR表記の機械挿入・ADR-0003）
+  // → PR表記なしのアフィリリンクをビルド前に遮断する（ステマ規制対応）
+  if (fm.adLinks > 0 && !fm.isPR)
+    errors.push(`${path}: 広告リンク(sources[].ad:true)があるページは isPR: true 必須（PR表記強制）`);
 
   // レビュー整合性・鮮度
   if (fm.reviewed && !fm.reviewedAt)

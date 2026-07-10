@@ -1,6 +1,7 @@
 ---
 import Article from "../../layouts/Article.astro";
 import { getCollection } from "astro:content";
+import { matchKeysOf, textMentions } from "../../lib/glossary.mjs";
 export async function getStaticPaths() {
   // reviewed:true のみ公開（未レビュー自動生成物を除外）
   const items = (await getCollection("glossary")).filter((e) => e.data.reviewed);
@@ -13,6 +14,21 @@ const all = (await getCollection("glossary")).filter((e) => e.data.reviewed);
 const related = (entry.data.related ?? [])
   .map((name) => all.find((e) => e.data.term === name))
   .filter(Boolean);
+// この用語が出てくる記事（本文の実データからの逆引き・最大5件 / WO-TOUSHI-002(a)）
+// 語境界判定は本文の自動リンク（rehype-glossary-links）と同一（src/lib/glossary.mjs）
+const keys = matchKeysOf(entry.data.term);
+const usedIn = [];
+for (const [collection, entries] of [
+  ["learn", await getCollection("learn")],
+  ["playbook", await getCollection("playbook")],
+  ["charts", await getCollection("charts")],
+]) {
+  for (const e of entries) {
+    if (e.data.reviewed && textMentions(e.body, keys)) usedIn.push({ collection, e });
+  }
+}
+usedIn.sort((a, b) => new Date(b.e.data.updated) - new Date(a.e.data.updated));
+const usedInTop = usedIn.slice(0, 5);
 ---
 <Article entry={entry} headings={headings}>
   {entry.data.reading && <p class="reading">読み：{entry.data.reading}</p>}
@@ -25,6 +41,14 @@ const related = (entry.data.related ?? [])
       ))}</ul>
     </aside>
   )}
+  {usedInTop.length > 0 && (
+    <aside class="used-in">
+      <h2>この用語が出てくる記事</h2>
+      <ul>{usedInTop.map(({ collection, e }) => (
+        <li><a href={`/${collection}/${e.slug}/`}>{e.data.title}</a></li>
+      ))}</ul>
+    </aside>
+  )}
 </Article>
 <style is:global>
   .reading { color: var(--color-text-muted); font-size: .85rem; font-family: var(--font-mono); margin-top: -0.5rem; }
@@ -32,4 +56,10 @@ const related = (entry.data.related ?? [])
   .related h2 { font-size: 1rem; margin: 0 0 .5rem; border-bottom: none; }
   .related ul { margin: 0; padding-left: 1.2em; font-size: .9rem; }
   .related li { margin: .35rem 0; }
+  .used-in { margin-top: 1.4rem; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem 1.2rem; }
+  .used-in h2 { font-size: 1rem; margin: 0 0 .5rem; border-bottom: none; }
+  .used-in ul { margin: 0; padding-left: 1.2em; font-size: .9rem; }
+  .used-in li { margin: .35rem 0; }
+  .used-in a { font-weight: 700; text-decoration: none; }
+  .used-in a:hover { text-decoration: underline; }
 </style>

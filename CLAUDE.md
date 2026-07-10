@@ -13,7 +13,7 @@
 4. 全記事末尾に `Disclaimer` を機械的に描画（frontmatter で消せない設計を維持）。
 5. `sources` 空の記事はビルドを失敗させる（型で強制済み。緩めない）。
 6. 匿名運用。個人名・所属をコード／コンテンツ／コミットに残さない。
-7. アフィリエイトは当面入れない。将来入れる場合 `isPR` によるPR表記強制を実装。
+7. アフィリエイト広告は `docs/research/monetization-plan-2026-07.md`（Masaru承認 2026-07-12・ADR-0003）準拠でのみ導入可。要件: 対象ページの `isPR: true` によるPR表記の機械挿入・広告リンク（sources[].ad:true）への `rel="sponsored"` 付与・リンク近傍の「広告」バッジ（いずれもfrontmatterで消せない設計を維持）。教育記事本文への広告リンク直接埋め込みは禁止。AdSenseは原則見送り・有料note等の直接課金は原則実施しない。reviewed昇格ルール（Masaru承認後のみ）は不変。
 
 ## 実装方針
 - SSG は Astro。Content Collections + Zod でスキーマ強制。

@@ -18,6 +18,10 @@ const sourceSchema = z.object({
   url: z.string().url().optional(), // grade E（編集部調べ）はリンクを持たない
   title: z.string(),
   grade: z.enum(["A", "B", "C", "D", "E"]),
+  // アフィリエイトリンク（広告）フラグ（ADR-0003 / monetization-plan Phase 0）。
+  // true のとき Article.astro が rel="sponsored" と「広告」バッジを機械描画する。
+  // ad:true を含むページは isPR:true 必須（validate_content.mjs で強制・frontmatterで外せない）。
+  ad: z.boolean().default(false),
 });
 
 const commonFields = {

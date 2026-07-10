@@ -36,19 +36,64 @@ const upd = new Date(updated).toLocaleDateString("ja-JP");
 const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
 const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道", E: "編集部調べ" };
 
-// JSON-LD（Article 構造化データ：信頼シグナル・発見性）
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: title,
-  description,
-  dateModified: new Date(updated).toISOString(),
-  inLanguage: "ja",
-  publisher: { "@type": "Organization", name: "投資の学び舎（まなびや）" },
-};
+// JSON-LD（構造化データ：信頼シグナル・発見性 / WO-TOUSHI-002(a)で拡張）
+const siteName = "投資の学び舎（まなびや）";
+const siteUrl = Astro.site?.href ?? "https://toushi-manabiya.jp/";
+const pageUrl = new URL(`/${entry.collection}/${entry.slug}/`, siteUrl).href;
+const org = { "@type": "Organization", name: siteName, url: siteUrl };
+const sectionLabel = {
+  learn: "学ぶ", playbook: "手法・定石", charts: "チャート図解", glossary: "用語集",
+}[entry.collection];
+
+const jsonLdBlocks = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    // datePublished は公開ゲート（人間レビュー完了日）を採用。未設定時は updated へフォールバック
+    datePublished: new Date(reviewedAt ?? updated).toISOString(),
+    dateModified: new Date(updated).toISOString(),
+    image: new URL(ogImage, siteUrl).href,
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    inLanguage: "ja",
+    author: { "@type": "Organization", name: `${siteName}編集部`, url: siteUrl },
+    publisher: org,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "ホーム", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: sectionLabel, item: new URL(`/${entry.collection}/`, siteUrl).href },
+      { "@type": "ListItem", position: 3, name: title, item: pageUrl },
+    ],
+  },
+];
+
+// 用語集は DefinedTerm を追加（AI検索・リッチリザルト向けの機械可読化）
+if (entry.collection === "glossary") {
+  jsonLdBlocks.push({
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    name: entry.data.term,
+    ...(entry.data.reading ? { alternateName: entry.data.reading } : {}),
+    description,
+    url: pageUrl,
+    inDefinedTermSet: {
+      "@type": "DefinedTermSet",
+      name: `${siteName} 用語集`,
+      url: new URL("/glossary/", siteUrl).href,
+    },
+  });
+}
 ---
 <Base title={`${title}｜投資の学び舎（まなびや）`} description={description} ogImage={ogImage}>
   <article class="container">
+    <!-- PR表記は isPR: true で機械挿入（ステマ規制対応・frontmatterの他項目では消せない / ADR-0003） -->
+    {entry.data.isPR && (
+      <p class="pr-note">本ページにはアフィリエイト広告（PR）が含まれます</p>
+    )}
     <h1>{title}</h1>
     <p class="meta">
       最終更新: <time datetime={new Date(updated).toISOString()}>{upd}</time>
@@ -64,8 +109,14 @@ const jsonLd = {
           <li>
             <span class={`grade grade-${s.grade}`}>{s.grade}: {gradeLabel[s.grade]}</span>
             {s.url
-              ? <a href={s.url} target="_blank" rel="noopener noreferrer nofollow">{s.title}</a>
+              ? <a
+                  href={s.url}
+                  target="_blank"
+                  rel={s.ad ? "noopener noreferrer sponsored nofollow" : "noopener noreferrer nofollow"}
+                >{s.title}</a>
               : <span>{s.title}</span>}
+            {/* アフィリリンクはリンク近傍で広告性を明示（景表法ステマ規制対応 / ADR-0003） */}
+            {s.ad && <span class="ad-badge">広告</span>}
           </li>
         ))}</ul>
         <p class="grade-note"><a href="/policy/">出典等級について（編集方針）</a></p>
@@ -87,7 +138,9 @@ const jsonLd = {
     <!-- 免責は常に機械描画。frontmatter では消せない。 -->
     <Disclaimer />
   </article>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  {jsonLdBlocks.map((block) => (
+    <script type="application/ld+json" set:html={JSON.stringify(block)} />
+  ))}
   <style>
     .container { padding: 2.4rem 1.25rem 3.5rem; }
     .meta {
@@ -95,7 +148,21 @@ const jsonLd = {
       font-size: 0.85rem;
       font-family: var(--font-mono);
     }
+    /* PR表記（isPR時に機械挿入・ファーストビュー近傍） */
+    .pr-note {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      background: var(--color-surface-muted);
+      border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-s);
+      padding: .3em .8em;
+      margin: 0 0 .6rem;
+    }
     .body :global(h2) { margin-top: 2.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
+    /* 用語集への自動リンク（rehype-glossary-links）は点線下線で本文リンクと区別 */
+    .body :global(a.term-link) { text-decoration: underline dotted; text-underline-offset: 3px; }
     .body :global(figure.diagram) {
       margin: 1.6rem 0;
       border: 1px solid var(--color-border);
@@ -143,6 +210,19 @@ const jsonLd = {
     .grade-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
     /* E: 編集部調べ = リンクなしの編集責任表示（罫線のみ・控えめ） */
     .grade-E { background: var(--color-bg); color: var(--color-text-muted); }
+    /* 広告バッジ = アフィリリンク近傍の広告明示（等級バッジと同系の機械描画） */
+    .ad-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .15em .55em;
+      border-radius: var(--radius-s);
+      margin-left: .5em;
+      border: 1px solid var(--color-border-strong);
+      background: var(--color-surface-muted);
+      color: var(--color-text-muted);
+    }
     .grade-note { font-size: .8rem; color: var(--color-text-muted); }
   </style>
 </Base>
