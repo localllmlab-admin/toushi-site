@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（証拠金取引に関する注意喚起）"
+  - url: "https://www.fsa.go.jp/ordinary/iwagai/"
+    title: "金融庁「いわゆる外国為替証拠金取引について」"
     grade: "A"
-  - url: "https://www.ffaj.or.jp/"
-    title: "金融先物取引業協会（証拠金取引の基礎知識）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "金融先物取引業協会「FFAJの学ぼう！FX」（外国為替証拠金取引の解説）"
     grade: "A"
 level: 3
 order: 50

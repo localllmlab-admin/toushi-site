@@ -6,9 +6,8 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "J・ウエルズ・ワイルダー『ワイルダーのテクニカル分析入門』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 patternType: "インジケーター"
 ---
 

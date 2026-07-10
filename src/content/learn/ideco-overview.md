@@ -9,8 +9,8 @@ sources:
   - url: "https://www.ideco-koushiki.jp/"
     title: "iDeCo公式サイト（国民年金基金連合会）"
     grade: "A"
-  - url: "https://www.mhlw.go.jp/"
-    title: "厚生労働省（iDeCoの概要）"
+  - url: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/nenkin/nenkin/kyoshutsu/index.html"
+    title: "厚生労働省「確定拠出年金制度」（iDeCoを含む）"
     grade: "A"
 level: 1
 order: 20

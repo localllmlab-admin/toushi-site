@@ -6,14 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（外国為替市場に関する解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
-  - url: "https://www.ffaj.or.jp/"
-    title: "一般社団法人 金融先物取引業協会（FX取引の基礎知識）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "一般社団法人 金融先物取引業協会「FFAJの学ぼう！FX」"
     grade: "A"
-  - url: "https://www.zenginkyo.or.jp/"
-    title: "全国銀行協会（銀行取引の解説）"
+  - url: "https://www.zenginkyo.or.jp/article/"
+    title: "全国銀行協会「教えて！くらしと銀行」"
     grade: "A"
 level: 2
 order: 88

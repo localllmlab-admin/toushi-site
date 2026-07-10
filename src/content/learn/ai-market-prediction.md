@@ -6,11 +6,10 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融市場とテクノロジーに関する公表資料）"
-    grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
+  - title: "当サイト編集部調べ"
+    grade: "E"
+  - url: "https://www.boj.or.jp/research/index.htm"
+    title: "日本銀行「調査・研究」"
     grade: "A"
 level: 4
 order: 50

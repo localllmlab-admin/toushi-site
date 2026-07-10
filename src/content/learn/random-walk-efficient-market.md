@@ -8,9 +8,8 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://bookplus.nikkei.com/"
-    title: "バートン・マルキール『ウォール街のランダム・ウォーカー』（日経BP・日本経済新聞出版）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 ---
 
 ## 結論

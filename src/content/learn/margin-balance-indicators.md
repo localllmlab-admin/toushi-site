@@ -8,8 +8,8 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（信用取引残高等の公表データ・投資の基礎）"
+  - url: "https://www.jpx.co.jp/markets/statistics-equities/margin/index.html"
+    title: "日本取引所グループ（信用取引残高等）"
     grade: "A"
   - url: "https://www.taisyaku.jp/"
     title: "日本証券金融（貸借取引情報）"

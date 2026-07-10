@@ -6,12 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"
-    grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 2
 order: 40
 chapter: "行動と心理"

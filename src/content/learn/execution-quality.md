@@ -6,14 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買制度・arrowheadの解説）"
+  - url: "https://www.jpx.co.jp/systems/equities-trading/index.html"
+    title: "日本取引所グループ（売買システム「arrowhead」サービス概要）"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（最良執行方針に関する制度資料）"
+  - url: "https://www.fsa.go.jp/singi/singi_kinyu/tosin/20210602.html"
+    title: "金融庁 金融審議会「最良執行のあり方等に関するタスクフォース」報告書"
     grade: "A"
-  - url: "https://www.ffaj.or.jp/"
-    title: "一般社団法人 金融先物取引業協会（FX取引の基礎知識）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "一般社団法人 金融先物取引業協会「FFAJの学ぼう！FX」"
     grade: "A"
 level: 3
 order: 90

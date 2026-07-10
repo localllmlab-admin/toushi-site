@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（教えて！にちぎん）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
-  - url: "https://www.mof.go.jp/"
-    title: "財務省（外国為替の基礎資料）"
+  - url: "https://www.mof.go.jp/policy/international_policy/"
+    title: "財務省「国際政策（外国為替・国際通貨・経済協力）」"
     grade: "A"
 level: 1
 order: 40

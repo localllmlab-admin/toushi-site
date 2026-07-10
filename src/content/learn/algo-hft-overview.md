@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（高速取引行為者の登録制度）"
+  - url: "https://www.fsa.go.jp/common/shinsei/hst/index.html"
+    title: "金融庁「高速取引行為を行うみなさまへ」（高速取引行為者の登録制度）"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買制度・システムの解説）"
+  - url: "https://www.jpx.co.jp/equities/trading/domestic/index.html"
+    title: "日本取引所グループ（内国株の売買制度）"
     grade: "A"
 level: 3
 order: 10

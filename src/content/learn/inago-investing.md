@@ -6,11 +6,10 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
-    grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（SNS発の投資情報への注意喚起）"
+  - title: "当サイト編集部調べ"
+    grade: "E"
+  - url: "https://www.fsa.go.jp/ordinary/chuui/sns.html"
+    title: "金融庁「SNS・マッチングアプリ等で知り合った者や著名人を騙る者からの投資勧誘等にご注意ください」"
     grade: "A"
 level: 2
 order: 80

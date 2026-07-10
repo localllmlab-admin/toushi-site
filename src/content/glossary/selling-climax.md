@@ -8,9 +8,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 related: ["ドローダウン", "ロスカット", "出来高"]
 ---
 

@@ -6,12 +6,11 @@ updated: 2026-07-01
 reviewed: true
 reviewedAt: 2026-07-01
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁"
+  - url: "https://laws.e-gov.go.jp/document?lawid=323AC0000000025"
+    title: "e-Gov法令検索（金融商品取引法・インサイダー取引規制は166条等）"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 2
 order: 30
 chapter: "法規制とルール"

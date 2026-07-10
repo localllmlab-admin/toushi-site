@@ -11,8 +11,8 @@ sources:
   - url: "https://www.taisyaku.jp/"
     title: "日本証券金融（貸借取引情報）"
     grade: "C"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（信用取引の基礎）"
+  - url: "https://www.jpx.co.jp/equities/trading/margin/outline/index.html"
+    title: "日本取引所グループ（信用取引制度の概要）"
     grade: "A"
 related: ["証拠金", "追証（おいしょう）"]
 ---

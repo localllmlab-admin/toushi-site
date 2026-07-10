@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/sesc/"
-    title: "証券取引等監視委員会（相場操縦事案の公表資料）"
+  - url: "https://www.fsa.go.jp/sesc/message/index.htm"
+    title: "証券取引等監視委員会「市場へのメッセージ」（勧告事案等の解説）"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買審査の解説）"
+  - url: "https://www.jpx.co.jp/tse-school/learn/06a.html"
+    title: "日本取引所グループ（なるほど！東証経済教室「自主規制とは①～売買審査とは～」）"
     grade: "A"
 level: 3
 order: 40

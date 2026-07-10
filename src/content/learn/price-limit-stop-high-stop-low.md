@@ -6,11 +6,11 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買制度・制限値幅の解説）"
+  - url: "https://www.jpx.co.jp/equities/trading/domestic/06.html"
+    title: "日本取引所グループ（内国株の売買制度・制限値幅）"
     grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の時間）"
+  - url: "https://www.j-flec.go.jp/links/jikan/"
+    title: "日本証券業協会「投資の時間」（J-FLECアーカイブ）"
     grade: "A"
 level: 2
 order: 84

@@ -6,12 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
-    grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 kind: "手法"
 ---
 

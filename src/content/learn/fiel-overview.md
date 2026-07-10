@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（金融商品取引法の概要）"
+  - url: "https://www.fsa.go.jp/policy/kinyusyohin/index.html"
+    title: "金融庁「金融商品取引法について」"
     grade: "A"
-  - url: "https://elaws.e-gov.go.jp/document?lawid=323AC0000000025"
-    title: "e-Gov法令検索（金融商品取引法）"
+  - url: "https://laws.e-gov.go.jp/document?lawid=323AC0000000025"
+    title: "e-Gov法令検索「金融商品取引法」"
     grade: "A"
 level: 3
 order: 10

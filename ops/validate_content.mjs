@@ -51,9 +51,10 @@ function parseFrontmatter(raw) {
   fm.reviewed = get("reviewed") === "true";
   fm.reviewedAt = get("reviewedAt");
   fm.kind = get("kind")?.replace(/["']/g, "");
-  // 等級付き出典: "grade: A" 形式の行を数える
+  // 等級付き出典: "grade: A" 形式の行を数える（E=当サイト編集部調べ・リンクなし）
   fm.gradesABC = (y.match(/grade:\s*["']?[ABC]["']?/g) || []).length;
-  fm.gradesAll = (y.match(/grade:\s*["']?[ABCD]["']?/g) || []).length;
+  fm.gradesE = (y.match(/grade:\s*["']?E["']?/g) || []).length;
+  fm.gradesAll = (y.match(/grade:\s*["']?[ABCDE]["']?/g) || []).length;
   return fm;
 }
 
@@ -67,9 +68,11 @@ function check(path) {
   if (!fm.title) errors.push(`${path}: title 必須`);
   if (!fm.updated) errors.push(`${path}: updated 必須`);
 
-  // 出典等級：A/B/C を最低1件（Dのみは不可＝報道の引き写し防止）
+  // 出典等級：A/B/C を最低1件。該当する一次資料ページが実在しない場合のみ E（編集部調べ）で明示する
+  // （リンク先に記事のないこじつけ出典は禁止・Masaru指示 2026-07-10）。Dのみは不可＝報道の引き写し防止
   if (fm.gradesAll < 1) errors.push(`${path}: 等級付き出典(sources[].grade)が必要`);
-  else if (fm.gradesABC < 1) errors.push(`${path}: 等級A/B/C（公的・学術・一次発表）の出典を最低1件`);
+  else if (fm.gradesABC < 1 && fm.gradesE < 1)
+    errors.push(`${path}: 等級A/B/C（公的・学術・一次発表）の出典、なければE（編集部調べ）を最低1件`);
 
   // レビュー整合性・鮮度
   if (fm.reviewed && !fm.reviewedAt)

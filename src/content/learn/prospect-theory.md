@@ -6,15 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
+  - title: "当サイト編集部調べ"
+    grade: "E"
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory: An Analysis of Decision under Risk, Econometrica"
     grade: "B"
   - url: "https://link.springer.com/article/10.1007/BF00122574"
     title: "Tversky & Kahneman (1992) Advances in Prospect Theory, Journal of Risk and Uncertainty（損失回避係数の推定）"
     grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
 level: 2
 order: 10
 chapter: "行動と心理"

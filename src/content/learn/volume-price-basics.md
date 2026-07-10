@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎・統計情報）"
+  - url: "https://www.jpx.co.jp/markets/statistics-equities/index.html"
+    title: "日本取引所グループ（統計情報（株式関連））"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 40
 chapter: "分析手法"

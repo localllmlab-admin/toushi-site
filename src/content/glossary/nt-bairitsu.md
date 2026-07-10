@@ -8,11 +8,11 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://indexes.nikkei.co.jp/"
+  - url: "https://indexes.nikkei.co.jp/nkave"
     title: "日経平均プロフィル（日本経済新聞社）"
     grade: "C"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（TOPIX・マーケット情報）"
+  - url: "https://www.jpx.co.jp/markets/indices/topix/index.html"
+    title: "日本取引所グループ（TOPIX（東証株価指数））"
     grade: "A"
 related: ["ヘッジ", "アービトラージ"]
 ---

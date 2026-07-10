@@ -6,15 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融システムレポート等の公表資料）"
+  - url: "https://www.boj.or.jp/research/brp/fsr/index.htm"
+    title: "日本銀行「金融システムレポート」"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（資産運用業に関する公表資料）"
+  - url: "https://www.fsa.go.jp/policy/pjlamc/20231214.html"
+    title: "金融庁「資産運用立国について」"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ジャック・D・シュワッガー『マーケットの魔術師』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 84
 chapter: "お金と市場の基礎"

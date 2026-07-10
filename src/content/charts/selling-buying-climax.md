@@ -6,15 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の時間）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 patternType: "反転"
 ---
 

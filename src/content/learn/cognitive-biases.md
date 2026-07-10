@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
+  - title: "当サイト編集部調べ"
+    grade: "E"
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory, Econometrica"
     grade: "B"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
-    grade: "A"
 level: 2
 order: 20
 chapter: "行動と心理"

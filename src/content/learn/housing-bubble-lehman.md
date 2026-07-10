@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融システムレポート・世界金融危機に関する公表資料）"
+  - url: "https://www.boj.or.jp/research/brp/fsr/index.htm"
+    title: "日本銀行「金融システムレポート」"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（世界金融危機への対応に関する公表資料）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 100
 chapter: "お金と市場の基礎"

@@ -7,15 +7,17 @@ import { defineCollection, z } from "astro:content";
  *   grade B: 学術論文・書籍（査読・出版済み）
  *   grade C: 企業公式・一次発表（IR/公式ドキュメント）
  *   grade D: 信頼できる報道
- *   → 事実主張には A/B/C を最低1件要求（validate_content.mjs で検査）
+ *   grade E: 当サイト編集部調べ（リンクなし。該当する一次資料のWebページが実在しない場合のみ）
+ *   → 事実主張には A/B/C（なければ E）を最低1件要求（validate_content.mjs で検査）
+ *   → リンク先に実際の記事・資料がないURL（出版社トップページ等）を出典にしない（Masaru指示 2026-07-10）
  * - reviewedAt: 人間レビュー完了日。updated(内容更新日)と分離し鮮度監査に使う。
  *   1年超で「再レビュー要」を検出（永続性・正確性の担保）。
  */
 
 const sourceSchema = z.object({
-  url: z.string().url(),
+  url: z.string().url().optional(), // grade E（編集部調べ）はリンクを持たない
   title: z.string(),
-  grade: z.enum(["A", "B", "C", "D"]),
+  grade: z.enum(["A", "B", "C", "D", "E"]),
 });
 
 const commonFields = {

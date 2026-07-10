@@ -6,9 +6,8 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ロバート・R・プレクター、A・J・フロスト『エリオット波動入門』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 patternType: "プライスアクション"
 ---
 

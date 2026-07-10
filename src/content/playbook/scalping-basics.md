@@ -6,15 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "一般社団法人 金融先物取引業協会「FFAJの学ぼう！FX」"
     grade: "A"
-  - url: "https://www.ffaj.or.jp/"
-    title: "一般社団法人 金融先物取引業協会（FX取引の基礎知識）"
-    grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 kind: "手法"
 ---
 

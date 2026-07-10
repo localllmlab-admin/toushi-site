@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（EDINET・開示制度の解説）"
+  - url: "https://www.fsa.go.jp/search/20130917.html"
+    title: "金融庁「EDINETについて」"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（決算情報の見方）"
+  - url: "https://www.jpx.co.jp/equities/listed-co/format/summary/index.html"
+    title: "日本取引所グループ（決算短信作成要領・四半期決算短信作成要領）"
     grade: "A"
 level: 2
 order: 50

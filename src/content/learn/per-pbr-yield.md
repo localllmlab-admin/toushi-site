@@ -6,11 +6,10 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（株式関連指標の解説・統計）"
-    grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
+  - title: "当サイト編集部調べ"
+    grade: "E"
+  - url: "https://www.jpx.co.jp/markets/statistics-equities/index.html"
+    title: "日本取引所グループ（統計情報（株式関連））"
     grade: "A"
 level: 2
 order: 60

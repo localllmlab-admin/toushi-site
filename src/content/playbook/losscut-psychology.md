@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
+  - title: "当サイト編集部調べ"
+    grade: "E"
   - url: "https://www.jstor.org/stable/1914185"
     title: "Kahneman & Tversky (1979) Prospect Theory: An Analysis of Decision under Risk, Econometrica"
     grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
 kind: "心理"
 ---
 

@@ -8,8 +8,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（先物・オプションの基礎）"
+  - url: "https://www.jpx.co.jp/ose-toshijuku/"
+    title: "日本取引所グループ（北浜投資塾・大阪取引所）"
     grade: "A"
 related: ["ヘッジ", "流動性", "約定"]
 ---

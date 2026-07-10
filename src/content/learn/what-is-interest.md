@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（教えて！にちぎん）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（資産形成の基礎）"
+  - url: "https://www.fsa.go.jp/policy/nisa2/knowledge/basic/index.html"
+    title: "金融庁 NISA特設ウェブサイト「資産形成の基本」"
     grade: "A"
 level: 1
 order: 20

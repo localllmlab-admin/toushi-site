@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融研究所によるバブル期の金融政策に関する研究資料）"
+  - url: "https://www.imes.boj.or.jp/"
+    title: "日本銀行金融研究所（IMES）"
     grade: "A"
-  - url: "https://www5.cao.go.jp/"
-    title: "内閣府（経済白書・バブル期の分析）"
+  - url: "https://www5.cao.go.jp/keizai3/whitepaper.html"
+    title: "内閣府「年次経済財政報告（経済財政白書）一覧」"
     grade: "A"
 level: 2
 order: 90

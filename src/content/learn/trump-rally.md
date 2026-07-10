@@ -6,15 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（時系列統計データ・為替相場）"
+  - url: "https://www.stat-search.boj.or.jp/"
+    title: "日本銀行「時系列統計データ検索サイト」"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（市場データ）"
+  - url: "https://www.jpx.co.jp/markets/index.html"
+    title: "日本取引所グループ（マーケット情報）"
     grade: "A"
-  - url: "https://www.nikkei.com/"
-    title: "日本経済新聞（2016年・2024年米大統領選関連報道）"
-    grade: "D"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 98
 chapter: "お金と市場の基礎"

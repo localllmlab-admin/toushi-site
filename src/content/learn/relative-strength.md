@@ -8,8 +8,8 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（TOPIX・業種別指数）"
+  - url: "https://www.jpx.co.jp/markets/indices/index.html"
+    title: "日本取引所グループ（株価指数関連）"
     grade: "A"
 ---
 

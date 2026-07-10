@@ -6,12 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ロバート・パルド『トレーディングシステムの開発と検証と最適化』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 20
 chapter: "テクノロジーと自動化"

@@ -8,8 +8,8 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（マーケット情報・投資の基礎）"
+  - url: "https://www.jpx.co.jp/markets/index.html"
+    title: "日本取引所グループ（マーケット情報）"
     grade: "A"
 ---
 

@@ -9,11 +9,11 @@ sources:
   - url: "https://www.mof.go.jp/policy/international_policy/reference/feio/"
     title: "財務省「外国為替平衡操作の実施状況」"
     grade: "A"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（為替介入に関する解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/intl/g19.htm"
+    title: "日本銀行 教えて！にちぎん「為替介入（外国為替市場介入）とは何ですか？」"
     grade: "A"
-  - url: "https://www.mof.go.jp/"
-    title: "財務省（国際金融関係の公表資料）"
+  - url: "https://www.mof.go.jp/policy/international_policy/"
+    title: "財務省「国際政策（外国為替・国際通貨・経済協力）」"
     grade: "A"
 level: 2
 order: 92

@@ -8,12 +8,11 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融政策・マーケット関連資料）"
+  - url: "https://www.boj.or.jp/research/index.htm"
+    title: "日本銀行「調査・研究」"
     grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 ---
 
 ## 結論

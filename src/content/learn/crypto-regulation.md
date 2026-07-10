@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（暗号資産関係の制度・注意喚起）"
+  - url: "https://www.fsa.go.jp/policy/virtual_currency02/index.html"
+    title: "金融庁「暗号資産・電子決済手段関係」（制度・注意喚起）"
     grade: "A"
-  - url: "https://www.nta.go.jp/"
-    title: "国税庁（暗号資産の税務上の取扱い）"
+  - url: "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1524.htm"
+    title: "国税庁 タックスアンサー No.1524（暗号資産を使用することにより利益が生じた場合の課税関係）"
     grade: "A"
 level: 3
 order: 50

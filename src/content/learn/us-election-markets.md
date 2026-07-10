@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎・市場データ）"
+  - url: "https://www.jpx.co.jp/markets/index.html"
+    title: "日本取引所グループ（マーケット情報）"
     grade: "A"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融市場に関する公表資料）"
+  - url: "https://www.boj.or.jp/research/index.htm"
+    title: "日本銀行「調査・研究」"
     grade: "A"
 level: 3
 order: 96

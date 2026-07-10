@@ -9,8 +9,8 @@ sources:
   - url: "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1463.htm"
     title: "国税庁 タックスアンサー No.1463（株式等を譲渡したときの課税・申告分離課税）"
     grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（証券税制の解説）"
+  - url: "https://www.jsda.or.jp/anshin/oshirase/index.html"
+    title: "日本証券業協会「証券税制」"
     grade: "A"
 level: 2
 order: 130

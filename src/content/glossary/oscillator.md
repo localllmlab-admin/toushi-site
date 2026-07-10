@@ -8,9 +8,8 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 related: ["ボラティリティ", "時間足"]
 ---
 

@@ -11,9 +11,8 @@ sources:
   - url: "https://www.esri.cao.go.jp/jp/stat/di/di.html"
     title: "内閣府 経済社会総合研究所「景気動向指数」"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 ---
 
 ## 結論

@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://bookplus.nikkei.com/"
-    title: "ロバート・シラー『投機バブル 根拠なき熱狂』（ダイヤモンド社/日経BP系列刊行の邦訳）"
-    grade: "B"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（海外経済・金融市場に関する公表資料）"
+  - url: "https://www.boj.or.jp/research/index.htm"
+    title: "日本銀行「調査・研究」"
     grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 60
 chapter: "テクノロジーと自動化"

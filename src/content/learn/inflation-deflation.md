@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（教えて！にちぎん・物価の解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
-  - url: "https://www.stat.go.jp/"
-    title: "総務省統計局（消費者物価指数）"
+  - url: "https://www.stat.go.jp/data/cpi/index.html"
+    title: "総務省統計局「消費者物価指数（CPI）」"
     grade: "A"
 level: 2
 order: 50

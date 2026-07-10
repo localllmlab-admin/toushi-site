@@ -34,7 +34,7 @@ if (myTopics.length > 0) {
 }
 const upd = new Date(updated).toLocaleDateString("ja-JP");
 const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
-const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道" };
+const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道", E: "編集部調べ" };
 
 // JSON-LD（Article 構造化データ：信頼シグナル・発見性）
 const jsonLd = {
@@ -63,7 +63,9 @@ const jsonLd = {
         <ul>{sources.map((s) => (
           <li>
             <span class={`grade grade-${s.grade}`}>{s.grade}: {gradeLabel[s.grade]}</span>
-            <a href={s.url} rel="noopener nofollow">{s.title}</a>
+            {s.url
+              ? <a href={s.url} target="_blank" rel="noopener noreferrer nofollow">{s.title}</a>
+              : <span>{s.title}</span>}
           </li>
         ))}</ul>
         <p class="grade-note"><a href="/policy/">出典等級について（編集方針）</a></p>
@@ -139,6 +141,8 @@ const jsonLd = {
     .grade-B, .grade-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }
     /* D: 報道 = グレー（事実単独での根拠にしないため一段控えめ） */
     .grade-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
+    /* E: 編集部調べ = リンクなしの編集責任表示（罫線のみ・控えめ） */
+    .grade-E { background: var(--color-bg); color: var(--color-text-muted); }
     .grade-note { font-size: .8rem; color: var(--color-text-muted); }
   </style>
 </Base>

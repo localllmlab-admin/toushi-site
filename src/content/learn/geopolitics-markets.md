@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融システムレポート等の公表資料）"
+  - url: "https://www.boj.or.jp/research/brp/fsr/index.htm"
+    title: "日本銀行「金融システムレポート」"
     grade: "A"
-  - url: "https://www.mof.go.jp/"
-    title: "財務省（国際金融関係の公表資料）"
+  - url: "https://www.mof.go.jp/policy/international_policy/"
+    title: "財務省「国際政策（外国為替・国際通貨・経済協力）」"
     grade: "A"
 level: 3
 order: 80

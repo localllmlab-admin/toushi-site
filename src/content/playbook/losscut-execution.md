@@ -6,11 +6,10 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買制度・注文方法の解説）"
-    grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
+  - title: "当サイト編集部調べ"
+    grade: "E"
+  - url: "https://www.jpx.co.jp/equities/trading/domestic/04.html"
+    title: "日本取引所グループ（内国株の売買制度・売買成立の方法）"
     grade: "A"
 kind: "リスク管理"
 ---

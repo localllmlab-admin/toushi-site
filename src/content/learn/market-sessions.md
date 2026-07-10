@@ -6,14 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.bis.org/"
-    title: "国際決済銀行（BIS）外国為替市場サーベイ（3年毎調査）"
+  - url: "https://data.bis.org/topics/DER"
+    title: "BIS「Triennial Central Bank Survey（3年毎中央銀行サーベイ・外為市場統計）」"
     grade: "A"
-  - url: "https://www.ffaj.or.jp/"
-    title: "一般社団法人 金融先物取引業協会（FX取引の基礎知識）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "一般社団法人 金融先物取引業協会「FFAJの学ぼう！FX」"
     grade: "A"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（取引時間の解説）"
+  - url: "https://www.jpx.co.jp/equities/trading/domestic/01.html"
+    title: "日本取引所グループ（内国株の売買制度・売買立会時（立会時間））"
     grade: "A"
 level: 1
 order: 90

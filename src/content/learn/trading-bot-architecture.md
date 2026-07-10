@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（売買制度の解説）"
+  - url: "https://www.jpx.co.jp/equities/trading/domestic/index.html"
+    title: "日本取引所グループ（内国株の売買制度）"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "ロバート・パルド『トレーディングシステムの開発と検証と最適化』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 4
 order: 40
 chapter: "テクノロジーと自動化"

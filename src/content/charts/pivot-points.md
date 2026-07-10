@@ -6,9 +6,8 @@ updated: 2026-07-08
 reviewed: true
 reviewedAt: 2026-07-08
 sources:
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 patternType: "インジケーター"
 ---
 

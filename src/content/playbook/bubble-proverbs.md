@@ -6,12 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
-    grade: "A"
-  - url: "https://bookplus.nikkei.com/"
-    title: "C・P・キンドルバーガー『熱狂、恐慌、崩壊』（日経BP）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 kind: "格言"
 ---
 

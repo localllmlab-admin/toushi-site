@@ -8,8 +8,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎・用語解説）"
+  - url: "https://www.jpx.co.jp/glossary/"
+    title: "日本取引所グループ（用語集）"
     grade: "A"
 related: ["スプレッド", "スリッページ", "板（いた）"]
 ---

@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://elaws.e-gov.go.jp/document?lawid=323AC0000000025"
-    title: "e-Gov法令検索（金融商品取引法38条）"
+  - url: "https://laws.e-gov.go.jp/document?lawid=323AC0000000025"
+    title: "e-Gov法令検索「金融商品取引法」（第38条）"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（金融サービス利用者向け注意喚起）"
+  - url: "https://www.fsa.go.jp/ordinary/chuui/chuui.html"
+    title: "金融庁「金融庁からのお願い・注意喚起」"
     grade: "A"
 level: 2
 order: 20

@@ -8,8 +8,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（金融・証券用語の解説）"
+  - url: "https://www.j-flec.go.jp/links/jikan/word/"
+    title: "金融・証券用語集（投資の時間｜日本証券業協会）"
     grade: "A"
 related: ["含み損益", "塩漬け"]
 ---

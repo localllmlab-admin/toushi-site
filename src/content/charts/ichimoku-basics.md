@@ -6,12 +6,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "佐々木英信『一目均衡表の研究』（パンローリング）"
-    grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 patternType: "インジケーター"
 ---
 

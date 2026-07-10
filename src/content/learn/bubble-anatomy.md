@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://bookplus.nikkei.com/"
-    title: "C・P・キンドルバーガー『熱狂、恐慌、崩壊 ― 金融恐慌の歴史』（日経BP）"
-    grade: "B"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融システムレポート）"
+  - url: "https://www.boj.or.jp/research/brp/fsr/index.htm"
+    title: "日本銀行「金融システムレポート」"
     grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 3
 order: 70
 chapter: "行動と心理"

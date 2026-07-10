@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
+  - url: "https://www.jpx.co.jp/equities/products/etfs/etf-outline/02.html"
     title: "日本取引所グループ（ETFの仕組み）"
     grade: "A"
-  - url: "https://www.toushin.or.jp/"
-    title: "投資信託協会（投資信託の基礎）"
+  - url: "https://www.imaj.or.jp/study/"
+    title: "資産運用業協会「学ぶ・知る」（旧・投資信託協会）"
     grade: "A"
 level: 1
 order: 30

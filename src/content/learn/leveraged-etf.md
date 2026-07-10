@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（レバレッジ型・インバース型ETFの注意点）"
+  - url: "https://www.jpx.co.jp/equities/products/etfs/risk/index.html"
+    title: "日本取引所グループ（ETF・投資のリスク）"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（レバレッジ型商品への注意喚起）"
+  - url: "https://www.fsa.go.jp/user/20211119tyuikanki.pdf"
+    title: "金融庁「レバレッジ型・インバース型ETF等への投資にあたってご注意ください」（PDF）"
     grade: "A"
 level: 3
 order: 50

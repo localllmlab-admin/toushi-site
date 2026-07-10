@@ -8,12 +8,8 @@ reviewedAt: 2026-07-08
 level: 3
 chapter: "分析手法"
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ジェフリー・ハーシュ『アノマリー投資』（パンローリング）"
-    grade: "B"
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（投資の基礎）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 ---
 
 ## 結論

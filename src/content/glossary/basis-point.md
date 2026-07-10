@@ -8,8 +8,8 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（教えて！にちぎん）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
 related: ["イールドカーブ"]
 ---

@@ -6,15 +6,14 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
+  - url: "https://www.jpx.co.jp/markets/statistics-equities/investor-type/index.html"
     title: "日本取引所グループ（投資部門別売買状況）"
     grade: "A"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融システムレポート等の公表資料）"
+  - url: "https://www.boj.or.jp/research/brp/fsr/index.htm"
+    title: "日本銀行「金融システムレポート」"
     grade: "A"
-  - url: "https://www.panrolling.com/"
-    title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 2
 order: 82
 chapter: "お金と市場の基礎"

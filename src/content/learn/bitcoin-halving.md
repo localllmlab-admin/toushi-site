@@ -9,8 +9,8 @@ sources:
   - url: "https://bitcoin.org/bitcoin.pdf"
     title: "Satoshi Nakamoto (2008) Bitcoin: A Peer-to-Peer Electronic Cash System（原論文）"
     grade: "B"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（暗号資産の解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/money/c27.htm"
+    title: "日本銀行 教えて！にちぎん「暗号資産（仮想通貨）とは何ですか？」"
     grade: "A"
 level: 2
 order: 80

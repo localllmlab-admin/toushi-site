@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（暗号資産に関する注意喚起）"
+  - url: "https://www.fsa.go.jp/policy/virtual_currency02/index.html"
+    title: "金融庁「暗号資産・電子決済手段関係」（制度・注意喚起）"
     grade: "A"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（暗号資産の解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/money/c27.htm"
+    title: "日本銀行 教えて！にちぎん「暗号資産（仮想通貨）とは何ですか？」"
     grade: "A"
 level: 3
 order: 90

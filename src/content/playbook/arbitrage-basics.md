@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（先物・オプション、裁定取引の基礎）"
+  - url: "https://www.jpx.co.jp/ose-toshijuku/"
+    title: "日本取引所グループ（北浜投資塾・大阪取引所）"
     grade: "A"
-  - url: "https://www.boj.or.jp/"
-    title: "日本銀行（金融市場に関する解説）"
+  - url: "https://www.boj.or.jp/about/education/oshiete/"
+    title: "日本銀行「教えて！にちぎん」"
     grade: "A"
 kind: "手法"
 ---

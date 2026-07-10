@@ -9,8 +9,8 @@ sources:
   - url: "https://www.fsa.go.jp/policy/nisa2/"
     title: "金融庁（NISA特設ウェブサイト）"
     grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（NISAの解説）"
+  - url: "https://www.jsda.or.jp/nisa/"
+    title: "日本証券業協会 NISA特設サイト"
     grade: "A"
 level: 1
 order: 10

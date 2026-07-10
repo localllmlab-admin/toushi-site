@@ -8,12 +8,11 @@ reviewedAt: 2026-07-08
 level: 4
 chapter: "分析手法"
 sources:
-  - url: "https://www.panrolling.com/"
-    title: "ジョン・J・マーフィー『マーケットのテクニカル分析』（パンローリング）"
-    grade: "B"
   - url: "https://www.esri.cao.go.jp/jp/stat/di/hiduke.html"
     title: "内閣府 経済社会総合研究所「景気基準日付」"
     grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 ---
 
 ## 結論

@@ -6,11 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.ffaj.or.jp/"
-    title: "金融先物取引業協会（FXの基礎知識）"
+  - url: "https://www.ffaj.or.jp/learning/"
+    title: "金融先物取引業協会「FFAJの学ぼう！FX」"
     grade: "A"
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（外国為替証拠金取引について）"
+  - url: "https://www.fsa.go.jp/ordinary/iwagai/"
+    title: "金融庁「いわゆる外国為替証拠金取引について」"
     grade: "A"
 level: 2
 order: 60

@@ -9,8 +9,8 @@ sources:
   - url: "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1474.htm"
     title: "国税庁 タックスアンサー No.1474（上場株式等に係る譲渡損失の損益通算及び繰越控除）"
     grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（証券税制の解説）"
+  - url: "https://www.jsda.or.jp/anshin/oshirase/index.html"
+    title: "日本証券業協会「証券税制」"
     grade: "A"
 level: 2
 order: 120

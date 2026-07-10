@@ -6,11 +6,10 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.fsa.go.jp/"
-    title: "金融庁（資産形成の基礎・つみたて関連資料）"
-    grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（投資の学習コンテンツ）"
+  - title: "当サイト編集部調べ"
+    grade: "E"
+  - url: "https://www.fsa.go.jp/policy/nisa2/knowledge/basic/index.html"
+    title: "金融庁 NISA特設ウェブサイト「資産形成の基本」"
     grade: "A"
 kind: "手法"
 ---

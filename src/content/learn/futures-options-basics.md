@@ -6,12 +6,11 @@ updated: 2026-07-07
 reviewed: true
 reviewedAt: 2026-07-07
 sources:
-  - url: "https://www.jpx.co.jp/"
-    title: "日本取引所グループ（先物・オプション取引の基礎）"
+  - url: "https://www.jpx.co.jp/ose-toshijuku/"
+    title: "日本取引所グループ（北浜投資塾・大阪取引所）"
     grade: "A"
-  - url: "https://www.jsda.or.jp/"
-    title: "日本証券業協会（デリバティブの解説）"
-    grade: "A"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 4
 order: 100
 chapter: "商品と制度"

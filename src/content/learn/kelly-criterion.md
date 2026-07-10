@@ -9,9 +9,8 @@ sources:
   - url: "https://ieeexplore.ieee.org/document/6771227"
     title: "J. L. Kelly Jr. (1956) A New Interpretation of Information Rate, Bell System Technical Journal"
     grade: "B"
-  - url: "https://www.panrolling.com/"
-    title: "バン・K・タープ『新版 魔術師たちの心理学』（パンローリング）"
-    grade: "B"
+  - title: "当サイト編集部調べ"
+    grade: "E"
 level: 4
 order: 60
 chapter: "リスク管理"
