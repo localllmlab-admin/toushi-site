@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { collectTopics } from "../data/topics.mjs";
+import BeginnerRoadmap from "../components/BeginnerRoadmap.astro";
+import TrustHighlights from "../components/TrustHighlights.astro";
 
 const pub = (arr) => arr.filter((e) => e.data.reviewed);
 const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.data.order);
@@ -29,7 +31,7 @@ const secPlay = playbook.map((e) => row(e, "/playbook/", e.data.kind ?? "定石"
 const secChart = charts.map((e) => row(e, "/charts/", e.data.patternType ?? "図解"));
 const secGlos = glossary.map((e) => row(e, "/glossary/", "用語"));
 
-// 注目トピックス = 全コレクション横断・更新日降順6件
+// 注目記事一覧 = 全コレクション横断・更新日降順6件
 const topics = [
   ...secLearn.map((r) => ({ ...r, cat: "学ぶ", catClass: "c-learn" })),
   ...secPlay.map((r) => ({ ...r, cat: "手法", catClass: "c-play" })),
@@ -51,7 +53,7 @@ const mapRows = CHAPTERS.map((chapter, i) => {
   return { n: i + 1, chapter, levels: [1, 2, 3, 4].map((lv) => items.some((e) => e.data.level === lv)) };
 });
 
-// テーマから探す（横断カテゴリ・frontmatter実データのみで分類）
+// 目的別ナビ「テーマから探す」（横断カテゴリ・frontmatter実データのみで分類）
 const topicTiles = collectTopics([
   ...learn.map((entry) => ({ collection: "learn", entry })),
   ...playbook.map((entry) => ({ collection: "playbook", entry })),
@@ -82,6 +84,40 @@ const sections = [
           <div role="listitem"><b>7</b>章×<b>4</b>レベル</div>
         </div>
       </div>
+      <a class="hero-cta" href="#roadmap">まずは初心者ガイドを見る</a>
+    </div>
+  </section>
+
+  <div class="container-wide stack">
+
+    <TrustHighlights published={published} />
+
+    <BeginnerRoadmap mapRows={mapRows} learn={learn} />
+
+    <section class="purpose-nav">
+      <div class="sec-h">
+        <span class="bar" style="background:var(--color-accent)"></span>
+        <h2>テーマから探す</h2>
+        <a class="more" href="/topics/">すべてのテーマ ›</a>
+      </div>
+      <div class="card">
+        <div class="topic-grid">
+          {topicTiles.map((t) => (
+            <a class="topic-tile" href={`/topics/${t.slug}/`}>
+              <span class="topic-thumb" style={`background:${t.grad}`}>{t.thumb}</span>
+              <span class="topic-name">{t.title}</span>
+              <span class="topic-count">{t.items.length}本</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="search-sec">
+      <div class="sec-h">
+        <span class="bar" style="background:var(--color-text-muted)"></span>
+        <h2>キーワードでさがす</h2>
+      </div>
       <form class="search-card" action="/search/" method="get" id="hero-search">
         <div class="search-row">
           <div class="f-box">
@@ -111,15 +147,12 @@ const sections = [
           ))}
         </div>
       </form>
-    </div>
-  </section>
+    </section>
 
-  <div class="container-wide cols">
-    <div class="main-col">
-
+    <section>
       <div class="card topics">
         <div class="topics-head">
-          <h2>注目トピックス</h2>
+          <h2>注目記事一覧</h2>
           {newest > 0 && <span class="upd">{fmt(new Date(newest))} 更新</span>}
         </div>
         {topics.length === 0 ? <p class="empty">準備中です。</p> : (
@@ -134,26 +167,9 @@ const sections = [
           </ul>
         )}
       </div>
+    </section>
 
-      <section>
-        <div class="sec-h">
-          <span class="bar" style="background:var(--color-accent)"></span>
-          <h2>テーマから探す</h2>
-          <a class="more" href="/topics/">すべてのテーマ ›</a>
-        </div>
-        <div class="card">
-          <div class="topic-grid">
-            {topicTiles.map((t) => (
-              <a class="topic-tile" href={`/topics/${t.slug}/`}>
-                <span class="topic-thumb" style={`background:${t.grad}`}>{t.thumb}</span>
-                <span class="topic-name">{t.title}</span>
-                <span class="topic-count">{t.items.length}本</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
+    <div class="secondary">
       {sections.map((s) => (
         <section>
           <div class="sec-h">
@@ -184,65 +200,22 @@ const sections = [
         </section>
       ))}
 
-    </div>
-
-    <aside class="rail">
-      <section class="card">
-        <h2 class="rail-h">学習マップ</h2>
-        <div class="map">
-          <div class="map-row map-head">
-            <span></span>
-            {["入門", "基礎", "実践", "上級"].map((l) => <span class="lv-label">{l}</span>)}
-          </div>
-          {mapRows.map((r) => (
-            <div class="map-row">
-              <a class="map-ch" href={`/learn/#ch-${r.n}`}>{r.n}. {r.chapter}</a>
-              {r.levels.map((has) => <span class={`dot ${has ? "on" : ""}`} aria-hidden="true"></span>)}
-            </div>
-          ))}
-          <a class="rail-more" href="/learn/">学習マップを見る ›</a>
-        </div>
-      </section>
-
       {pickWord && (
-        <section class="card">
-          <h2 class="rail-h">用語ピックアップ</h2>
+        <section class="card word-sec">
+          <h2 class="word-h">用語ピックアップ</h2>
           <dl class="word">
             <dt>{pickWord.data.term}<small>{pickWord.data.reading}</small></dt>
             <dd>{pickWord.data.description}</dd>
           </dl>
-          <a class="rail-more word-more" href="/glossary/">用語集をひく ›</a>
+          <a class="word-more" href="/glossary/">用語集をひく ›</a>
         </section>
       )}
+    </div>
 
-      <section class="card">
-        <h2 class="rail-h">レベル別に学ぶ</h2>
-        <div class="level">
-          <a href="/learn/?lv=1"><span class="lv">Lv.1</span>入門 ― お金と市場のきほん</a>
-          <a href="/learn/?lv=2"><span class="lv">Lv.2</span>基礎 ― 制度・指標・リスク管理</a>
-          <a href="/learn/?lv=3"><span class="lv">Lv.3</span>実践 ― 検証と分析の型</a>
-          <a href="/learn/?lv=4"><span class="lv">Lv.4</span>上級 ― 派生商品・応用理論</a>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2 class="rail-h">このサイトの作り方</h2>
-        <div class="trust">
-          <p>すべての記事は出典を4等級で明示し、事実の主張には等級A〜Cの出典を最低1件必須としています。</p>
-          <ul class="grade-legend">
-            <li><span class="chip chip-A">A</span>公的機関・規制当局・取引所</li>
-            <li><span class="chip chip-B">B</span>学術論文・書籍</li>
-            <li><span class="chip chip-C">C</span>企業公式・一次発表</li>
-            <li><span class="chip chip-D">D</span>信頼できる報道</li>
-          </ul>
-          <a class="rail-more" href="/policy/">編集方針を読む ›</a>
-        </div>
-      </section>
-    </aside>
   </div>
 
   <script is:inline>
-    // ヒーロー検索: キーワードがあれば全文検索へ、空なら選択中の章/レベルの一覧へ
+    // キーワード検索: キーワードがあれば全文検索へ、空なら選択中の章/レベルの一覧へ
     document.getElementById("hero-search").addEventListener("submit", function (ev) {
       var q = document.getElementById("hs-q").value.trim();
       if (q) return; // そのまま /search/?q= へ
@@ -254,62 +227,34 @@ const sections = [
   </script>
 
   <style>
-    /* ヒーロー（ブランド青グラデ＋白検索カード） */
-    .hero { background: var(--grad-brand); color: #fff; padding: 1.8rem 0 1.7rem; }
-    .hero-top { display: flex; align-items: flex-end; gap: 1.4rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    /* ヒーロー（ブランド青グラデ、検索なし・単一CTA） */
+    .hero { background: var(--grad-brand); color: #fff; padding: 1.8rem 0; }
+    .hero-top { display: flex; align-items: flex-end; gap: 1.4rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
     .hero h1 { font-size: clamp(1.2rem, 2.6vw, 1.45rem); font-weight: 800; margin: 0; letter-spacing: 0.03em; }
     .hero h1 small { display: block; font-size: 0.75rem; font-weight: 400; opacity: 0.9; margin-top: 0.2rem; }
     .stats { display: flex; gap: 1rem; font-size: 0.7rem; opacity: 0.95; margin-left: auto; }
     .stats b { font-family: var(--font-num); font-size: 1.4rem; font-weight: 700; margin-right: 2px; }
     @media (max-width: 820px) { .stats { margin-left: 0; } }
+    .hero-cta {
+      display: inline-block; background: var(--grad-cta); color: #fff; font-weight: 800; font-size: 0.95rem;
+      border-radius: var(--radius); padding: 0.7rem 1.9rem; text-decoration: none;
+      box-shadow: 0 3px 0 var(--color-cta-deep);
+    }
+    .hero-cta:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-cta-deep); }
 
-    .search-card { background: var(--color-bg); border-radius: var(--radius); padding: 1rem; box-shadow: var(--shadow-float); color: var(--color-text); }
-    .search-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 0.6rem; }
-    @media (max-width: 820px) { .search-row { grid-template-columns: 1fr; } }
-    .f-box label { font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 0.25rem; }
-    .f-box input, .f-box select {
-      width: 100%; border: 1.5px solid var(--color-border); border-radius: var(--radius);
-      padding: 0.6rem 0.75rem; font-size: 0.9rem; background: var(--color-bg);
-      color: var(--color-text); font-family: var(--font-sans);
-    }
-    .btn-search {
-      align-self: end; background: var(--grad-cta); color: #fff; font-weight: 800; font-size: 0.95rem;
-      border: none; border-radius: var(--radius); padding: 0.7rem 1.9rem; cursor: pointer;
-      box-shadow: 0 3px 0 var(--color-cta-deep); white-space: nowrap; font-family: var(--font-sans);
-    }
-    .btn-search:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-cta-deep); }
-    .hot { margin-top: 0.7rem; font-size: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    .hot span { color: var(--color-text-muted); font-weight: 700; }
-    .hot a {
-      border: 1px solid var(--color-border); border-radius: 20px; padding: 0.1rem 0.75rem;
-      color: var(--color-accent); background: var(--color-surface); text-decoration: none;
-    }
-    .hot a:hover { background: #e8f3fb; }
-
-    /* 2カラム */
-    .cols { display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem; padding-top: 1.25rem; }
-    @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+    /* 縦積みストーリー型レイアウト */
+    .stack { padding-top: 1.25rem; display: grid; gap: 1.6rem; padding-bottom: 1rem; }
     .card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card); }
     .empty { color: var(--color-text-muted); padding: 0.9rem 1rem; margin: 0; }
 
-    /* 注目トピックス */
-    .topics-head { display: flex; align-items: center; padding: 0.75rem 1rem; border-bottom: 2px solid var(--color-accent); }
-    .topics-head h2 { font-size: 1rem; font-weight: 800; color: var(--color-ink); margin: 0; }
-    .topics-head h2::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-cta); margin-right: 0.5rem; }
-    .topics-head .upd { margin-left: auto; font-size: 0.7rem; color: var(--color-text-muted); font-family: var(--font-num); }
-    .topics ul { list-style: none; margin: 0; padding: 0; }
-    .topics li { border-bottom: 1px dashed var(--color-border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.55rem; }
-    .topics li:last-child { border-bottom: none; }
-    .topics li a { font-weight: 700; color: var(--color-text); font-size: 0.92rem; text-decoration: none; }
-    .topics li a:hover { color: var(--color-accent); text-decoration: underline; }
-    .b-new { color: #e5322d; font-size: 0.62rem; font-weight: 800; flex-shrink: 0; }
-    .b-cat { font-size: 0.64rem; color: #fff; padding: 0.12rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; font-weight: 800; }
-    .c-learn { background: var(--color-sec-learn); }
-    .c-play { background: var(--color-sec-playbook); }
-    .c-chart { background: var(--color-sec-charts); }
-    .c-glos { background: var(--color-sec-glossary); }
+    /* セクション見出し（共通） */
+    .sec-h { display: flex; align-items: center; margin: 0 0 0.6rem; gap: 0.6rem; }
+    .sec-h .bar { width: 5px; height: 20px; border-radius: 3px; }
+    .sec-h h2 { font-size: 1.05rem; font-weight: 800; margin: 0; }
+    .sec-h .more { margin-left: auto; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
+    .sec-h .more:hover { text-decoration: underline; }
 
-    /* テーマから探す */
+    /* テーマから探す（目的別ナビ） */
     .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 0; }
     .topic-tile {
       display: flex; align-items: center; gap: 0.6rem; text-decoration: none;
@@ -326,14 +271,49 @@ const sections = [
     .topic-name { font-size: 0.82rem; font-weight: 800; color: var(--color-text); min-width: 0; }
     .topic-count { margin-left: auto; font-family: var(--font-num); font-size: 0.68rem; font-weight: 700; color: var(--color-text-muted); flex-shrink: 0; }
 
-    /* セクション見出し */
-    .sec-h { display: flex; align-items: center; margin: 1.5rem 0 0.6rem; gap: 0.6rem; }
-    .sec-h .bar { width: 5px; height: 20px; border-radius: 3px; }
-    .sec-h h2 { font-size: 1.05rem; font-weight: 800; margin: 0; }
-    .sec-h .more { margin-left: auto; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
-    .sec-h .more:hover { text-decoration: underline; }
+    /* 検索（補助・軽量表示） */
+    .search-card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.9rem 1rem; }
+    .search-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 0.6rem; }
+    @media (max-width: 820px) { .search-row { grid-template-columns: 1fr; } }
+    .f-box label { font-size: 0.68rem; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 0.2rem; }
+    .f-box input, .f-box select {
+      width: 100%; border: 1.5px solid var(--color-border); border-radius: var(--radius);
+      padding: 0.5rem 0.7rem; font-size: 0.85rem; background: var(--color-bg);
+      color: var(--color-text); font-family: var(--font-sans);
+    }
+    .btn-search {
+      align-self: end; background: var(--grad-cta); color: #fff; font-weight: 800; font-size: 0.88rem;
+      border: none; border-radius: var(--radius); padding: 0.6rem 1.6rem; cursor: pointer;
+      box-shadow: 0 3px 0 var(--color-cta-deep); white-space: nowrap; font-family: var(--font-sans);
+    }
+    .btn-search:hover { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-cta-deep); }
+    .hot { margin-top: 0.6rem; font-size: 0.72rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .hot span { color: var(--color-text-muted); font-weight: 700; }
+    .hot a {
+      border: 1px solid var(--color-border); border-radius: 20px; padding: 0.1rem 0.7rem;
+      color: var(--color-accent); background: var(--color-surface); text-decoration: none;
+    }
+    .hot a:hover { background: #e8f3fb; }
 
-    /* 記事リスト行 */
+    /* 注目記事一覧 */
+    .topics-head { display: flex; align-items: center; padding: 0.75rem 1rem; border-bottom: 2px solid var(--color-accent); }
+    .topics-head h2 { font-size: 1rem; font-weight: 800; color: var(--color-ink); margin: 0; }
+    .topics-head h2::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-cta); margin-right: 0.5rem; }
+    .topics-head .upd { margin-left: auto; font-size: 0.7rem; color: var(--color-text-muted); font-family: var(--font-num); }
+    .topics ul { list-style: none; margin: 0; padding: 0; }
+    .topics li { border-bottom: 1px dashed var(--color-border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.55rem; }
+    .topics li:last-child { border-bottom: none; }
+    .topics li a { font-weight: 700; color: var(--color-text); font-size: 0.92rem; text-decoration: none; }
+    .topics li a:hover { color: var(--color-accent); text-decoration: underline; }
+    .b-new { color: #e5322d; font-size: 0.62rem; font-weight: 800; flex-shrink: 0; }
+    .b-cat { font-size: 0.64rem; color: #fff; padding: 0.12rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; font-weight: 800; }
+    .c-learn { background: var(--color-sec-learn); }
+    .c-play { background: var(--color-sec-playbook); }
+    .c-chart { background: var(--color-sec-charts); }
+    .c-glos { background: var(--color-sec-glossary); }
+
+    /* 二次ゾーン（学ぶ/手法/チャート/用語ピックアップ・単一カラム） */
+    .secondary { display: grid; gap: 0.2rem; }
     .rows { list-style: none; margin: 0; padding: 0; }
     .rows li { display: flex; gap: 0.85rem; padding: 0.85rem 1rem; border-bottom: 1px solid var(--color-border); }
     .rows li:last-child { border-bottom: none; }
@@ -352,46 +332,14 @@ const sections = [
     .bg-src { background: var(--badge-src-bg); color: var(--badge-src-fg); border-color: var(--badge-src-bd); }
     .bg-lv { background: var(--badge-lv-bg); color: var(--badge-lv-fg); border-color: var(--badge-lv-bd); }
 
-    /* 右レール */
-    .rail > section { margin-bottom: 1.1rem; }
-    .rail-h { font-size: 0.88rem; font-weight: 800; color: #fff; background: linear-gradient(120deg, var(--color-ink), var(--color-ink-2)); padding: 0.6rem 0.9rem; margin: 0; }
-    .rail-more { display: block; text-align: right; font-size: 0.75rem; font-weight: 700; text-decoration: none; margin-top: 0.5rem; }
-    .rail-more:hover { text-decoration: underline; }
-
-    .map { padding: 0.75rem 0.9rem 0.9rem; }
-    .map-row { display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 1.5rem); align-items: center; gap: 0.25rem; padding: 0.32rem 0; border-bottom: 1px dashed var(--color-border); }
-    .map-row:last-of-type { border-bottom: none; }
-    .map-head { font-size: 0.6rem; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
-    .lv-label { text-align: center; }
-    .map-ch { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; font-weight: 700; color: var(--color-text); text-decoration: none; }
-    .map-ch:hover { color: var(--color-accent); }
-    .dot { display: block; width: 0.5rem; height: 0.5rem; margin: 0 auto; border-radius: 50%; border: 1px solid var(--color-border-strong); }
-    .dot.on { background: var(--color-accent); border-color: var(--color-accent); }
-
+    /* 用語ピックアップ */
+    .word-sec { padding: 0; }
+    .word-h { font-size: 0.88rem; font-weight: 800; color: #fff; background: linear-gradient(120deg, var(--color-ink), var(--color-ink-2)); padding: 0.6rem 0.9rem; margin: 0; }
     .word { padding: 0.8rem 0.9rem 0; margin: 0; }
     .word dt { font-weight: 800; color: var(--color-ink); font-size: 0.98rem; }
     .word dt small { font-weight: 400; color: var(--color-text-muted); font-size: 0.68rem; margin-left: 0.4rem; }
     .word dd { font-size: 0.8rem; color: var(--color-text); margin: 0.35rem 0 0; line-height: 1.7; }
-    .word-more { padding: 0 0.9rem 0.8rem; }
-
-    .level { padding: 0.8rem 0.9rem; display: grid; gap: 0.5rem; }
-    .level a {
-      display: flex; align-items: center; gap: 0.6rem; border: 1.5px solid var(--color-border);
-      border-radius: var(--radius); padding: 0.55rem 0.7rem; color: var(--color-text);
-      font-weight: 700; font-size: 0.8rem; text-decoration: none; background: var(--color-bg);
-    }
-    .level a:hover { border-color: var(--color-accent); color: var(--color-accent); }
-    .level .lv { font-family: var(--font-num); background: linear-gradient(135deg, var(--color-ink-2), var(--color-ink-3)); color: #fff; font-size: 0.68rem; padding: 0.1rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; }
-
-    .trust { padding: 0.8rem 0.9rem; font-size: 0.78rem; }
-    .trust p { margin: 0 0 0.6rem; line-height: 1.7; }
-    .grade-legend { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; color: var(--color-text-muted); font-size: 0.74rem; }
-    .chip {
-      display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700;
-      padding: 0.1em 0.5em; border-radius: var(--radius-s); margin-right: 0.45em; border: 1px solid var(--color-border-strong);
-    }
-    .chip-A { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-on-ink); }
-    .chip-B, .chip-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }
-    .chip-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
+    .word-more { display: block; text-align: right; padding: 0.5rem 0.9rem 0.8rem; font-size: 0.75rem; font-weight: 700; text-decoration: none; }
+    .word-more:hover { text-decoration: underline; }
   </style>
 </Base>
