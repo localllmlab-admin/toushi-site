@@ -1,0 +1,140 @@
+---
+/**
+ * 書籍紹介カード（おすすめ書籍コレクション専用 / ADR-0004）。
+ * コンプライアンス要素はすべてこのコンポーネントが機械描画する（記事側で消せない）:
+ *  - CTA近傍の「広告」ラベル（景表法ステマ規制・リンク近傍明示）
+ *  - rel="sponsored"（Google推奨・ADR-0003と同一方針）
+ *  - Amazonアソシエイト参加表示文言（プログラム規約の必須文言）
+ *  - 価格・在庫の時点注記（アソシエイト規約: 表示時点の明記）
+ * 書影は Amazon 公式画像CDN（images-na / ISBN-10キー）を直接参照する。
+ * 画像を自サイトへ複製しない（書影の著作権・規約対応）。取得不可時は alt のみ表示。
+ */
+const { book } = Astro.props;
+const {
+  bookTitle, bookAuthor, translator, publisher, publishedYear,
+  originalTitle, originalYear, pages, isbn10, amazonUrl, readerLevel,
+} = book;
+const coverUrl = `https://images-na.ssl-images-amazon.com/images/P/${isbn10}.09._SL500_.jpg`;
+const bookLd = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  name: bookTitle,
+  author: { "@type": "Person", name: bookAuthor },
+  publisher: { "@type": "Organization", name: publisher },
+  inLanguage: "ja",
+  isbn: isbn10,
+  ...(pages ? { numberOfPages: pages } : {}),
+};
+---
+<aside class="book-card">
+  <div class="book-card-main">
+    <div class="cover-box">
+      <img
+        src={coverUrl}
+        alt={`『${bookTitle}』書影`}
+        loading="lazy"
+        decoding="async"
+        onerror="this.parentElement.classList.add('noimg')"
+      />
+    </div>
+    <div class="book-meta">
+      <p class="book-title">{bookTitle}</p>
+      <table>
+        <tbody>
+          <tr><th>著者</th><td>{bookAuthor}</td></tr>
+          {translator && <tr><th>訳・監修</th><td>{translator}</td></tr>}
+          <tr><th>出版社</th><td>{publisher}（{publishedYear}年）</td></tr>
+          {originalTitle && (
+            <tr><th>原著</th><td>{originalTitle}{originalYear ? `（${originalYear}年）` : ""}</td></tr>
+          )}
+          {pages && <tr><th>ページ数</th><td>{pages}ページ</td></tr>}
+          <tr><th>対象レベル</th><td>{readerLevel}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="book-cta">
+    <span class="ad-label">広告</span>
+    <a
+      class="cta-btn"
+      href={amazonUrl}
+      target="_blank"
+      rel="sponsored noopener noreferrer nofollow"
+    >Amazonで価格・レビューを見る</a>
+    <p class="cta-note">Kindle版・単行本の価格や在庫状況は、リンク先の表示時点のものをご確認ください。</p>
+  </div>
+  <p class="associate-note">Amazonのアソシエイトとして、投資の学び舎（まなびや）は適格販売により収入を得ています。</p>
+</aside>
+<script type="application/ld+json" set:html={JSON.stringify(bookLd)} />
+<style>
+  .book-card {
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-sec-books);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-card);
+    padding: 1.1rem 1.2rem 0.9rem;
+    margin: 1.6rem 0 2rem;
+  }
+  .book-card-main { display: flex; gap: 1.1rem; }
+  /* 書影: aspect-ratio固定でCLSゼロを維持（画像の縦横比差はobject-fit:containで吸収） */
+  .cover-box {
+    flex-shrink: 0;
+    width: 128px;
+    aspect-ratio: 5 / 7;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cover-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .cover-box.noimg img { display: none; }
+  .book-meta { min-width: 0; }
+  .book-title { font-weight: 800; font-size: 1.02rem; margin: 0 0 .5rem; line-height: 1.5; }
+  .book-meta table { border-collapse: collapse; font-size: .82rem; }
+  .book-meta th {
+    text-align: left; font-weight: 700; color: var(--color-text-muted);
+    padding: .18rem .8rem .18rem 0; white-space: nowrap; vertical-align: top;
+  }
+  .book-meta td { padding: .18rem 0; }
+  .book-cta { text-align: center; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px dashed var(--color-border); }
+  .ad-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: .72rem; font-weight: 700;
+    padding: .15em .55em; margin-bottom: .5rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-s);
+    background: var(--color-surface-muted);
+    color: var(--color-text-muted);
+  }
+  .cta-btn {
+    display: block;
+    max-width: 360px;
+    margin: 0 auto;
+    min-height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--grad-cta);
+    color: #fff;
+    font-weight: 800;
+    font-size: .98rem;
+    text-decoration: none;
+    border-radius: var(--radius);
+    padding: .6rem 1.4rem;
+    box-shadow: var(--shadow-card);
+  }
+  .cta-btn:hover { background: var(--color-cta-deep); }
+  .cta-note { font-size: .74rem; color: var(--color-text-muted); margin: .55rem 0 0; line-height: 1.7; }
+  .associate-note {
+    font-size: .72rem; color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    margin: 1rem 0 0; padding-top: .7rem; line-height: 1.7;
+  }
+  @media (max-width: 520px) {
+    .book-card-main { flex-direction: column; align-items: center; }
+    .book-meta { width: 100%; }
+  }
+</style>

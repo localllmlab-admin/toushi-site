@@ -1,0 +1,16 @@
+---
+import Article from "../../layouts/Article.astro";
+import BookCard from "../../components/BookCard.astro";
+import { getCollection } from "astro:content";
+export async function getStaticPaths() {
+  // reviewed:true のみ公開（未レビュー記事を除外）
+  const items = (await getCollection("books")).filter((e) => e.data.reviewed);
+  return items.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content, headings } = await entry.render();
+---
+<Article entry={entry} headings={headings}>
+  <BookCard book={entry.data} />
+  <Content />
+</Article>

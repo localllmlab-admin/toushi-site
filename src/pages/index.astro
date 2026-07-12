@@ -10,7 +10,8 @@ const learn = pub(await getCollection("learn")).sort((a, b) => a.data.order - b.
 const playbook = pub(await getCollection("playbook"));
 const charts = pub(await getCollection("charts"));
 const glossary = pub(await getCollection("glossary"));
-const published = learn.length + playbook.length + charts.length + glossary.length;
+const books = pub(await getCollection("books"));
+const published = learn.length + playbook.length + charts.length + glossary.length + books.length;
 
 // 記事行の共通整形。バッジは frontmatter の実データのみから生成する（根拠のない表示はしない）
 const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
@@ -30,6 +31,10 @@ const secLearn = learn.map((e) => row(e, "/learn/", e.data.tags?.[0] ?? "学ぶ"
 const secPlay = playbook.map((e) => row(e, "/playbook/", e.data.kind ?? "定石"));
 const secChart = charts.map((e) => row(e, "/charts/", e.data.patternType ?? "図解"));
 const secGlos = glossary.map((e) => row(e, "/glossary/", "用語"));
+// おすすめ書籍はPRコンテンツのため「注目記事一覧」には混ぜない（教育記事を優先）
+const secBooks = books
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((e) => ({ ...row(e, "/books/", "書籍"), sub: e.data.bookCategory }));
 
 // 注目記事一覧 = 全コレクション横断・更新日降順6件
 const topics = [
@@ -67,6 +72,7 @@ const sections = [
   { key: "learn", title: "学ぶ ― 市場と制度の基礎", href: "/learn/", rows: secLearn.slice(0, 4), color: "var(--color-sec-learn)", grad: "linear-gradient(135deg,#2b4a8b,#4a6cb0)" },
   { key: "play", title: "手法・定石 ― 検証つきで学ぶ", href: "/playbook/", rows: secPlay.slice(0, 4), color: "var(--color-sec-playbook)", grad: "linear-gradient(135deg,#1f6e50,#37936f)" },
   { key: "chart", title: "チャートパターン", href: "/charts/", rows: secChart.slice(0, 4), color: "var(--color-sec-charts)", grad: "linear-gradient(135deg,#a3690f,#c98f35)" },
+  { key: "books", title: "おすすめ書籍 ― 定番書を選び方つきで", href: "/books/", rows: secBooks.slice(0, 4), color: "var(--color-sec-books)", grad: "linear-gradient(135deg,#8e3b46,#b05f6b)" },
 ];
 ---
 <Base

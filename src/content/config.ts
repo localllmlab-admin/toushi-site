@@ -35,9 +35,22 @@ const commonFields = {
   isPR: z.boolean().default(false),
 };
 
+// ad:true の出典を含むページは isPR:true を型レベル（ビルド時）でも強制する。
+// validate_content.mjs の正規表現検知はYAML表記ゆれに弱いため、Zodでも二重に守る
+// （ADR-0003「Phase 1着手時の必須前提」の技術的負債解消）。
+const requirePrForAds = (schema: z.ZodTypeAny) =>
+  schema.superRefine((data: any, ctx: z.RefinementCtx) => {
+    if (data.sources?.some((s: any) => s.ad) && !data.isPR) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "広告リンク(sources[].ad:true)を含むページは isPR: true 必須（ステマ規制対応 / ADR-0003）",
+      });
+    }
+  });
+
 const learn = defineCollection({
   type: "content",
-  schema: z.object({
+  schema: requirePrForAds(z.object({
     ...commonFields,
     level: z.number().int().min(1).max(4), // 1:入門 2:基礎 3:実践 4:上級
     order: z.number().int().default(0),
@@ -46,35 +59,63 @@ const learn = defineCollection({
       "お金と市場の基礎", "商品と制度", "リスク管理", "分析手法",
       "法規制とルール", "行動と心理", "テクノロジーと自動化",
     ]),
-  }),
+  })),
 });
 
 const playbook = defineCollection({
   type: "content",
-  schema: z.object({
+  schema: requirePrForAds(z.object({
     ...commonFields,
     kind: z.enum(["手法", "定石", "格言", "リスク管理", "心理"]),
     // 再現性の担保：手法・定石は前提/検証/限界の3点セットを本文に必須
     // （見出し「## 前提条件」「## 検証の考え方」「## 限界と注意」をリンターで検査）
-  }),
+  })),
 });
 
 const charts = defineCollection({
   type: "content",
-  schema: z.object({
+  schema: requirePrForAds(z.object({
     ...commonFields,
     patternType: z.enum(["継続", "反転", "プライスアクション", "インジケーター"]),
-  }),
+  })),
 });
 
 const glossary = defineCollection({
   type: "content",
-  schema: z.object({
+  schema: requirePrForAds(z.object({
     ...commonFields,
     term: z.string(),
     reading: z.string().optional(),
     related: z.array(z.string()).default([]),
-  }),
+  })),
 });
 
-export const collections = { learn, playbook, charts, glossary };
+// おすすめ書籍（書籍紹介・Amazonアソシエイト）。ADR-0004。
+// 教育4コレクションと分離した「専用ページ」（policy.astro 広告掲載方針の
+// 「書籍紹介などの広告は出典欄・専用ページに限定」に対応する PR コンテンツ）。
+// 全記事が isPR:true + sources[].ad:true 前提（validate_content.mjs で強制）。
+const books = defineCollection({
+  type: "content",
+  schema: requirePrForAds(z.object({
+    ...commonFields,
+    bookTitle: z.string(),                 // 正式書名（記事titleはSEO用に別管理）
+    bookAuthor: z.string(),                // 著者（原著者）
+    translator: z.string().optional(),     // 訳者・監修者
+    publisher: z.string(),                 // 日本語版出版社
+    publishedYear: z.number().int(),       // 日本語版発行年
+    originalTitle: z.string().optional(),  // 原著タイトル
+    originalYear: z.number().int().optional(), // 原著初版年
+    pages: z.number().int().optional(),    // ページ数
+    // 紙版ISBN-10。書影（Amazon公式画像CDN images-na）参照キーに使う
+    isbn10: z.string().regex(/^\d{9}[\dX]$/, "ISBN-10形式（9桁+チェックディジット）"),
+    // アフィリエイトリンク（アソシエイトタグ付き・Amazon.co.jpのみ許可）
+    amazonUrl: z.string().url().startsWith("https://www.amazon.co.jp/"),
+    readerLevel: z.string(),               // 対象読者レベル（例: "中級〜上級"）
+    bookCategory: z.enum([
+      "トレード実践", "相場心理", "投資の名著・古典", "インデックス投資・資産形成",
+    ]),
+    order: z.number().int().default(0),    // 一覧の表示順（カテゴリ内昇順）
+  })),
+});
+
+export const collections = { learn, playbook, charts, glossary, books };

@@ -15,6 +15,7 @@ export async function GET() {
     ["playbook", "手法・定石（前提条件・検証の考え方・限界つき）", await pub("playbook")],
     ["charts", "チャート図解（パターン・テクニカル指標）", await pub("charts")],
     ["glossary", "用語集", await pub("glossary")],
+    ["books", "おすすめ書籍（書籍紹介・アフィリエイト広告を含むPRページ）", await pub("books")],
   ];
 
   const lines = [

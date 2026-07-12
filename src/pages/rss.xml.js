@@ -13,6 +13,7 @@ export async function GET(context) {
     ...pub(await getCollection("learn"), "/learn/"),
     ...pub(await getCollection("playbook"), "/playbook/"),
     ...pub(await getCollection("charts"), "/charts/"),
+    ...pub(await getCollection("books"), "/books/"),
   ].sort((a, b) => b.pubDate - a.pubDate);
 
   return rss({

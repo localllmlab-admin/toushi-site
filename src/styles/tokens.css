@@ -35,6 +35,7 @@
   --color-sec-playbook: #1f6e50;   /* 手法・定石 = 深緑 */
   --color-sec-charts: #a3690f;     /* チャート図解 = 琥珀 */
   --color-sec-glossary: #6b4fa0;   /* 用語集 = 菫 */
+  --color-sec-books: #8e3b46;      /* おすすめ書籍 = 蘇芳（書架の赤茶。CTA橙・朱と区別） */
 
   /* バッジ（多色・求人サイト型。意味固定で流用する） */
   --badge-ok-bg: #e8f6ec;  --badge-ok-fg: #1d7a3e;  --badge-ok-bd: #bfe3ca;  /* 知識ゼロOK */

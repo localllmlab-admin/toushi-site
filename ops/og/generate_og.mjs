@@ -21,6 +21,7 @@ const CATS = {
   playbook: { label: "手法・定石", color: "#1f6e50" },
   charts: { label: "チャート図解", color: "#a3690f" },
   glossary: { label: "用語集", color: "#6b4fa0" },
+  books: { label: "おすすめ書籍", color: "#8e3b46" },
 };
 
 // frontmatter から title を抜く（依存なしの最小パーサ）

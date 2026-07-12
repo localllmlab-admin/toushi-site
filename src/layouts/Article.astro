@@ -43,6 +43,7 @@ const pageUrl = new URL(`/${entry.collection}/${entry.slug}/`, siteUrl).href;
 const org = { "@type": "Organization", name: siteName, url: siteUrl };
 const sectionLabel = {
   learn: "学ぶ", playbook: "手法・定石", charts: "チャート図解", glossary: "用語集",
+  books: "おすすめ書籍",
 }[entry.collection];
 
 const jsonLdBlocks = [

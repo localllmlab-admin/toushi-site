@@ -111,6 +111,18 @@ function check(path) {
         errors.push(`${path}: 再現性セクション「${sec}」が必要（kind:${fm.kind}）`);
     }
   }
+
+  // おすすめ書籍（books）: PR専用コレクション（ADR-0004）
+  // 全記事に isPR:true と広告リンク(ad:true)出典を必須化し、
+  // 「PR表記なしの書籍アフィリ記事」がビルドに乗る余地を型とリンターの二重で塞ぐ
+  if (path.includes("/books/")) {
+    if (!fm.isPR) errors.push(`${path}: books記事は isPR: true 必須（PR専用コレクション）`);
+    if (fm.adLinks < 1)
+      errors.push(`${path}: books記事は広告リンク出典(sources[].ad:true)が最低1件必要`);
+    // 逆推奨（向かない読者の明示）は信頼性の必須要素（jp-affiliate-siteスキル準拠）
+    if (!/向かない|不向き|おすすめしない|合わない/.test(body))
+      errors.push(`${path}: books記事は「こんな人には向かない」の逆推奨記述が必要`);
+  }
 }
 
 walk(CONTENT_DIR);
