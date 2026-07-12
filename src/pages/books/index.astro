@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
-const CATS = ["トレード実践", "相場心理", "投資の名著・古典", "インデックス投資・資産形成"];
+const CATS = ["トレード実践", "相場心理", "投資の名著・古典", "インデックス投資・資産形成", "編集長おすすめ小説"];
 const all = (await getCollection("books")).filter((e) => e.data.reviewed);
 const byCat = CATS.map((c) => ({
   cat: c,

@@ -106,15 +106,23 @@ const books = defineCollection({
     originalTitle: z.string().optional(),  // 原著タイトル
     originalYear: z.number().int().optional(), // 原著初版年
     pages: z.number().int().optional(),    // ページ数
-    // 紙版ISBN-10。書影（Amazon公式画像CDN images-na）参照キーに使う
-    isbn10: z.string().regex(/^\d{9}[\dX]$/, "ISBN-10形式（9桁+チェックディジット）"),
+    // 書影（Amazon公式画像CDN images-na）の参照キー。
+    // 紙版ISBN-10、または紙版が存在しないKindle合本等はASIN（B0…）を使う
+    isbn10: z.string().regex(/^(\d{9}[\dX]|B0[A-Z0-9]{8})$/, "ISBN-10またはASIN（B0…）形式"),
     // アフィリエイトリンク（アソシエイトタグ付き・Amazon.co.jpのみ許可）
     amazonUrl: z.string().url().startsWith("https://www.amazon.co.jp/"),
     readerLevel: z.string(),               // 対象読者レベル（例: "中級〜上級"）
     bookCategory: z.enum([
       "トレード実践", "相場心理", "投資の名著・古典", "インデックス投資・資産形成",
+      "編集長おすすめ小説",
     ]),
     order: z.number().int().default(0),    // 一覧の表示順（カテゴリ内昇順）
+    // シリーズもの用: 全巻のアフィリリンク（BookCardが「広告」表示付きで機械描画）
+    seriesItems: z.array(z.object({
+      label: z.string(),                   // 例: "第1作"
+      title: z.string(),                   // 巻タイトル
+      amazonUrl: z.string().url().startsWith("https://www.amazon.co.jp/"),
+    })).optional(),
   })),
 });
 

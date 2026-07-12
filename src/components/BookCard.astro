@@ -13,6 +13,7 @@ const { book } = Astro.props;
 const {
   bookTitle, bookAuthor, translator, publisher, publishedYear,
   originalTitle, originalYear, pages, isbn10, amazonUrl, readerLevel,
+  seriesItems = [],
 } = book;
 const coverUrl = `https://images-na.ssl-images-amazon.com/images/P/${isbn10}.09._SL500_.jpg`;
 const bookLd = {
@@ -63,6 +64,23 @@ const bookLd = {
     >Amazonで価格・レビューを見る</a>
     <p class="cta-note">Kindle版・単行本の価格や在庫状況は、リンク先の表示時点のものをご確認ください。</p>
   </div>
+  {seriesItems.length > 0 && (
+    <div class="series-box">
+      <p class="series-head">シリーズ全巻リンク <span class="ad-label">広告</span></p>
+      <ul class="series-list">
+        {seriesItems.map((item) => (
+          <li>
+            <span class="series-label">{item.label}</span>
+            <a
+              href={item.amazonUrl}
+              target="_blank"
+              rel="sponsored noopener noreferrer nofollow"
+            >{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
   <p class="associate-note">Amazonのアソシエイトとして、投資の学び舎（まなびや）は適格販売により収入を得ています。</p>
 </aside>
 <script type="application/ld+json" set:html={JSON.stringify(bookLd)} />
@@ -128,6 +146,28 @@ const bookLd = {
   }
   .cta-btn:hover { background: var(--color-cta-deep); }
   .cta-note { font-size: .74rem; color: var(--color-text-muted); margin: .55rem 0 0; line-height: 1.7; }
+  .series-box {
+    margin-top: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    background: var(--color-surface);
+    padding: .75rem .9rem .6rem;
+  }
+  .series-head { font-weight: 800; font-size: .85rem; margin: 0 0 .4rem; }
+  .series-list { list-style: none; padding: 0; margin: 0; font-size: .85rem; }
+  .series-list li {
+    padding: .4rem 0;
+    border-bottom: 1px dashed var(--color-border);
+    display: flex; align-items: baseline; gap: .6rem;
+  }
+  .series-list li:last-child { border-bottom: none; }
+  .series-label {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: .72rem; font-weight: 700;
+    color: var(--color-sec-books);
+  }
+  .series-list a { font-weight: 700; }
   .associate-note {
     font-size: .72rem; color: var(--color-text-muted);
     border-top: 1px solid var(--color-border);
