@@ -3063,4 +3063,25 @@ function card(x, y, w, h, title, c, lines, { titleSize = 13.5, lineSize = 11.5 }
   save("overreaction", 640, 305, g);
 }
 
+/* ============ 172. 熱狂相場の内部構造（売る側と買う側） ============ */
+{
+  let g = txt(320, 24, "熱狂相場の内部で起きていること（模式図）", { anchor: "middle", bold: true, fill: INK, size: 13 });
+  // 価格カーブ: 緩やかな上昇→垂直な最終局面→崩落
+  const pts = [[50, 250], [120, 240], [190, 222], [250, 192], [300, 148], [330, 95], [352, 58], [368, 54], [385, 88], [405, 145], [430, 205], [465, 240], [520, 252], [580, 256]];
+  g += poly(pts, { color: INK, w: 2.5 });
+  // 上昇途中の段階的売却（青の下向き矢印）
+  [[250, 192], [300, 148], [330, 95]].forEach(([x, y]) => g += arrow(x + 4, y - 34, x + 4, y - 10, { color: DN, w: 2 }));
+  g += txt(238, 118, "初期の大口投資家が", { anchor: "end", size: 11, fill: DN, bold: true });
+  g += txt(238, 134, "段階的に売却（開示は公開情報）", { anchor: "end", size: 11, fill: DN });
+  // 高値圏で積み上がる信用買い（朱のバー）
+  [[300, 22], [330, 40], [352, 58], [368, 64], [385, 56], [405, 42]].forEach(([x, h]) => g += `<rect x="${x - 8}" y="${306 - h}" width="16" height="${h}" fill="${UP}" opacity="0.55"/>`);
+  g += txt(452, 292, "高値圏ほど個人の信用買い残が積み上がる", { size: 11, fill: UP, bold: true });
+  // 天井の注記
+  g += `<circle cx="368" cy="54" r="8" fill="none" stroke="${LV}" stroke-width="2.2"/>`;
+  g += txt(384, 46, "天井では買い手の主力が", { size: 11, fill: LV, bold: true });
+  g += txt(384, 62, "「あとから来た群衆」に入れ替わる", { size: 11, fill: LV });
+  g += txt(320, 330, "上げの最終局面ほど「売る側」と「買う側」の顔ぶれの差が開く。実在銘柄の値動きではない（模式図）", { anchor: "middle", size: 11, fill: SUB });
+  save("frenzy-two-sides", 640, 340, g);
+}
+
 console.log("done");
