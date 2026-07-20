@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img">
+<rect width="640" height="340" fill="#ffffff"/>
+<line x1="0" y1="68" x2="640" y2="68" stroke="#dde3ec" stroke-width="1" stroke-linecap="round"/><line x1="0" y1="122" x2="640" y2="122" stroke="#dde3ec" stroke-width="1" stroke-linecap="round"/><line x1="0" y1="176" x2="640" y2="176" stroke="#dde3ec" stroke-width="1" stroke-linecap="round"/>
+<text x="320" y="24" font-size="13" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">史上最大IPOの需給構造 ― 小さな入口と、あとから開く大きな出口（模式図）</text>
+<polyline points="70,160 100,138 130,102 158,74 172,66 190,84 220,108 255,128 290,146 320,160 340,170" fill="none" stroke="#26313f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="340,170 380,168 420,172 460,168 500,172" fill="none" stroke="#8a93a2" stroke-width="1.8" stroke-dasharray="4 5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="516" y="172" font-size="12" fill="#8a93a2" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">？</text>
+<circle cx="172" cy="66" r="7" fill="none" stroke="#a3690f" stroke-width="2.2"/>
+<text x="186" y="56" font-size="11" fill="#a3690f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">高値225.64ドル（6/16）</text>
+<text x="66" y="184" font-size="11" fill="#26313f" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">公開価格135ドル（6/12）</text>
+<text x="344" y="192" font-size="11" fill="#c73e2e" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7/17 終値約131ドル（公開価格割れ）</text>
+<rect x="60" y="292" width="300" height="8" fill="#c73e2e" opacity="0.35"/>
+<rect x="360" y="270" width="80" height="30" fill="#c73e2e" opacity="0.4"/>
+<rect x="440" y="262" width="50" height="38" fill="#c73e2e" opacity="0.45"/>
+<rect x="490" y="252" width="70" height="48" fill="#c73e2e" opacity="0.5"/>
+<rect x="560" y="224" width="40" height="76" fill="#c73e2e" opacity="0.55"/>
+<text x="64" y="286" font-size="11" fill="#0075c2" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">上場直後に売買できるのは全体の約5%（希少性が急騰の一因）</text>
+<text x="362" y="246" font-size="11" fill="#c73e2e" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">ロックアップ解除で「売れる株」が段階的に増える</text>
+<text x="362" y="260" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">（解除の日程は目論見書に公開されている）</text>
+<text x="90" y="314" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">6月 上場</text>
+<text x="400" y="314" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">8月〜</text>
+<text x="525" y="314" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">12月</text>
+<text x="580" y="314" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2027年6月</text>
+<text x="320" y="332" font-size="11" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">価格・比率は報道ベースの概数。将来の値動きや供給量を予想する図ではない（模式図）</text>
+</svg>
