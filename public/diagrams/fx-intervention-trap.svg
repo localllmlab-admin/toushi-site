@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img">
+<rect width="640" height="360" fill="#ffffff"/>
+<text x="320" y="22" font-size="13" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">介入局面で起きること ― 値動きは一瞬、確定情報は数週間後（模式図）</text>
+
+<line x1="60" y1="75" x2="470" y2="75" stroke="#dde3ec" stroke-width="1"/>
+<line x1="60" y1="147" x2="470" y2="147" stroke="#dde3ec" stroke-width="1"/>
+<line x1="60" y1="190" x2="470" y2="190" stroke="#dde3ec" stroke-width="1"/>
+<text x="56" y="79" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">163円</text>
+<text x="56" y="151" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">160円</text>
+<text x="56" y="194" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">158円</text>
+
+<polyline points="70,74 110,72 150,77 190,84 240,86 256,101 268,126 281,156 293,179 300,190 322,177 346,159 370,147 400,159 425,172 445,180 470,177" fill="none" stroke="#26313f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+<circle cx="240" cy="86" r="6" fill="none" stroke="#57606e" stroke-width="2"/>
+<text x="232" y="60" font-size="11" fill="#57606e" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">22時30分ごろ 162円78銭</text>
+<circle cx="300" cy="190" r="6" fill="none" stroke="#c73e2e" stroke-width="2.2"/>
+<text x="306" y="209" font-size="11" fill="#c73e2e" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">23時22分ごろ 157円98銭</text>
+
+<line x1="215" y1="98" x2="215" y2="190" stroke="#c73e2e" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="209" y="146" font-size="11" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">50分で</text>
+<text x="209" y="160" font-size="11" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">約5円</text>
+<text x="386" y="140" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">戻して再び下落</text>
+<text x="70" y="204" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2026年7月30日（日本時間）／下ほど円高</text>
+
+<rect x="492" y="48" width="140" height="160" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1" rx="4"/>
+<text x="502" y="68" font-size="11" fill="#26313f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">この間、個人の側では</text>
+<text x="502" y="92" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">・スプレッドが広がる</text>
+<text x="502" y="114" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">・約定価格がずれる</text>
+<text x="502" y="136" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">・指値は約定せず</text>
+<text x="512" y="152" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">逆指値だけ約定</text>
+<text x="502" y="174" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">・ロスカットの成立</text>
+<text x="512" y="190" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">水準は事前に不明</text>
+
+<line x1="60" y1="252" x2="632" y2="252" stroke="#dde3ec" stroke-width="1"/>
+<text x="60" y="240" font-size="11" fill="#26313f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">「介入だったのか」が確定するまで</text>
+
+<circle cx="90" cy="252" r="5" fill="#c73e2e"/>
+<text x="90" y="274" font-size="10" fill="#c73e2e" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7/30 値動き</text>
+<text x="90" y="288" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">＝観測のみ</text>
+
+<circle cx="250" cy="252" r="5" fill="#8a93a2"/>
+<text x="250" y="274" font-size="10" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7/31 財務省公表</text>
+<text x="250" y="288" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7/29までの分＝0円</text>
+
+<circle cx="420" cy="252" r="5" fill="#0075c2"/>
+<text x="420" y="274" font-size="10" fill="#0075c2" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">8月末</text>
+<text x="420" y="288" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">月次の総額が判明</text>
+
+<circle cx="565" cy="252" r="5" fill="#0075c2"/>
+<text x="565" y="274" font-size="10" fill="#0075c2" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">四半期ごと</text>
+<text x="565" y="288" font-size="10" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">実施日と金額が判明</text>
+
+<rect x="60" y="304" width="572" height="22" fill="#a3690f" opacity="0.12" rx="3"/>
+<text x="346" y="319" font-size="11" fill="#a3690f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">ポジションの決着は数十分、事実の確定は数週間から数か月先</text>
+<text x="320" y="348" font-size="11" fill="#57606e" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">数値は財務省の公表資料および報道ベースの概数。将来の値動きや介入を予想する図ではない（模式図）</text>
+</svg>
