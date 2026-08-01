@@ -1,10 +1,24 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
-const TYPES = ["反転", "継続", "プライスアクション", "インジケーター"];
+import { collectionPageJsonLd } from "../../lib/seo.mjs";
+const TYPES =["反転", "継続", "プライスアクション", "インジケーター"];
 const all = (await getCollection("charts")).filter((e) => e.data.reviewed);
+
+// 一覧ページの構造化データ（CollectionPage + ItemList）
+const jsonLd = [collectionPageJsonLd({
+  path: "/charts/",
+  name: "チャート図解｜投資の学び舎",
+  description: "チャートパターン・プライスアクション・インジケーターの図解リファレンス。",
+  items: TYPES.flatMap((t) => all.filter((e) => e.data.patternType === t))
+    .map((e) => ({ url: `/charts/${e.slug}/`, name: e.data.title })),
+})];
 ---
-<Base title="チャート図解｜投資の学び舎（まなびや）" description="チャートパターン・プライスアクションの図解リファレンス。">
+<Base
+  title="チャート図解 ― パターンと指標の見方"
+  description="チャートパターン・ローソク足のプライスアクション・インジケーターを図解で解説。反転と継続の見分け方、だましの避け方まで出典付きでまとめたリファレンスです。"
+  jsonLd={jsonLd}
+>
   <div class="container">
     <p class="section-label" style="color:var(--color-sec-charts)">CHARTS</p>
     <h1>チャート図解</h1>

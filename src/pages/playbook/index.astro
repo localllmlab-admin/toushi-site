@@ -1,10 +1,24 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { collectionPageJsonLd } from "../../lib/seo.mjs";
 const KINDS = ["定石", "手法", "リスク管理", "心理", "格言"];
 const all = (await getCollection("playbook")).filter((e) => e.data.reviewed);
+
+// 一覧ページの構造化データ（CollectionPage + ItemList）
+const jsonLd = [collectionPageJsonLd({
+  path: "/playbook/",
+  name: "手法・定石・格言｜投資の学び舎",
+  description: "取引手法・相場の定石・格言のリファレンス。",
+  items: KINDS.flatMap((k) => all.filter((e) => e.data.kind === k))
+    .map((e) => ({ url: `/playbook/${e.slug}/`, name: e.data.title })),
+})];
 ---
-<Base title="手法・定石・格言｜投資の学び舎（まなびや）" description="取引手法・相場の定石・格言のリファレンス。前提と限界まで明示します。">
+<Base
+  title="手法・定石・格言 ― 前提と限界つきのリファレンス"
+  description="取引手法・相場の定石・格言のリファレンス。すべての手法記事に「前提条件」「検証の考え方」「限界と注意」を明記し、都合のよい部分だけを切り取らずに解説します。"
+  jsonLd={jsonLd}
+>
   <div class="container">
     <p class="section-label" style="color:var(--color-sec-playbook)">PLAYBOOK</p>
     <h1>手法・定石・格言</h1>

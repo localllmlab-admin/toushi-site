@@ -1,0 +1,35 @@
+---
+/**
+ * パンくずリスト（画面表示）。
+ * 構造化データ（BreadcrumbList）とは同じ trail 配列を共有し、表示と機械可読情報を必ず一致させる。
+ * trail: [{ name, url }]（末尾＝現在地）
+ */
+const { trail = [] } = Astro.props;
+const last = trail.length - 1;
+---
+{trail.length > 1 && (
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <ol>
+      {trail.map((t, i) => (
+        <li>
+          {i === last
+            ? <span aria-current="page">{t.name}</span>
+            : <a href={t.url}>{t.name}</a>}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+<style>
+  .breadcrumb { margin: 0 0 1rem; font-size: 0.78rem; color: var(--color-text-muted); }
+  .breadcrumb ol {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.15rem 0.45rem;
+  }
+  .breadcrumb li { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .breadcrumb li + li::before { content: "›"; color: var(--color-border-strong); }
+  .breadcrumb a { color: var(--color-text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--color-accent); text-decoration: underline; }
+  /* 現在地は長くなりがちなので折り返しを許可（モバイルで横スクロールを出さない） */
+  .breadcrumb [aria-current="page"] { color: var(--color-text); font-weight: 700; overflow-wrap: anywhere; }
+</style>

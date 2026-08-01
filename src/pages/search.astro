@@ -1,7 +1,18 @@
 ---
 import Base from "../layouts/Base.astro";
+import { SITE_NAME, SITE_URL } from "../lib/seo.mjs";
+
+const jsonLd = [{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": new URL("/search/", SITE_URL).href,
+  url: new URL("/search/", SITE_URL).href,
+  name: "サイト内検索｜投資の学び舎",
+  inLanguage: "ja",
+  isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+}];
 ---
-<Base title="検索｜投資の学び舎（まなびや）" description="サイト内の記事・用語集・チャート図解を全文検索します。">
+<Base jsonLd={jsonLd} title="サイト内検索" description="投資の学び舎の記事・用語集・チャート図解を全文検索できます。調べたい用語や手法名を入力すると、該当する解説ページを横断して探せます。">
   <div class="container">
   <h1>検索</h1>
   <div id="search">

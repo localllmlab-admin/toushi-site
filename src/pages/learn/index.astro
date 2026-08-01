@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { collectionPageJsonLd } from "../../lib/seo.mjs";
 
 const CHAPTERS = [
   "お金と市場の基礎", "商品と制度", "リスク管理", "分析手法",
@@ -14,8 +15,16 @@ const byChapter = CHAPTERS.map((ch) => ({
   items: all.filter((e) => e.data.chapter === ch)
     .sort((a, b) => a.data.level - b.data.level || a.data.order - b.data.order),
 }));
+
+// 一覧ページの構造化データ（CollectionPage + ItemList）＝索引ページであることと配下記事の機械可読化
+const jsonLd = [collectionPageJsonLd({
+  path: "/learn/",
+  name: "学習マップ｜投資の学び舎",
+  description: "投資・トレードを7章×4レベルで体系的に学ぶカリキュラム全体地図。",
+  items: byChapter.flatMap((c) => c.items).map((e) => ({ url: `/learn/${e.slug}/`, name: e.data.title })),
+})];
 ---
-<Base title="学習マップ｜投資の学び舎（まなびや）" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。">
+<Base title="学習マップ ― 投資・トレードを体系的に学ぶ" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。お金と市場の基礎からリスク管理・分析手法・法規制まで7章×4レベルで、入門から順に出典付きで学べます。" jsonLd={jsonLd}>
   <div class="container-wide">
     <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
     <h1>学習マップ</h1>

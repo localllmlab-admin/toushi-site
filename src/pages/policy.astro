@@ -1,7 +1,20 @@
 ---
 import Base from "../layouts/Base.astro";
+import { SITE_NAME, SITE_URL } from "../lib/seo.mjs";
+
+// 編集方針ページは E-E-A-T の根拠ページ。誰が・どういう基準で書いているかを機械可読にする。
+const jsonLd = [{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": new URL("/policy/", SITE_URL).href,
+  url: new URL("/policy/", SITE_URL).href,
+  name: "編集方針｜投資の学び舎",
+  inLanguage: "ja",
+  isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+  about: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+}];
 ---
-<Base title="編集方針｜投資の学び舎（まなびや）" description="本サイトの編集方針・出典基準・レビュー体制・免責について。">
+<Base jsonLd={jsonLd} title="編集方針" description="投資の学び舎の編集方針。出典をA（公的機関）〜E（編集部調べ）で等級表示する基準、人によるレビュー体制、広告掲載方針、免責事項を公開しています。">
   <div class="container">
   <h1>編集方針</h1>
 

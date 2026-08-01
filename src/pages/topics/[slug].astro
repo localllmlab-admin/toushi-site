@@ -2,6 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { collectTopics } from "../../data/topics.mjs";
+import { collectionPageJsonLd, breadcrumbJsonLd } from "../../lib/seo.mjs";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 
 export async function getStaticPaths() {
   const pub = (arr, collection) =>
@@ -26,14 +28,34 @@ const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
 const bestGrade = (sources = []) =>
   ["A", "B", "C", "D"].find((g) => sources.some((s) => s.grade === g)) ?? null;
 const fmt = (d) => new Date(d).toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" });
+
+// パンくずは画面表示と構造化データで同じ配列を共有する
+const trail = [
+  { name: "ホーム", url: "/" },
+  { name: "テーマ別", url: "/topics/" },
+  { name: topic.title, url: `/topics/${topic.slug}/` },
+];
+const jsonLd = [
+  collectionPageJsonLd({
+    path: `/topics/${topic.slug}/`,
+    name: `${topic.title}の記事一覧｜投資の学び舎`,
+    description: topic.lead,
+    items: topic.items.map(({ collection, entry }) => ({
+      url: `/${collection}/${entry.slug}/`,
+      name: entry.data.title,
+    })),
+  }),
+  breadcrumbJsonLd({ trail }),
+];
 ---
 <Base
-  title={`${topic.title}の記事一覧｜投資の学び舎（まなびや）`}
+  title={`${topic.title}の記事一覧`}
   description={`${topic.lead}（全${topic.items.length}本・出典付き）`}
   pagebg={true}
+  jsonLd={jsonLd}
 >
   <div class="container wrap">
-    <nav class="crumb" aria-label="パンくず"><a href="/topics/">テーマ別に学ぶ</a> › {topic.title}</nav>
+    <Breadcrumb trail={trail} />
     <div class="head">
       <span class="thumb" style={`background:${topic.grad}`}>{topic.thumb}</span>
       <div>
@@ -65,9 +87,6 @@ const fmt = (d) => new Date(d).toLocaleDateString("ja-JP", { month: "numeric", d
   </div>
   <style>
     .wrap { padding: 1.6rem 1.25rem 3.5rem; }
-    .crumb { font-size: .78rem; color: var(--color-text-muted); margin-bottom: 1rem; }
-    .crumb a { font-weight: 700; text-decoration: none; }
-    .crumb a:hover { text-decoration: underline; }
     .head { display: flex; gap: .9rem; align-items: flex-start; margin-bottom: 1.1rem; }
     .thumb {
       width: 56px; height: 56px; border-radius: 10px; flex-shrink: 0;

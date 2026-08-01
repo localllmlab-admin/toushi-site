@@ -4,6 +4,9 @@ server {
   root /var/www/toushi-site/dist;
   index index.html;
   location / { try_files $uri $uri/ =404; }
+  # 404はサイト内の404ページ（src/pages/404.astro）を返す。
+  # error_page が無いとNginx既定の白い404になり、そこで離脱する。
+  error_page 404 /404.html;
   location = /404.html { internal; }
   # 静的資産のキャッシュ
   location ~* \.(css|js|svg|woff2?)$ { expires 30d; add_header Cache-Control "public, immutable"; }

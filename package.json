@@ -11,7 +11,8 @@
     "lint:jp": "node ops/jp_style_lint.mjs",
     "diagrams": "node ops/render_diagrams.mjs",
     "draft:local": "node ops/local/pipeline.mjs",
-    "draft:dry": "node ops/local/pipeline.mjs --dry-run --no-polish"
+    "draft:dry": "node ops/local/pipeline.mjs --dry-run --no-polish",
+    "seo": "node ops/check_seo.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",

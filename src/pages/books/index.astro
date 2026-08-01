@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
+import { collectionPageJsonLd } from "../../lib/seo.mjs";
 const CATS = ["トレード実践", "相場心理", "投資の名著・古典", "インデックス投資・資産形成", "編集長おすすめ小説"];
 const all = (await getCollection("books")).filter((e) => e.data.reviewed);
 const byCat = CATS.map((c) => ({
@@ -8,11 +9,20 @@ const byCat = CATS.map((c) => ({
   items: all.filter((e) => e.data.bookCategory === c).sort((a, b) => a.data.order - b.data.order),
 })).filter(({ items }) => items.length > 0);
 const coverUrl = (isbn10) => `https://images-na.ssl-images-amazon.com/images/P/${isbn10}.09._SL500_.jpg`;
+
+// 一覧ページの構造化データ（CollectionPage + ItemList）
+const jsonLd = [collectionPageJsonLd({
+  path: "/books/",
+  name: "投資・トレードのおすすめ書籍｜投資の学び舎",
+  description: "投資・トレードの定番書・名著を対象読者レベルつきで紹介する書籍ガイド。",
+  items: byCat.flatMap((c) => c.items).map((e) => ({ url: `/books/${e.slug}/`, name: e.data.title })),
+})];
 ---
 <Base
-  title="おすすめ書籍｜投資の学び舎（まなびや）"
+  title="投資・トレードのおすすめ書籍"
   description="投資・トレードの定番書・名著を、対象読者レベルと「何に役立つか」つきで紹介します。編集部が内容を確認したうえで、評価を広告報酬で変えずに掲載しています。"
   pagebg={true}
+  jsonLd={jsonLd}
 >
   <div class="container-wide">
     <p class="section-label" style="color:var(--color-sec-books)">BOOKS</p>

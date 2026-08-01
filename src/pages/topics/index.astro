@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { getCollection } from "astro:content";
 import { collectTopics } from "../../data/topics.mjs";
+import { collectionPageJsonLd } from "../../lib/seo.mjs";
 
 const pub = (arr, collection) =>
   arr.filter((e) => e.data.reviewed).map((entry) => ({ collection, entry }));
@@ -11,11 +12,20 @@ const all = [
   ...pub(await getCollection("charts"), "charts"),
 ];
 const topics = collectTopics(all).filter((t) => t.items.length > 0);
+
+// 一覧ページの構造化データ（CollectionPage + ItemList）
+const jsonLd = [collectionPageJsonLd({
+  path: "/topics/",
+  name: "テーマ別に学ぶ｜投資の学び舎",
+  description: "投資・トレードの記事をテーマ別にまとめた索引。",
+  items: topics.map((t) => ({ url: `/topics/${t.slug}/`, name: t.title })),
+})];
 ---
 <Base
-  title="テーマ別に学ぶ｜投資の学び舎（まなびや）"
+  title="テーマ別に学ぶ"
   description="テクニカル指標・チャートパターン・損切りと資金管理・相場心理など、テーマ別に記事をまとめています。関心のあるテーマから体系的に学べます。"
   pagebg={true}
+  jsonLd={jsonLd}
 >
   <div class="container-wide wrap">
     <p class="section-label">TOPICS</p>
