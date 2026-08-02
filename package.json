@@ -12,7 +12,8 @@
     "diagrams": "node ops/render_diagrams.mjs",
     "draft:local": "node ops/local/pipeline.mjs",
     "draft:dry": "node ops/local/pipeline.mjs --dry-run --no-polish",
-    "seo": "node ops/check_seo.mjs"
+    "seo": "node ops/check_seo.mjs",
+    "indexnow": "node ops/indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",
