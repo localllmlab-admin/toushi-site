@@ -11,8 +11,11 @@ npm run build             # astro build + pagefind
 
 # SEO機械検査。dist が要るのでビルド後に走らせる。
 # ここで落としてもビルド済みの dist は既に入れ替わっており巻き戻せないため、
-# デプロイは止めずに「気づける形」で残す（validate と違いゲートではない）。
-npm run seo || echo "⚠️ SEO検査でERRORあり: node ops/check_seo.mjs で詳細を確認"
+# デプロイは止めない（validate と違いゲートではない）。
+# ただし cron 実行では stdout が捨てられるので、結果は必ずファイルに残す
+# （check_links.mjs の link_report.md と同じ方式）。
+node ops/check_seo.mjs --json > ops/seo_report.json 2>&1 \
+  || echo "⚠️ SEO検査でERRORあり: ops/seo_report.json を確認"
 
 echo "deployed: $(date -Is)"
 

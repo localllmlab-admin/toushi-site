@@ -53,11 +53,13 @@ const sectionLabel = {
   books: "おすすめ書籍",
 }[entry.collection];
 
-// パンくずは画面表示（Breadcrumb.astro）と構造化データで同じ配列を使う
+// パンくずは画面表示（Breadcrumb.astro）と構造化データで同じ配列を使う。
+// url はサイト相対で持つ（絶対URLにすると dev/preview でも本番へ飛ぶ）。
+// 構造化データ側の絶対化は breadcrumbJsonLd 内の abs() が行う。
 const trail = [
-  { name: "ホーム", url: siteUrl },
-  { name: sectionLabel, url: new URL(`/${entry.collection}/`, siteUrl).href },
-  { name: title, url: pageUrl },
+  { name: "ホーム", url: "/" },
+  { name: sectionLabel, url: `/${entry.collection}/` },
+  { name: title, url: `/${entry.collection}/${entry.slug}/` },
 ];
 
 // 出典（広告リンクを除く）を citation として明示。E-E-A-T（何を根拠に書いたか）の機械可読化。

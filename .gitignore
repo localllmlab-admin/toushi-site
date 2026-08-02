@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 ops/link_report.md
+ops/seo_report.json
 ops/local/nightly.log
 ops/local/rejected/
 design/samples/*.png

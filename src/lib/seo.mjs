@@ -37,7 +37,9 @@ export function collectionPageJsonLd({ path, name, description, items, siteUrl =
     name,
     description,
     inLanguage: "ja",
-    isPartOf: { "@id": `${siteUrl}#website` },
+    // 構造化データはページ単位で解析される。#website 実体はトップにしか出ないため、
+    // @id 参照だけ書くと未解決ノード（dangling reference）になる。最小の実体を併記する。
+    isPartOf: { "@type": "WebSite", "@id": `${siteUrl}#website`, name: SITE_NAME, url: siteUrl },
     mainEntity: {
       "@type": "ItemList",
       itemListOrder: "https://schema.org/ItemListOrderAscending",

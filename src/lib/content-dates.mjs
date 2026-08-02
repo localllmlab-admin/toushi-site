@@ -16,6 +16,9 @@ const frontmatterDate = (file) => {
   if (!raw.startsWith("---")) return null;
   const end = raw.indexOf("\n---", 3);
   const fm = end < 0 ? raw : raw.slice(0, end);
+  // reviewed:false はビルドされず公開もされない。集計に混ぜると、公開内容が
+  // 1文字も変わっていないURLの lastmod までドラフトの日付に動いてしまう。
+  if (!/^reviewed:\s*true\s*$/m.test(fm)) return null;
   // updated（内容更新日）を採用。reviewedAt はレビュー日で、更新検知の意味では updated が正しい。
   const m = fm.match(/^updated:\s*["']?(\d{4}-\d{2}-\d{2})/m);
   if (!m) return null;
@@ -27,7 +30,6 @@ const frontmatterDate = (file) => {
 const byUrl = new Map();
 /** 一覧ページ用: セクションごとの最新更新日 */
 const sectionNewest = new Map();
-let siteNewest = null;
 
 for (const collection of COLLECTIONS) {
   const dir = join(CONTENT_DIR, collection);
@@ -43,21 +45,24 @@ for (const collection of COLLECTIONS) {
     if (!sectionNewest.has(collection) || date > sectionNewest.get(collection)) {
       sectionNewest.set(collection, date);
     }
-    if (!siteNewest || date > siteNewest) siteNewest = date;
   }
 }
 
 /**
  * sitemap の lastmod として使う日付を返す。
  * - 記事ページ: その記事の updated
- * - セクション一覧: そのセクションで最も新しい updated
- * - トップ・テーマ別など横断ページ: サイト全体で最も新しい updated
- * ※ reviewed:false の記事はビルドされずsitemapにも載らないため、ここで拾っても影響しない。
+ * - セクション一覧（/learn/ 等）: そのセクションで最も新しい updated
+ * - それ以外（トップ・/topics/*・/policy/・/search/）: null＝lastmodを出さない
+ *
+ * 横断ページにサイト全体の最新日を入れると、記事を1本足しただけで /policy/ の
+ * lastmod まで動く。それは astro.config が避けたい「毎回のデプロイで全URLが更新扱い」と
+ * 実質同じで、明らかに不正確な lastmod は無視されてシグナルそのものを失う。
+ * lastmod はURLごとに省略できるので、根拠のないページには付けない。
  */
 export function lastmodFor(absoluteUrl) {
   const path = absoluteUrl.replace(/^https?:\/\/[^/]+/, "");
   const own = byUrl.get(path);
   if (own) return own;
-  const section = path.split("/")[1];
-  return sectionNewest.get(section) ?? siteNewest ?? null;
+  const m = path.match(/^\/([^/]+)\/$/);
+  return m ? sectionNewest.get(m[1]) ?? null : null;
 }
