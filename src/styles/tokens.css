@@ -10,7 +10,10 @@
   --color-surface: #f7fafd;        /* ホバー・薄面 */
   --color-surface-muted: #e9eef5;
   --color-text: #26313f;
-  --color-text-muted: #71809a;
+  /* 補助テキスト。WCAG 2.1 AA(4.5:1) を、この色が載る3つの地すべてで満たす値。
+     旧 #71809a は白地3.99 / surface 3.81 / surface-muted 3.43 で全て未達だった（ADR-0005）。
+     現在値の実測: 白 5.56 / #f7fafd 5.31 / #e9eef5 4.77 */
+  --color-text-muted: #5b6980;
   --color-border: #dde3ec;
   --color-border-strong: #9aa9bf;
 
@@ -19,11 +22,16 @@
   --color-ink-2: #0075c2;          /* ブランド青（グラデ中間） */
   --color-ink-3: #00a5e3;          /* グラデ末端の明青 */
   --color-on-ink: #eef6fc;
-  --color-on-ink-muted: #9dbbd4;
+  /* 反転面（濃青 #004f86 地）の補助テキスト。旧 #9dbbd4 は 4.26 で AA 未達（ADR-0005）。
+     現在値の実測: 4.79 */
+  --color-on-ink-muted: #a8c6dd;
   --grad-brand: linear-gradient(120deg, var(--color-ink), var(--color-ink-2) 70%, var(--color-ink-3));
 
   /* アクセント */
-  --color-accent: #0075c2;         /* リンク・主要アクション */
+  /* リンク・主要アクション。旧 #0075c2 はページ地 #f2f5f9 で4.44、淡青地 #e8f3fb で4.31と
+     AA をわずかに割っていた（ADR-0005）。実測: 白5.45 / #f2f5f9 4.98 / #e8f3fb 4.84 / #e9eef5 4.67。
+     ブランド青のグラデ（--color-ink-2 = #0075c2）は装飾面なので従来値のまま。 */
+  --color-accent: #006db5;
   --color-accent-soft: #005f9e;    /* hover（濃側に振る） */
   --color-cta: #ff6e28;            /* オレンジ: 検索ボタン・強アクションのみ（乱用禁止） */
   --color-cta-deep: #d95415;

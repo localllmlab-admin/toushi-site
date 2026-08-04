@@ -71,7 +71,18 @@ const allJsonLd = [...siteJsonLd, ...jsonLd];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{docTitle}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex,follow" />}
+    {/*
+      robots ディレクティブは常に明示する。
+      max-image-preview:large = SERP／Discoverで大サイズ画像プレビューを許可（既定はstandard＝小）。
+      max-snippet:-1 / max-video-preview:-1 = スニペット長の自主制限を外す。
+      いずれも「許可を広げる」指定で、指定しないと保守的な既定値が使われる。
+    */}
+    <meta
+      name="robots"
+      content={noindex
+        ? "noindex,follow"
+        : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"}
+    />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title ?? docTitle} />
     <meta property="og:description" content={description} />
@@ -206,7 +217,8 @@ const allJsonLd = [...siteJsonLd, ...jsonLd];
         margin: 0; font-size: 0.72rem; line-height: 1.8;
         border-top: 1px solid #1a68a5; padding-top: 0.9rem;
       }
-      .foot-copy { margin: 0.8rem 0 0; font-size: 0.72rem; color: #7fa6c6; font-family: var(--font-num); }
+      /* 直書き #7fa6c6 は濃青地で 3.32 とAA未達だったためトークン参照に統一（ADR-0005） */
+      .foot-copy { margin: 0.8rem 0 0; font-size: 0.72rem; color: var(--color-on-ink-muted); font-family: var(--font-num); }
     </style>
   </body>
 </html>

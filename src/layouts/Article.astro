@@ -4,6 +4,7 @@ import Disclaimer from "../components/Disclaimer.astro";
 import Toc from "../components/Toc.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import { breadcrumbJsonLd } from "../lib/seo.mjs";
+import { neighborsOf } from "../lib/sequence.mjs";
 import { getCollection } from "astro:content";
 import { topicsOf } from "../data/topics.mjs";
 import { existsSync } from "node:fs";
@@ -34,6 +35,15 @@ if (myTopics.length > 0) {
     .sort((a, b) => new Date(b.e.data.updated) - new Date(a.e.data.updated))
     .slice(0, 4);
 }
+// 前後の記事（一覧ページと同じ並び＝src/lib/sequence.mjs が単一定義）。
+// 記事末尾に必ず2本の文脈リンクが入るので、本文にリンクがない記事でもクロール経路と
+// 回遊導線が確保される。順序は実データ（章・レベル・順序）由来で、恣意的な推薦はしない。
+const { prev, next, groupLabel } = neighborsOf(
+  entry.collection,
+  await getCollection(entry.collection),
+  entry.slug,
+);
+
 const upd = new Date(updated).toLocaleDateString("ja-JP");
 const rev = reviewedAt ? new Date(reviewedAt).toLocaleDateString("ja-JP") : null;
 const gradeLabel = { A: "公的機関", B: "学術", C: "一次発表", D: "報道", E: "編集部調べ" };
@@ -91,6 +101,20 @@ const jsonLdBlocks = [
   },
   breadcrumbJsonLd({ trail, siteUrl }),
 ];
+
+// 学習記事は LearningResource を併記し、章とレベルを機械可読にする。
+// schema.org は多重型を許すので Article の rich result 対象からは外れない。
+if (entry.collection === "learn") {
+  const LEVELS = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+  const a = jsonLdBlocks[0];
+  a["@type"] = ["Article", "LearningResource"];
+  a.learningResourceType = "解説記事";
+  if (entry.data.level) a.educationalLevel = LEVELS[entry.data.level];
+  if (entry.data.chapter) a.teaches = entry.data.chapter;
+}
+
+// 書籍の Book 構造化データは BookCard.astro が出す（書誌データの持ち主が1か所であるべきなので、
+// ここでは重複させない）。
 
 // 用語集は DefinedTerm を追加（AI検索・リッチリザルト向けの機械可読化）
 if (entry.collection === "glossary") {
@@ -157,6 +181,29 @@ if (entry.collection === "glossary") {
       </section>
     )}
 
+    {(prev || next) && (
+      <nav class="seq" aria-label="前後の記事">
+        <p class="seq-head">
+          {groupLabel ? `「${groupLabel}」の順に読む` : "この一覧の順に読む"}
+          <a href={`/${entry.collection}/`}>一覧へ ›</a>
+        </p>
+        <div class="seq-links">
+          {prev ? (
+            <a class="seq-prev" href={`/${entry.collection}/${prev.slug}/`} rel="prev">
+              <span class="seq-label">‹ 前の記事</span>
+              <span class="seq-title">{prev.data.title}</span>
+            </a>
+          ) : <span class="seq-empty" />}
+          {next ? (
+            <a class="seq-next" href={`/${entry.collection}/${next.slug}/`} rel="next">
+              <span class="seq-label">次の記事 ›</span>
+              <span class="seq-title">{next.data.title}</span>
+            </a>
+          ) : <span class="seq-empty" />}
+        </div>
+      </nav>
+    )}
+
     <!-- 免責は常に機械描画。frontmatter では消せない。 -->
     <Disclaimer />
   </article>
@@ -205,6 +252,32 @@ if (entry.collection === "glossary") {
     .related-more { font-size: .82rem; margin-top: .6rem; text-align: right; }
     .related-more a { font-weight: 700; text-decoration: none; }
     .related-more a:hover { text-decoration: underline; }
+    /* 前後ナビ（連続した読み順の提示・機械描画） */
+    .seq { margin-top: 2.5rem; }
+    .seq-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+      font-size: .82rem; color: var(--color-text-muted); margin: 0 0 .6rem;
+      border-bottom: 1px solid var(--color-border); padding-bottom: .3rem;
+    }
+    .seq-head a { font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .seq-head a:hover { text-decoration: underline; }
+    .seq-links { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .seq-links > a {
+      display: flex; flex-direction: column; gap: .3rem;
+      border: 1px solid var(--color-border); border-radius: var(--radius);
+      padding: .8rem 1rem; text-decoration: none; background: var(--color-bg);
+    }
+    .seq-links > a:hover { border-color: var(--color-accent); }
+    .seq-next { text-align: right; }
+    .seq-label { font-size: .75rem; color: var(--color-text-muted); font-family: var(--font-mono); }
+    .seq-title { font-size: .9rem; font-weight: 700; line-height: 1.5; }
+    .seq-links > a:hover .seq-title { text-decoration: underline; }
+    @media (max-width: 560px) {
+      .seq-links { grid-template-columns: 1fr; }
+      .seq-next { text-align: left; }
+      .seq-empty { display: none; }
+    }
+
     .sources { margin-top: 2.5rem; font-size: .9rem; }
     .sources h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
     .sources li { margin: .5rem 0; }

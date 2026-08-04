@@ -16,15 +16,24 @@ const {
   seriesItems = [],
 } = book;
 const coverUrl = `https://images-na.ssl-images-amazon.com/images/P/${isbn10}.09._SL500_.jpg`;
+// isbn10 は紙版のISBN-10、または紙版が存在しないKindle合本等のASIN（B0…）。
+// ASINはISBNではないので isbn として出さない（誤った書誌データを機械可読にしないため）。
+const isIsbn = /^\d{9}[\dX]$/.test(isbn10);
 const bookLd = {
   "@context": "https://schema.org",
   "@type": "Book",
   name: bookTitle,
   author: { "@type": "Person", name: bookAuthor },
+  ...(translator ? { translator: { "@type": "Person", name: translator } } : {}),
   publisher: { "@type": "Organization", name: publisher },
+  ...(publishedYear ? { datePublished: String(publishedYear) } : {}),
+  ...(originalTitle ? { alternateName: originalTitle } : {}),
   inLanguage: "ja",
-  isbn: isbn10,
+  ...(isIsbn ? { isbn: isbn10 } : {}),
   ...(pages ? { numberOfPages: pages } : {}),
+  image: coverUrl,
+  // 書籍紹介ページ自身のURL（このカードは個別ページでのみ使う）
+  url: new URL(Astro.url.pathname, "https://toushi-manabiya.jp").href,
 };
 ---
 <aside class="book-card">

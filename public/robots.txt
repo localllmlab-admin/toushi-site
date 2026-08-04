@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
+# 全文検索インデックス（Pagefindがビルド時に生成するバイナリ断片）。
+# 人が読むページではなくJSからfetchされるだけなので、クロール対象から外す。
+Disallow: /pagefind/
+
+# 検索結果ページ /search/ は noindex 指定済み。
+# Disallow にするとnoindexを読めなくなるため、あえてクロールは許可する。
+
 Sitemap: https://toushi-manabiya.jp/sitemap-index.xml

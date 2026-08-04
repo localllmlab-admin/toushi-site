@@ -312,7 +312,8 @@ const sections = [
     .topics li:last-child { border-bottom: none; }
     .topics li a { font-weight: 700; color: var(--color-text); font-size: 0.92rem; text-decoration: none; }
     .topics li a:hover { color: var(--color-accent); text-decoration: underline; }
-    .b-new { color: #e5322d; font-size: 0.62rem; font-weight: 800; flex-shrink: 0; }
+    /* 旧 #e5322d は白地4.35でAA未達（ADR-0005）。#d42722 で5.11 */
+    .b-new { color: #d42722; font-size: 0.62rem; font-weight: 800; flex-shrink: 0; }
     .b-cat { font-size: 0.64rem; color: #fff; padding: 0.12rem 0.55rem; border-radius: var(--radius-s); flex-shrink: 0; font-weight: 800; }
     .c-learn { background: var(--color-sec-learn); }
     .c-play { background: var(--color-sec-playbook); }

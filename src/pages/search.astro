@@ -12,7 +12,12 @@ const jsonLd = [{
   isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
 }];
 ---
-<Base jsonLd={jsonLd} title="サイト内検索" description="投資の学び舎の記事・用語集・チャート図解を全文検索できます。調べたい用語や手法名を入力すると、該当する解説ページを横断して探せます。">
+{/*
+  検索結果ページはインデックス対象外にする（Google検索品質ガイドラインの
+  「検索結果ページを検索結果に出さない」に対応）。?q= 付きURLが無数に生成され得るため、
+  noindex,follow でクロール経路だけ残す。sitemap からも astro.config の filter で除外。
+*/}
+<Base noindex jsonLd={jsonLd} title="サイト内検索" description="投資の学び舎の記事・用語集・チャート図解を全文検索できます。調べたい用語や手法名を入力すると、該当する解説ページを横断して探せます。">
   <div class="container">
   <h1>検索</h1>
   <div id="search">

@@ -11,6 +11,9 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
+      // noindex のページは sitemap に載せない（「送信されたURLがnoindex」＝GSCのエラー扱い）。
+      // 対象は検索結果ページ。増えたら Base.astro の noindex 指定と両方を更新すること。
+      filter: (page) => !page.startsWith("https://toushi-manabiya.jp/search/"),
       // lastmod を出す（更新検知＝再クロールの手がかり。既定では出力されない）。
       // 日付は frontmatter の updated が唯一の出所で、ビルド時刻は使わない
       // （毎回のデプロイで全URLが「更新された」ことになり、シグナルとして無意味になるため）。

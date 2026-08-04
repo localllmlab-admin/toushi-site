@@ -62,8 +62,12 @@ const decode = (s) =>
 const pages = htmlFiles.map((file) => {
   const html = readFileSync(file, "utf8");
   const head = html.slice(0, html.indexOf("</head>") + 7);
-  const jsonLd = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
-    .map((m) => { try { return JSON.parse(m[1]); } catch { return null; } })
+  const ldRaw = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
+  // パース不能なJSON-LDは「無い」のと同じ（検索エンジンに丸ごと無視される）。
+  // 黙って捨てると、他に1ブロックでもあるページで壊れたブロックを見逃すので件数を持つ。
+  let ldBroken = 0;
+  const jsonLd = ldRaw
+    .map((m) => { try { return JSON.parse(m[1]); } catch { ldBroken++; return null; } })
     .filter(Boolean);
   const bodyStart = html.indexOf("<main");
   const bodyEnd = html.indexOf("</main>");
@@ -85,8 +89,10 @@ const pages = htmlFiles.map((file) => {
     // リンクを1文字壊しても全ページ「指摘なし」になる。リンクと画像はページ全体から拾う
     // （見出し階層だけは本文の構造を見たいので main 内のままにする）。
     imgs: [...html.matchAll(/<img\b([^>]*)>/g)].map((m) => m[1]),
-    jsonLdTypes: jsonLd.map((b) => b["@type"]),
+    // @type は配列（多重型: Article + LearningResource 等）を取りうるので平坦化して持つ
+    jsonLdTypes: jsonLd.flatMap((b) => (Array.isArray(b["@type"]) ? b["@type"] : [b["@type"]])),
     jsonLd,
+    ldBroken,
     links: [...html.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((m) => m[1]),
   };
 });
@@ -197,6 +203,10 @@ else {
   const inSitemap = new Set(locs.map((l) => l.replace(SITE, "")));
   const notListed = pages.filter((p) => !inSitemap.has(p.url) && !p.robots?.includes("noindex")).map((p) => p.url);
   if (notListed.length) add("WARN", "sitemap-missing-page", `sitemapに載っていないページ ${notListed.length}件`, notListed);
+  // 逆方向: noindex のページを sitemap に載せると GSC で「送信されたURLにnoindexタグが追加されています」
+  // としてエラー計上される。noindex 指定と sitemap の filter は必ず一緒に更新する。
+  const noindexListed = pages.filter((p) => p.robots?.includes("noindex") && inSitemap.has(p.url)).map((p) => p.url);
+  if (noindexListed.length) add("ERROR", "sitemap-noindex", `noindexなのにsitemapに載っているページ ${noindexListed.length}件`, noindexListed);
   // lastmod はURLごとに省略できる。根拠のない日付を入れるより出さない方が正しいので、
   // 「一部にしかない」は正常。全く無い場合＝lastmodを出す仕組み自体が壊れた場合だけ指摘する。
   if (lastmods === 0) add("WARN", "sitemap-lastmod", `sitemapに <lastmod> が1件もない（${locs.length}URL）`);
@@ -212,8 +222,32 @@ if (home) {
   }
 }
 
+const ldBroken = pages.filter((p) => p.ldBroken > 0).map((p) => `${p.url} (${p.ldBroken}件)`);
+if (ldBroken.length) add("ERROR", "jsonld-parse", `JSON-LDがJSONとして壊れている ${ldBroken.length}ページ`, ldBroken);
+
 // 11. 404ページ
 if (!existsSync(join(DIST, "404.html"))) add("WARN", "404-page", "404.html が生成されていない（Nginxの既定404が出る）");
+
+// 12. robots メタのディレクティブ
+// 指定しないと保守的な既定（画像プレビューはstandard＝小サイズ、スニペット長も制限）になる。
+// max-image-preview:large は Discover / SERP のサムネイル表示に効くので全ページ必須とする。
+const noRobots = pages.filter((p) => !p.robots).map((p) => p.url);
+if (noRobots.length) add("WARN", "robots-meta-missing", `robotsメタがないページ ${noRobots.length}件`, noRobots);
+const weakPreview = pages
+  .filter((p) => p.robots && !p.robots.includes("noindex") && !p.robots.includes("max-image-preview:large"))
+  .map((p) => `${p.url} → ${p.robots}`);
+if (weakPreview.length) add("WARN", "robots-image-preview", `max-image-preview:large がないページ ${weakPreview.length}件`, weakPreview);
+
+// 13. 記事ページの前後ナビ（連続した読み順＝クロール経路と回遊導線）
+// 本文にリンクがない記事でも最低限の文脈リンクが入ることを不変条件にする。
+const articlePages = pages.filter((p) => /^\/(learn|playbook|charts|glossary|books)\/[^/]+\/$/.test(p.url));
+const noSeq = articlePages.filter((p) => !/<nav class="seq"/.test(p.html)).map((p) => p.url);
+if (noSeq.length) add("WARN", "sequence-nav", `前後ナビがない記事 ${noSeq.length}件 / 全${articlePages.length}件`, noSeq);
+
+// 14. robots.txt
+const robotsTxt = join(DIST, "robots.txt");
+if (!existsSync(robotsTxt)) add("ERROR", "robots-txt", "robots.txt がない");
+else if (!readFileSync(robotsTxt, "utf8").includes("Sitemap:")) add("ERROR", "robots-txt", "robots.txt に Sitemap 行がない");
 
 // --- 出力 ---------------------------------------------------------------
 const order = { ERROR: 0, WARN: 1 };
