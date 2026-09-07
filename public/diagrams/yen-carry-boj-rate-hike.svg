@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img">
+<rect width="640" height="400" fill="#ffffff"/>
+<text x="320" y="22" font-size="13" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2日で5円が生まれる三層構造（模式図）</text>
+
+<line x1="60" y1="62" x2="380" y2="62" stroke="#dde3ec" stroke-width="1"/>
+<line x1="60" y1="112" x2="380" y2="112" stroke="#dde3ec" stroke-width="1"/>
+<line x1="60" y1="162" x2="380" y2="162" stroke="#dde3ec" stroke-width="1"/>
+<text x="56" y="66" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">160円</text>
+<text x="56" y="116" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">158円</text>
+<text x="56" y="166" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">155円</text>
+
+<polyline points="70,66 105,62 140,68 170,64 195,72 215,90 235,116 255,140 275,158 295,166 320,160 345,164 370,162" fill="none" stroke="#26313f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+<circle cx="195" cy="72" r="6" fill="none" stroke="#57606e" stroke-width="2"/>
+<text x="188" y="48" font-size="11" fill="#57606e" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9/1夜 160円台前半</text>
+<circle cx="295" cy="166" r="6" fill="none" stroke="#c73e2e" stroke-width="2.2"/>
+<text x="303" y="186" font-size="11" fill="#c73e2e" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9/3 155円30銭</text>
+
+<line x1="178" y1="80" x2="178" y2="166" stroke="#c73e2e" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="172" y="118" font-size="11" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2日で</text>
+<text x="172" y="132" font-size="11" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">約5円</text>
+<text x="70" y="182" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2026年9月1〜3日／下ほど円高</text>
+
+<rect x="400" y="42" width="232" height="150" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1" rx="4"/>
+<text x="412" y="62" font-size="11" fill="#26313f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">同じ時期に確定していた数字</text>
+<text x="412" y="86" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">政策金利 1.0%（6/16引き上げ）</text>
+<text x="412" y="108" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7〜8月の介入 15兆3,993億円</text>
+<text x="412" y="130" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">短期プライムレート 2.375%</text>
+<text x="412" y="152" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">輸入物価 円ベース 前年比+29.1%</text>
+<text x="412" y="174" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9/17・18の決定会合＝まだ未定</text>
+
+<line x1="60" y1="212" x2="632" y2="212" stroke="#dde3ec" stroke-width="1"/>
+<text x="60" y="234" font-size="12" fill="#26313f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">外側から内側へ ― 動かしているのは政治ではなくポジション</text>
+
+<rect x="60" y="248" width="168" height="118" fill="#ffffff" stroke="#2b4a8b" stroke-width="1.4" rx="4"/>
+<text x="144" y="270" font-size="12" fill="#2b4a8b" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">① 政治</text>
+<text x="74" y="294" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">米国＝利上げを促す</text>
+<text x="74" y="314" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">日本政府＝利上げに慎重</text>
+<text x="74" y="334" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">日銀＝その中央に立つ</text>
+<text x="74" y="356" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">動くのは「見通し」だけ</text>
+
+<path d="M232 307 L252 307" stroke="#8a93a2" stroke-width="1.6"/>
+<path d="M252 307 l-6 -4 l0 8 z" fill="#8a93a2"/>
+
+<rect x="256" y="248" width="168" height="118" fill="#ffffff" stroke="#1f6e50" stroke-width="1.4" rx="4"/>
+<text x="340" y="270" font-size="12" fill="#1f6e50" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">② 金利の予想</text>
+<text x="270" y="294" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9月利上げの織り込みが</text>
+<text x="270" y="312" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">上昇（報道では約8割）</text>
+<text x="270" y="334" font-size="11" fill="#57606e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">金利差が縮む見通しへ</text>
+<text x="270" y="356" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">実際の金利はまだ動かず</text>
+
+<path d="M428 307 L448 307" stroke="#8a93a2" stroke-width="1.6"/>
+<path d="M448 307 l-6 -4 l0 8 z" fill="#8a93a2"/>
+
+<rect x="452" y="248" width="180" height="118" fill="#fdf3f1" stroke="#c73e2e" stroke-width="1.6" rx="4"/>
+<text x="542" y="270" font-size="12" fill="#c73e2e" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">③ ポジション</text>
+<text x="466" y="294" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">積み上がった円売りの</text>
+<text x="466" y="312" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">手じまい＝円買い</text>
+<text x="466" y="334" font-size="11" fill="#c73e2e" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">決済が決済を呼ぶ連鎖</text>
+<text x="466" y="356" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">値幅を作るのはこの層</text>
+
+<text x="60" y="390" font-size="10" fill="#8a93a2" text-anchor="start" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">出所：財務省・日本銀行・総務省統計局の公表値および報道（相場水準は概数）。確認日 2026-09-07</text>
+</svg>
