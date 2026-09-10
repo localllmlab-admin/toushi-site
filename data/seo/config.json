@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 2,
+  "siteUrl": "https://toushi-manabiya.jp/",
+  "gscProperty": "https://toushi-manabiya.jp/",
+  "reportTimezone": "Asia/Tokyo",
+  "country": null,
+  "device": null,
+  "searchType": "web",
+  "businessGoal": "",
+  "primaryConversions": [],
+  "brandPatterns": [],
+  "publishFlow": {
+    "method": "",
+    "verifyUrlTemplate": ""
+  },
+  "auth": {
+    "mode": "service_account",
+    "keyFileEnv": "GSC_SA_KEY_FILE",
+    "clientIdEnv": "GSC_CLIENT_ID",
+    "clientSecretEnv": "GSC_CLIENT_SECRET",
+    "refreshTokenEnv": "GSC_REFRESH_TOKEN"
+  },
+  "thresholds": {
+    "minImpressions": 100,
+    "minDaysWithImpressions": 5,
+    "meaningfulPositionDelta": 1,
+    "achievedWindows": 2,
+    "stallLimit": 3,
+    "notifyPositionDelta": 3,
+    "cooldownHours": 168,
+    "observationWindowDays": 7,
+    "finalLagDays": 3
+  }
+}

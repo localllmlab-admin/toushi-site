@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "items": [
+    {
+      "schemaVersion": 2,
+      "watchwordId": "ww_343d7ecfdd1f48a0ba29",
+      "keyword": "投資ファンドによる企業買収を描いた 真山仁 の経済小説シリーズは何",
+      "status": "active",
+      "holdReason": "pending_publish",
+      "nextReviewDate": null,
+      "actions": [
+        {
+          "actionId": "act_f83d5819ba69439abce8",
+          "runId": "run_75c637029f50471b905b",
+          "hypothesis": "「順番」を求める検索意図に対し、titleとページ冒頭が答えになっていない（答えは3セクション目）。titleとdescriptionに読む順番と最新刊までの範囲を明示し、リード直後に刊行順の直答を1ブロック置く。競合上位は読む順番を主題にした専用ページで、当ページの差別化は2026年刊チップスまで含むこと。",
+          "needs": null,
+          "gap": null,
+          "evidence": [],
+          "done": null,
+          "changedFiles": [
+            "src/content/books/hagetaka-series.md"
+          ],
+          "affectedCanonicalUrls": [
+            "https://toushi-manabiya.jp/books/hagetaka-series/"
+          ],
+          "baselineMeasurementIds": [
+            "m_3fead9ea7eba4f7e8bd2",
+            "m_1a434d563137430b85c9"
+          ],
+          "rankAtAction": 7.7,
+          "implementedAt": "2026-09-10T15:24:46.555Z",
+          "publishedAt": null,
+          "cooldownUntil": null,
+          "deploymentEvidence": null,
+          "phase": "implemented",
+          "commitRef": null,
+          "verification": null,
+          "rollback": null
+        }
+      ],
+      "assessments": [],
+      "stateEvents": [
+        {
+          "at": "2026-09-10T15:24:46.557Z",
+          "runId": "run_75c637029f50471b905b",
+          "event": "action_recorded",
+          "to": "active/pending_publish",
+          "actionId": "act_f83d5819ba69439abce8"
+        }
+      ]
+    }
+  ]
+}
