@@ -5,9 +5,9 @@
       "schemaVersion": 2,
       "watchwordId": "ww_343d7ecfdd1f48a0ba29",
       "keyword": "投資ファンドによる企業買収を描いた 真山仁 の経済小説シリーズは何",
-      "status": "active",
-      "holdReason": "pending_publish",
-      "nextReviewDate": null,
+      "status": "observing",
+      "holdReason": null,
+      "nextReviewDate": "2026-09-18",
       "actions": [
         {
           "actionId": "act_f83d5819ba69439abce8",
@@ -29,10 +29,10 @@
           ],
           "rankAtAction": 7.7,
           "implementedAt": "2026-09-10T15:24:46.555Z",
-          "publishedAt": null,
-          "cooldownUntil": null,
-          "deploymentEvidence": null,
-          "phase": "implemented",
+          "publishedAt": "2026-09-11T13:43:00.000Z",
+          "cooldownUntil": "2026-09-18T13:43:00.000Z",
+          "deploymentEvidence": "本番 https://toushi-manabiya.jp/books/hagetaka-series/ で title と本文の直答ブロック(読む順番は刊行順です)を curl で確認。VPS autodeploy cron(10分毎)により反映。commit 880d4f9。確認時刻が反映済みを確認した最初の時点であり、実際の反映はこれより前の可能性がある。",
+          "phase": "published",
           "commitRef": null,
           "verification": null,
           "rollback": null
@@ -45,6 +45,16 @@
           "runId": "run_75c637029f50471b905b",
           "event": "action_recorded",
           "to": "active/pending_publish",
+          "actionId": "act_f83d5819ba69439abce8"
+        },
+        {
+          "at": "2026-09-11T13:43:33.957Z",
+          "runId": "run_7d41ac846c69405098bb",
+          "event": "published",
+          "to": "observing",
+          "publishedAt": "2026-09-11T13:43:00.000Z",
+          "cooldownUntil": "2026-09-18T13:43:00.000Z",
+          "evidence": "本番 https://toushi-manabiya.jp/books/hagetaka-series/ で title と本文の直答ブロック(読む順番は刊行順です)を curl で確認。VPS autodeploy cron(10分毎)により反映。commit 880d4f9。確認時刻が反映済みを確認した最初の時点であり、実際の反映はこれより前の可能性がある。",
           "actionId": "act_f83d5819ba69439abce8"
         }
       ]
