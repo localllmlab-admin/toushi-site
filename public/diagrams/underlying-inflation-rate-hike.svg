@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img">
+<rect width="640" height="400" fill="#ffffff"/>
+<text x="320" y="24" font-size="13" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">物価は2%未満、それでも利上げ ― 足もとの物価と利上げの時期</text>
+<line x1="64" y1="300.0" x2="392" y2="300.0" stroke="#dde3ec" stroke-width="1"/>
+<text x="58" y="304.0" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">1.0%</text>
+<line x1="64" y1="255.2" x2="392" y2="255.2" stroke="#dde3ec" stroke-width="1"/>
+<text x="58" y="259.2" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">1.5%</text>
+<line x1="64" y1="165.6" x2="392" y2="165.6" stroke="#dde3ec" stroke-width="1"/>
+<text x="58" y="169.6" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2.5%</text>
+<line x1="64" y1="120.8" x2="392" y2="120.8" stroke="#dde3ec" stroke-width="1"/>
+<text x="58" y="124.8" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">3.0%</text>
+<line x1="64" y1="76.0" x2="392" y2="76.0" stroke="#dde3ec" stroke-width="1"/>
+<text x="58" y="80.0" font-size="10" fill="#8a93a2" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">3.5%</text>
+<line x1="64" y1="210.4" x2="392" y2="210.4" stroke="#b7791f" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="58" y="214.4" font-size="10" fill="#b7791f" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2.0%</text>
+<text x="70" y="204.4" font-size="10" fill="#b7791f" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">日銀の物価安定の目標</text>
+<text x="64.0" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">25/8</text>
+<text x="89.2" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9</text>
+<text x="114.5" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">10</text>
+<text x="139.7" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">11</text>
+<text x="164.9" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">12</text>
+<text x="190.2" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">26/1</text>
+<text x="215.4" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">2</text>
+<text x="240.6" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">3</text>
+<text x="265.8" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">4</text>
+<text x="291.1" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">5</text>
+<text x="316.3" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">6</text>
+<text x="341.5" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">7</text>
+<text x="366.8" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">8</text>
+<text x="392.0" y="316" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9</text>
+<text x="64" y="332" font-size="9.5" fill="#8a93a2" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">年/月（前年同月比・生鮮食品を除く総合）</text>
+<polyline points="64.0,147.7 89.2,129.8 114.5,120.8 139.7,120.8 164.9,174.6 190.2,219.4 215.4,255.2 240.6,237.3 265.8,264.2 291.1,264.2 316.3,246.2 341.5,228.3 366.8,237.3" fill="none" stroke="#26313f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64.0" cy="147.7" r="2.6" fill="#26313f"/>
+<circle cx="89.2" cy="129.8" r="2.6" fill="#26313f"/>
+<circle cx="114.5" cy="120.8" r="2.6" fill="#26313f"/>
+<circle cx="139.7" cy="120.8" r="2.6" fill="#26313f"/>
+<circle cx="164.9" cy="174.6" r="2.6" fill="#26313f"/>
+<circle cx="190.2" cy="219.4" r="2.6" fill="#26313f"/>
+<circle cx="215.4" cy="255.2" r="2.6" fill="#26313f"/>
+<circle cx="240.6" cy="237.3" r="2.6" fill="#26313f"/>
+<circle cx="265.8" cy="264.2" r="2.6" fill="#26313f"/>
+<circle cx="291.1" cy="264.2" r="2.6" fill="#26313f"/>
+<circle cx="316.3" cy="246.2" r="2.6" fill="#26313f"/>
+<circle cx="341.5" cy="228.3" r="2.6" fill="#26313f"/>
+<circle cx="366.8" cy="237.3" r="2.6" fill="#26313f"/>
+<text x="368.8" y="257.3" font-size="11" fill="#26313f" font-weight="700" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">8月 1.7%</text>
+<line x1="316.3" y1="72" x2="316.3" y2="300" stroke="#c73e2e" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="311.3" y="58" font-size="10.5" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">6/16 利上げ</text>
+<text x="311.3" y="70" font-size="10" fill="#c73e2e" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">1.0%程度へ</text>
+<line x1="392.0" y1="72" x2="392.0" y2="300" stroke="#c73e2e" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="387.0" y="58" font-size="10.5" fill="#c73e2e" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">9/18 利上げ</text>
+<text x="387.0" y="70" font-size="10" fill="#c73e2e" text-anchor="end" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">1.25%程度へ</text>
+<rect x="412" y="52" width="216" height="130" fill="#f6f8fb" stroke="#dde3ec" stroke-width="1" rx="4"/>
+<text x="424" y="72" font-size="11.5" fill="#26313f" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">足もとの物価</text>
+<text x="424" y="92" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">店頭で観測された価格そのもの</text>
+<text x="424" y="110" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">エネルギー負担緩和策などの</text>
+<text x="424" y="128" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">一時的な要因も含む</text>
+<text x="424" y="162" font-size="10.5" fill="#26313f" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">→ 8月は1.7%（2%未満）</text>
+<rect x="412" y="192" width="216" height="150" fill="#fff6f4" stroke="#f0c9c2" stroke-width="1" rx="4"/>
+<text x="424" y="212" font-size="11.5" fill="#c73e2e" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">基調的な物価（日銀の判断軸）</text>
+<text x="424" y="232" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">一時的な要因を取り除いた流れ</text>
+<text x="424" y="250" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">単一の指標では示せない</text>
+<text x="424" y="268" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">①変動の大きい品目を除く</text>
+<text x="424" y="286" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">②中長期の予想物価上昇率</text>
+<text x="424" y="304" font-size="10.5" fill="#57606e" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">③経済モデルで推計</text>
+<text x="424" y="330" font-size="10.5" fill="#c73e2e" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">→ 2%に近づき、上振れリスク</text>
+<text x="320" y="388" font-size="9.5" fill="#8a93a2" text-anchor="middle" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">出所: 総務省統計局「消費者物価指数」、日本銀行「金融市場調節方針の変更について」（2026年6月16日・9月18日）</text>
+</svg>
