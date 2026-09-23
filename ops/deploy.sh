@@ -17,6 +17,10 @@ npm run build             # astro build + pagefind
 node ops/check_seo.mjs --json > ops/seo_report.json 2>&1 \
   || echo "⚠️ SEO検査でERRORあり: ops/seo_report.json を確認"
 
+# 更新をBing系（Bing検索・Copilot・ChatGPT検索の参照先）へ通知する。流入の最大がBingのため自動化。
+# 失敗してもデプロイ済みのdistは戻せないので止めない。
+node ops/indexnow.mjs --since 3 || echo "⚠️ IndexNow送信に失敗"
+
 echo "deployed: $(date -Is)"
 
 # 週次推奨（別cronでも可）: リンク死活監視

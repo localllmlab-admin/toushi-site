@@ -9,6 +9,7 @@
  *   node ops/indexnow.mjs                       # sitemapの全URL
  *   node ops/indexnow.mjs /learn/foo/ /books/   # 指定URLのみ
  *   node ops/indexnow.mjs --dry-run             # 送信せず対象だけ表示
+ *   node ops/indexnow.mjs --since 3             # lastmod が直近3日のURLだけ（deploy.sh から呼ぶ）
  *
  * キーは public/<key>.txt として配信済みである必要がある（未配信だと 403）。
  */
@@ -22,7 +23,9 @@ const ENDPOINT = "https://api.indexnow.org/indexnow";
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
-const explicit = args.filter((a) => !a.startsWith("--"));
+const sinceIdx = args.indexOf("--since");
+const sinceDays = sinceIdx > -1 ? Number(args[sinceIdx + 1]) : 0;
+const explicit = args.filter((a, i) => !a.startsWith("--") && !(sinceIdx > -1 && i === sinceIdx + 1));
 
 // キーは public/ に置かれた <32桁>.txt から読む（ファイル名とキー本文は一致させる規約）
 const keyFile = readdirSync("public").find((f) => /^[0-9a-f]{8,128}\.txt$/.test(f));
@@ -37,9 +40,14 @@ if (explicit.length) {
   urlList = explicit.map((u) => (u.startsWith("http") ? u : SITE + u));
 } else {
   if (!existsSync(DIST)) throw new Error("dist/ がありません。先に npm run build を実行してください");
-  urlList = readdirSync(DIST)
+  const entries = readdirSync(DIST)
     .filter((f) => /^sitemap-\d+\.xml$/.test(f))
-    .flatMap((f) => [...readFileSync(join(DIST, f), "utf8").matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+    .flatMap((f) => [...readFileSync(join(DIST, f), "utf8").matchAll(/<url><loc>([^<]+)<\/loc>(?:<lastmod>([^<]+)<\/lastmod>)?/g)]
+      .map((m) => ({ url: m[1], lastmod: m[2] })));
+  // --since N: lastmod（frontmatter の updated 由来）が直近N日のURLだけ。lastmod の無いURLは送らない
+  const limit = Date.now() - sinceDays * 86400000;
+  urlList = entries.filter((e) => !sinceDays || (e.lastmod && new Date(e.lastmod).getTime() >= limit)).map((e) => e.url);
+  if (sinceDays && !urlList.length) { console.log(`IndexNow: 直近${sinceDays}日の更新URLなし（送信しません）`); process.exit(0); }
 }
 urlList = [...new Set(urlList)];
 if (!urlList.length) throw new Error("送信対象URLが0件です");

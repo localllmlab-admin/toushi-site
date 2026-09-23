@@ -84,6 +84,8 @@ const allJsonLd = [...siteJsonLd, ...jsonLd];
         : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"}
     />
     <link rel="canonical" href={canonicalURL} />
+    {/* Bing Webmaster Tools の所有確認（流入1位がBing・Copilot系のため登録）。確認後も消すと所有権が外れる */}
+    <meta name="msvalidate.01" content="32460326966C1A328A71E0E1349F4C43" />
     <meta property="og:title" content={title ?? docTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
