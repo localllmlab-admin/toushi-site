@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 346" role="img">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6980"/></marker></defs>
+<rect width="640" height="346" fill="#ffffff"/>
+<text x="320" y="28" font-size="15" fill="#26313f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">100万円を積立・分散で運用：5年と20年で結果の幅はこう違った</text>
+<rect x="130.0" y="56" width="137.1428571428571" height="186" fill="#fbeae7"/>
+<text x="198.57142857142856" y="74" font-size="12" fill="#c73e2e" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">元本割れ</text>
+<line x1="130.0" y1="56" x2="130.0" y2="242" stroke="#dde3ec"/>
+<text x="130.0" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">0万</text>
+<line x1="198.57142857142856" y1="56" x2="198.57142857142856" y2="242" stroke="#dde3ec"/>
+<text x="198.57142857142856" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">50万</text>
+<line x1="267.1428571428571" y1="56" x2="267.1428571428571" y2="242" stroke="#dde3ec"/>
+<text x="267.1428571428571" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">100万</text>
+<line x1="335.71428571428567" y1="56" x2="335.71428571428567" y2="242" stroke="#dde3ec"/>
+<text x="335.71428571428567" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">150万</text>
+<line x1="404.2857142857143" y1="56" x2="404.2857142857143" y2="242" stroke="#dde3ec"/>
+<text x="404.2857142857143" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">200万</text>
+<line x1="472.8571428571429" y1="56" x2="472.8571428571429" y2="242" stroke="#dde3ec"/>
+<text x="472.8571428571429" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">250万</text>
+<line x1="541.4285714285713" y1="56" x2="541.4285714285713" y2="242" stroke="#dde3ec"/>
+<text x="541.4285714285713" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">300万</text>
+<line x1="610.0" y1="56" x2="610.0" y2="242" stroke="#dde3ec"/>
+<text x="610.0" y="260" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">350万</text>
+<line x1="267.1428571428571" y1="56" x2="267.1428571428571" y2="242" stroke="#c73e2e" stroke-width="1.8" stroke-dasharray="5 4"/>
+<text x="271.1428571428571" y="236" font-size="11" fill="#c73e2e" text-anchor="start" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">元本100万円</text>
+<text x="116" y="116" font-size="14" fill="#26313f" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">保有5年</text>
+<rect x="231.4857142857143" y="96" width="139.88571428571433" height="28" rx="6" fill="#a3690f" opacity="0.9"/>
+<text x="225.4857142857143" y="144" font-size="12" fill="#a3690f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">74万円</text>
+<text x="371.3714285714286" y="144" font-size="12" fill="#a3690f" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">176万円</text>
+<text x="116" y="192" font-size="14" fill="#26313f" text-anchor="end" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">保有20年</text>
+<rect x="385.0857142857143" y="172" width="198.8571428571429" height="28" rx="6" fill="#1f6e50" opacity="0.9"/>
+<text x="379.0857142857143" y="220" font-size="12" fill="#1f6e50" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">186万円</text>
+<text x="583.9428571428572" y="220" font-size="12" fill="#1f6e50" text-anchor="middle" font-weight="700" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">331万円</text>
+<text x="320" y="290" font-size="11.5" fill="#26313f" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">5年では始めた時期しだいで元本割れもあった。20年では1989年以降のデータで元本割れのケースはなかった</text>
+<text x="320" y="312" font-size="11" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">前提：1989年以降、国内外の株式・債券に毎月同額を積立。過去のシミュレーションで、将来の成果を保証しない</text>
+<text x="320" y="332" font-size="10.5" fill="#5b6980" text-anchor="middle" font-weight="400" font-family="Hiragino Sans, Noto Sans JP, Meiryo, sans-serif">出所：金融庁「はじめてのNISAガイドブック」（2023年7月版）</text>
+</svg>
