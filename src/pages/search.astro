@@ -17,12 +17,28 @@ const jsonLd = [{
   「検索結果ページを検索結果に出さない」に対応）。?q= 付きURLが無数に生成され得るため、
   noindex,follow でクロール経路だけ残す。sitemap からも astro.config の filter で除外。
 */}
-<Base noindex jsonLd={jsonLd} title="サイト内検索" description="投資の学び舎の記事・用語集・チャート図解を全文検索できます。調べたい用語や手法名を入力すると、該当する解説ページを横断して探せます。">
-  <div class="container">
-  <h1>検索</h1>
-  <div id="search">
-    <p id="search-fallback">検索は本番ビルドでのみ利用できます（<code>npm run build</code> 後の配信環境でお試しください）。</p>
-  </div>
+<Base noindex pagebg={true} jsonLd={jsonLd} title="サイト内検索" description="投資の学び舎の記事・用語集・チャート図解を全文検索できます。調べたい用語や手法名を入力すると、該当する解説ページを横断して探せます。">
+  <header class="page-head">
+    <div class="container">
+      <p class="eyebrow">Search</p>
+      <h1>検索</h1>
+      <p class="lead">記事・用語集・チャート図解を横断して全文検索できます。用語名や手法名を入力してください。</p>
+    </div>
+  </header>
+  <div class="container body">
+    <div id="search">
+      <p id="search-fallback">検索は本番ビルドでのみ利用できます（<code>npm run build</code> 後の配信環境でお試しください）。</p>
+    </div>
+    <nav class="browse" aria-label="一覧から探す">
+      <p class="browse-h">一覧から探す</p>
+      <ul>
+        <li><a href="/learn/"><span class="cat cat-learn">学習マップ</span></a></li>
+        <li><a href="/playbook/"><span class="cat cat-playbook">手法・定石・格言</span></a></li>
+        <li><a href="/charts/"><span class="cat cat-charts">チャート図解</span></a></li>
+        <li><a href="/glossary/"><span class="cat cat-glossary">用語集</span></a></li>
+        <li><a href="/topics/"><span class="cat">テーマ別</span></a></li>
+      </ul>
+    </nav>
   </div>
 
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
@@ -70,16 +86,28 @@ const jsonLd = [{
   </script>
 
   <style>
-    .container { padding: 2.4rem 1.25rem 3.5rem; }
-    #search {
-      margin-top: 1.5rem;
+    .body { padding-top: 1.8rem; padding-bottom: 4rem; }
+    #search { min-height: 64px; }
+    #search-fallback {
+      margin: 0; padding: .9rem 1.1rem; font-size: .9rem; color: var(--color-text-muted);
+      background: var(--color-bg); border: 1px dashed var(--color-border-strong); border-radius: var(--radius);
     }
+    .browse { margin-top: 2.6rem; border-top: 1px solid var(--color-ink); padding-top: .9rem; }
+    .browse-h { margin: 0 0 .5rem; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--color-ink); }
+    .browse ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .browse a {
+      display: inline-flex; align-items: center; min-height: 44px; padding: 0 .95rem;
+      border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-bg); text-decoration: none;
+    }
+    .browse a:hover { border-color: var(--color-border-strong); }
+    .browse .cat { font-size: .85rem; }
+    /* Pagefind UI を v4 トークンへ寄せる（UI本体・挙動は変更しない） */
     :global(.pagefind-ui) {
       --pagefind-ui-scale: 1;
       --pagefind-ui-primary: var(--color-accent);
       --pagefind-ui-text: var(--color-text);
       --pagefind-ui-background: var(--color-bg);
-      --pagefind-ui-border: var(--color-border);
+      --pagefind-ui-border: var(--color-border-strong);
       --pagefind-ui-tag: var(--color-surface-muted);
       --pagefind-ui-border-width: 1px;
       --pagefind-ui-border-radius: var(--radius);
@@ -87,5 +115,16 @@ const jsonLd = [{
       --pagefind-ui-image-box-ratio: 3 / 2;
       --pagefind-ui-font: var(--font-sans);
     }
+    :global(.pagefind-ui__search-input) { font-weight: 500 !important; box-shadow: var(--shadow-card); }
+    :global(.pagefind-ui__search-input:focus) { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+    :global(.pagefind-ui__message) { font-family: var(--font-num); font-size: .85rem !important; color: var(--color-text-muted); }
+    :global(.pagefind-ui__results) { border-top: 1px solid var(--color-ink); }
+    :global(.pagefind-ui__result) { border-top: none !important; border-bottom: 1px solid var(--color-border); }
+    :global(.pagefind-ui__result-link) { color: var(--color-ink) !important; font-weight: 700; }
+    :global(.pagefind-ui__result-link:hover) { color: var(--color-accent) !important; }
+    :global(.pagefind-ui__result-excerpt) { font-size: .88rem !important; color: var(--color-text-muted); line-height: 1.8; }
+    :global(.pagefind-ui__result-excerpt mark) { background: var(--color-marker); color: inherit; padding: 0 .1em; }
+    :global(.pagefind-ui__button) { min-height: 48px; border-color: var(--color-ink) !important; color: var(--color-ink) !important; font-weight: 700 !important; }
+    :global(.pagefind-ui__button:hover) { background: var(--color-ink) !important; color: #fff !important; }
   </style>
 </Base>

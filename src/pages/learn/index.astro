@@ -15,6 +15,14 @@ const byChapter = CHAPTERS.map((ch) => ({
   items: all.filter((e) => e.data.chapter === ch)
     .sort((a, b) => a.data.level - b.data.level || a.data.order - b.data.order),
 }));
+// 出典等級バッジ・更新日は frontmatter の実データからのみ生成する（docs/tone.md 信頼の単位1・3）
+const bestGrade = (sources = []) =>
+  ["A", "B", "C", "D"].find((g) => sources.some((s) => s.grade === g)) ?? null;
+const ymd = (d) => new Date(d).toISOString().slice(0, 10);
+const fmt = (d) => ymd(d).replaceAll("-", ".");
+const pad = (n) => String(n).padStart(2, "0");
+// 章ごとのレベル内訳（実数）
+const lvCount = (items) => [1, 2, 3, 4].map((lv) => items.filter((e) => e.data.level === lv).length);
 
 // 一覧ページの構造化データ（CollectionPage + ItemList）＝索引ページであることと配下記事の機械可読化
 const jsonLd = [collectionPageJsonLd({
@@ -24,24 +32,70 @@ const jsonLd = [collectionPageJsonLd({
   items: byChapter.flatMap((c) => c.items).map((e) => ({ url: `/learn/${e.slug}/`, name: e.data.title })),
 })];
 ---
-<Base title="学習マップ ― 投資・トレードを体系的に学ぶ" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。お金と市場の基礎からリスク管理・分析手法・法規制まで7章×4レベルで、入門から順に出典付きで学べます。" jsonLd={jsonLd}>
-  <div class="container-wide">
-    <p class="section-label" style="color:var(--color-sec-learn)">LEARN</p>
-    <h1>学習マップ</h1>
-    <p>7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
+<Base title="学習マップ ― 投資・トレードを体系的に学ぶ" description="投資・トレードを体系的に学ぶためのカリキュラム全体地図。お金と市場の基礎からリスク管理・分析手法・法規制まで7章×4レベルで、入門から順に出典付きで学べます。" pagebg={true} jsonLd={jsonLd}>
+  <header class="page-head" style="--eyebrow-dot:var(--color-sec-learn)">
+    <div class="container-wide">
+      <p class="eyebrow">Learn ／ Curriculum</p>
+      <h1>学習マップ</h1>
+      <p class="lead">7つの章 × 4つのレベル（入門→基礎→実践→上級）で体系的に学べます。上から順に読むことを想定しています。</p>
+      <p class="count">7章 × 4レベル ・ 公開 {all.length}本</p>
+
+      <nav class="ch-index" aria-label="章の目次">
+        <ol>
+          {byChapter.map((c, i) => (
+            <li>
+              <a href={`#ch-${i + 1}`}>
+                <span class="ci-no">{pad(i + 1)}</span>
+                <span class="ci-name">{c.chapter}</span>
+                <span class="ci-n">{c.items.length}本</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container-wide map">
+    <div class="lv-bar">
+      <span class="lv-bar-label">レベルで絞る</span>
+      <ul class="lv-links">
+        {Object.entries(LEVELS).map(([n, label]) => (
+          <li><a href={`/learn/?lv=${n}`}><span class="lv-n">Lv.{n}</span>{label}</a></li>
+        ))}
+      </ul>
+    </div>
 
     <p class="lv-filter-note" id="lv-filter-note" hidden>
       レベル「<span id="lv-filter-label"></span>」の記事のみ表示しています。<a href="/learn/">すべて表示する</a>
     </p>
 
     {byChapter.map((c, i) => (
-      <section class="chapter" id={`ch-${i + 1}`}>
-        <h2>{i + 1}. {c.chapter}</h2>
+      <section class="chapter" id={`ch-${i + 1}`} aria-labelledby={`ch-${i + 1}-h`}>
+        <div class="ch-side">
+          <p class="ch-no" aria-hidden="true">{pad(i + 1)}</p>
+          <h2 id={`ch-${i + 1}-h`}><span class="vh">第{i + 1}章 </span>{c.chapter}</h2>
+          <p class="ch-n">{c.items.length}本</p>
+          {c.items.length > 0 && (
+            <dl class="ch-lv">
+              {lvCount(c.items).map((n, j) => (
+                <div class={n === 0 ? "zero" : ""}><dt>{LEVELS[j + 1]}</dt><dd>{n}</dd></div>
+              ))}
+            </dl>
+          )}
+        </div>
         {c.items.length === 0 ? <p class="empty">準備中です。</p> : (
-          <ul>{c.items.map((e) => (
+          <ul class="post-list ch-list">{c.items.map((e) => (
             <li data-level={e.data.level}>
-              <span class="lv">{LEVELS[e.data.level]}</span>
-              <a href={`/learn/${e.slug}/`}>{e.data.title}</a>
+              <a class="post-link" href={`/learn/${e.slug}/`}>
+                <span class="pt">{e.data.title}</span>
+                <span class="pm">
+                  <span class={`bg bg-lv lv-${e.data.level}`}>Lv.{e.data.level} {LEVELS[e.data.level]}</span>
+                  {bestGrade(e.data.sources) && <span class="bg bg-src">出典{bestGrade(e.data.sources)}</span>}
+                  <time datetime={ymd(e.data.updated)}>{fmt(e.data.updated)} 更新</time>
+                </span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
             </li>
           ))}</ul>
         )}
@@ -63,20 +117,99 @@ const jsonLd = [collectionPageJsonLd({
     })();
   </script>
   <style>
+    /* 章の目次（見出し帯の方眼の上に置く索引） */
+    .ch-index { margin-top: 1.6rem; }
+    .ch-index ol {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); column-gap: 1.6rem;
+      border-top: 1px solid var(--color-ink);
+    }
+    .ch-index li { border-bottom: 1px solid var(--color-grid-strong); }
+    .ch-index a {
+      display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .75rem;
+      min-height: 48px; padding: .4rem .6rem .4rem .1rem;
+      text-decoration: none; color: var(--color-ink);
+    }
+    .ch-index a:hover { background: rgba(255, 255, 255, .7); }
+    .ch-index a:hover .ci-name { color: var(--color-accent); text-decoration: underline; }
+    .ci-no { font-family: var(--font-num); font-size: .78rem; color: var(--color-sec-learn); font-weight: 600; }
+    .ci-name { font-family: var(--font-display); font-weight: 800; font-size: .95rem; line-height: 1.4; }
+    .ci-n { font-family: var(--font-num); font-size: .75rem; color: var(--color-text-muted); }
+
+    .map { padding-top: 1.6rem; padding-bottom: 4rem; }
+
+    /* レベルで絞る（/learn/?lv=N は既存JSで解釈） */
+    .lv-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin-bottom: 1rem; }
+    .lv-bar-label { font-size: .78rem; font-weight: 700; color: var(--color-text-muted); }
+    .lv-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .lv-links a {
+      display: inline-flex; align-items: center; gap: .45em; min-height: 44px; padding: 0 .9rem;
+      border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-bg);
+      font-size: .85rem; font-weight: 700; color: var(--color-ink); text-decoration: none;
+    }
+    .lv-links a:hover { border-color: var(--badge-lv-fg); color: var(--badge-lv-fg); }
+    .lv-n { font-family: var(--font-num); font-size: .72rem; color: var(--badge-lv-fg); font-weight: 600; }
+
     .lv-filter-note {
-      background: var(--color-surface); border: 1px solid var(--color-border);
-      border-radius: var(--radius); padding: .6rem .9rem; font-size: .85rem;
+      background: var(--color-bg); border: 1px solid var(--badge-lv-bd); border-left: 3px solid var(--badge-lv-fg);
+      border-radius: var(--radius-s); padding: .7rem 1rem; font-size: .88rem; margin: 0 0 1rem;
     }
-    .container-wide { padding: 2.4rem 1.25rem 3.5rem; }
-    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
-    .chapter { margin-top: 2rem; }
-    .chapter ul { list-style: none; padding: 0; }
-    .chapter li { padding: .5rem 0; border-bottom: 1px solid var(--color-border); }
-    .lv {
-      display: inline-block; font-family: var(--font-mono); font-size: .72rem;
-      padding: .15em .6em; border-radius: var(--radius-s); margin-right: .7em;
-      border: 1px solid var(--color-border-strong); color: var(--color-text-muted);
+
+    /* 章: 左に章番号と名前（帳簿の見出し欄）、右に記事の行 */
+    .chapter {
+      display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0 2.4rem;
+      padding: 2rem 0 2.2rem; border-top: 1px solid var(--color-ink);
+      scroll-margin-top: 1rem;
     }
-    .empty { color: var(--color-text-muted); }
+    .chapter:first-of-type { border-top-width: 2px; }
+    .ch-side { align-self: start; position: sticky; top: 1rem; }
+    .ch-no {
+      margin: 0; font-family: var(--font-num); font-weight: 500; line-height: 1;
+      font-size: 2.6rem; color: var(--color-sec-learn); letter-spacing: -.02em;
+    }
+    .chapter h2 {
+      font-family: var(--font-display); font-weight: 800; margin: .5rem 0 .2rem;
+      font-size: clamp(1.25rem, 2.4vw, 1.5rem); line-height: 1.4;
+    }
+    .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .ch-n { margin: 0; font-family: var(--font-num); font-size: .8rem; color: var(--color-text-muted); }
+    .ch-lv {
+      margin: .9rem 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid var(--color-border); border-radius: var(--radius-s); background: var(--color-bg);
+    }
+    .ch-lv div { padding: .35rem .2rem; text-align: center; }
+    .ch-lv div + div { border-left: 1px solid var(--color-border); }
+    .ch-lv dt { font-size: .66rem; color: var(--color-text-muted); font-weight: 700; }
+    .ch-lv dd { margin: 0; font-family: var(--font-num); font-size: .95rem; color: var(--color-ink); line-height: 1.3; }
+    .ch-lv .zero dd { color: var(--color-border-strong); }
+
+    .ch-list {
+      background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius);
+      box-shadow: var(--shadow-card); padding: 0 1.1rem;
+    }
+    .ch-list .post-link { padding: .8rem .1rem; min-height: 44px; }
+    .ch-list .post-link .pt { font-size: .97rem; }
+    /* 広い画面ではタイトルとメタを1行に並べ、一覧性を上げる */
+    @media (min-width: 1000px) {
+      .ch-list .post-link { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 1.2rem; padding: .7rem .1rem; }
+      .ch-list .post-link .pt { grid-row: 1; }
+      .ch-list .post-link .pm { grid-column: 2; grid-row: 1; flex-wrap: nowrap; }
+      .ch-list .post-link .arrow { grid-column: 3; grid-row: 1; }
+    }
+    /* ?lv=N で全行が隠れた章は畳む（既存JSの hidden 属性をCSSだけで受ける） */
+    .chapter:has(li[data-level]):not(:has(li[data-level]:not([hidden]))) { display: none; }
+    .empty {
+      margin: 0; padding: 1rem 1.1rem; color: var(--color-text-muted); font-size: .9rem;
+      border: 1px dashed var(--color-border-strong); border-radius: var(--radius); align-self: start;
+    }
+
+    @media (max-width: 760px) {
+      .chapter { grid-template-columns: minmax(0, 1fr); padding: 1.6rem 0 1.8rem; }
+      .ch-side { position: static; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 .9rem; align-items: end; margin-bottom: 1rem; }
+      .ch-no { font-size: 2.1rem; grid-row: 1 / span 2; align-self: center; }
+      .chapter h2 { margin: 0; }
+      .ch-lv { grid-column: 1 / -1; }
+      .ch-list { padding: 0 .85rem; }
+    }
   </style>
 </Base>

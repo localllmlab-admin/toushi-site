@@ -12,14 +12,23 @@
 </aside>
 
 <style>
+  /* 免責は必ず読める濃さで、本文と同列の紙面に置く（目立たせすぎず・隠さない） */
   .disclaimer {
     margin-top: 3rem;
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.25rem 1.05rem;
     border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-ink);
     background: var(--color-surface);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1.85;
     color: var(--color-text-muted);
-    border-radius: var(--radius-s);
+    border-radius: 0 0 var(--radius-s) var(--radius-s);
   }
-  .disclaimer p { margin: 0.4rem 0; }
+  .disclaimer p { margin: 0.35rem 0; }
+  .disclaimer p:first-child { margin-top: 0; }
+  .disclaimer strong {
+    display: inline-flex; align-items: center; gap: .5em;
+    font-size: .78rem; letter-spacing: .1em; color: var(--color-ink);
+  }
+  .disclaimer strong::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--color-ink); }
 </style>

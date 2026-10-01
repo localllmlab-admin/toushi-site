@@ -7,32 +7,40 @@
 import Base from "../layouts/Base.astro";
 
 const ENTRIES = [
-  { href: "/learn/", label: "学習マップ", note: "7章×4レベルで体系的に学ぶ" },
-  { href: "/topics/", label: "テーマ別に学ぶ", note: "関心のあるテーマから入る" },
-  { href: "/charts/", label: "チャート図解", note: "パターン・指標の見方" },
-  { href: "/playbook/", label: "手法・定石・格言", note: "前提と限界つき" },
-  { href: "/glossary/", label: "用語集", note: "用語の意味と使われ方" },
-  { href: "/books/", label: "おすすめ書籍", note: "定番書を選び方つきで" },
+  { href: "/learn/", label: "学習マップ", note: "7章×4レベルで体系的に学ぶ", sec: "learn" },
+  { href: "/topics/", label: "テーマ別に学ぶ", note: "関心のあるテーマから入る", sec: "" },
+  { href: "/charts/", label: "チャート図解", note: "パターン・指標の見方", sec: "charts" },
+  { href: "/playbook/", label: "手法・定石・格言", note: "前提と限界つき", sec: "playbook" },
+  { href: "/glossary/", label: "用語集", note: "用語の意味と使われ方", sec: "glossary" },
+  { href: "/books/", label: "おすすめ書籍", note: "定番書を選び方つきで", sec: "books" },
 ];
 ---
 <Base
   title="ページが見つかりません"
   description="お探しのページは見つかりませんでした。学習マップ・テーマ別・用語集・サイト内検索からお探しください。"
   noindex={true}
+  pagebg={true}
 >
-  <div class="container nf">
-    <p class="code">404</p>
-    <h1>ページが見つかりませんでした</h1>
-    <p class="lead">
-      URLが変更されたか、削除された可能性があります。以下の入口かサイト内検索からお探しください。
-    </p>
-    <p class="cta"><a href="/search/">サイト内検索でさがす</a></p>
+  <header class="page-head nf-head">
+    <div class="container-wide">
+      <p class="code" aria-hidden="true">404</p>
+      <p class="eyebrow">Not Found</p>
+      <h1>ページが見つかりませんでした</h1>
+      <p class="lead">
+        URLが変更されたか、削除された可能性があります。以下の入口かサイト内検索からお探しください。
+      </p>
+      <p class="cta"><a class="btn btn-primary" href="/search/">サイト内検索でさがす</a></p>
+    </div>
+  </header>
+  <div class="container-wide nf">
+    <h2 class="nf-h">入口から探す</h2>
     <ul class="entries">
       {ENTRIES.map((e) => (
         <li>
           <a href={e.href}>
-            <span class="label">{e.label}</span>
+            <span class={`label cat${e.sec ? ` cat-${e.sec}` : ""}`}>{e.label}</span>
             <span class="note">{e.note}</span>
+            <span class="arrow" aria-hidden="true">→</span>
           </a>
         </li>
       ))}
@@ -40,34 +48,44 @@ const ENTRIES = [
     <p class="back"><a href="/">← トップページへ戻る</a></p>
   </div>
   <style>
-    .nf { padding: 3rem 1.25rem 4rem; max-width: 46rem; }
+    .nf-head { position: relative; overflow: hidden; }
+    .nf-head .container-wide { position: relative; }
+    /* 方眼に大きく書いた「404」。装飾なので読み上げない */
     .code {
-      font-family: var(--font-num); font-size: 3rem; font-weight: 800;
-      color: var(--color-border-strong); margin: 0; line-height: 1;
+      position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); margin: 0;
+      font-family: var(--font-num); font-weight: 500; line-height: 1; letter-spacing: -.04em;
+      font-size: clamp(5rem, 16vw, 11rem); color: transparent;
+      -webkit-text-stroke: 1.5px var(--color-grid-strong);
+      pointer-events: none; user-select: none;
     }
-    h1 { margin: .4rem 0 0; font-size: 1.5rem; }
-    .lead { color: var(--color-text-muted); line-height: 1.9; }
+    .nf-head .lead { max-width: 34em; }
     .cta { margin: 1.4rem 0 0; }
-    .cta a {
-      display: inline-block; font-weight: 800; text-decoration: none;
-      background: var(--color-cta); color: #fff;
-      padding: .7rem 1.4rem; border-radius: var(--radius); min-height: 44px;
+    .nf { padding-top: 2rem; padding-bottom: 4rem; }
+    .nf-h {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;
+      margin: 0 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--color-ink);
     }
-    .cta a:hover { filter: brightness(1.05); }
     .entries {
-      list-style: none; padding: 0; margin: 2rem 0 0;
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .7rem;
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: .7rem;
     }
     .entries a {
-      display: block; height: 100%; text-decoration: none; color: var(--color-text);
-      border: 1px solid var(--color-border); border-radius: var(--radius);
-      background: var(--color-bg); padding: .8rem .95rem;
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .8rem; align-items: center;
+      height: 100%; min-height: 44px; text-decoration: none; color: var(--color-text);
+      border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-card);
+      background: var(--color-bg); padding: .9rem 1rem;
     }
-    .entries a:hover { border-color: var(--color-accent); }
-    .label { display: block; font-weight: 800; font-size: .95rem; }
-    .note { display: block; font-size: .78rem; color: var(--color-text-muted); margin-top: .2rem; }
+    .entries a:hover { border-color: var(--color-border-strong); }
+    .entries a:hover .arrow { color: var(--color-accent); transform: translateX(3px); }
+    .label { grid-column: 1; font-weight: 800; font-size: .98rem; color: var(--color-ink); }
+    .label.cat { font-size: .98rem; color: var(--color-ink); }
+    .note { grid-column: 1; font-size: .8rem; color: var(--color-text-muted); }
+    .arrow { grid-column: 2; grid-row: 1 / span 2; color: var(--color-border-strong); transition: transform .2s var(--ease); }
     .back { margin-top: 2rem; font-size: .88rem; }
-    .back a { font-weight: 700; text-decoration: none; }
+    .back a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-decoration: none; }
     .back a:hover { text-decoration: underline; }
+    @media (max-width: 640px) {
+      .code { position: static; transform: none; font-size: 3.6rem; margin: 0 0 .6rem; }
+    }
   </style>
 </Base>

@@ -6,6 +6,23 @@ const terms = (await getCollection("glossary"))
   .filter((e) => e.data.reviewed)
   .sort((a, b) => (a.data.reading || a.data.term).localeCompare(b.data.reading || b.data.term, "ja"));
 
+// 五十音の行で索引を作る（読み仮名＝frontmatterの実データから決める。濁点・半濁点は清音の行へ）
+const ROWS = [
+  ["あ", "あいうえおぁぃぅぇぉゔ"], ["か", "かきくけこ"], ["さ", "さしすせそ"], ["た", "たちつてとっ"],
+  ["な", "なにぬねの"], ["は", "はひふへほ"], ["ま", "まみむめも"], ["や", "やゆよゃゅょ"],
+  ["ら", "らりるれろ"], ["わ", "わをん"],
+];
+const rowOf = (e) => {
+  const s = (e.data.reading || e.data.term).normalize("NFKC");
+  // カタカナ→ひらがな、濁点を外して清音の行に寄せる
+  const c = s.charAt(0).replace(/[ァ-ヶ]/g, (k) => String.fromCharCode(k.charCodeAt(0) - 0x60))
+    .normalize("NFD").charAt(0);
+  const hit = ROWS.find(([, chars]) => chars.includes(c));
+  return hit ? `${hit[0]}行` : "英数・その他";
+};
+const groups = [...ROWS.map(([r]) => `${r}行`), "英数・その他"]
+  .map((label, i) => ({ label, id: `row-${i + 1}`, items: terms.filter((e) => rowOf(e) === label) }));
+
 // JSON-LD: DefinedTermSet（用語集全体の機械可読化 / WO-TOUSHI-002(a)）
 // ＋ CollectionPage/ItemList（索引ページであることと配下ページのクロール経路）
 const siteUrl = Astro.site?.href ?? "https://toushi-manabiya.jp/";
@@ -32,21 +49,111 @@ const jsonLd = [
 <Base
   title="投資・トレード用語集"
   description={`投資・トレードで出てくる用語${terms.length}語を、初心者にもわかる言葉で解説する用語集。意味だけでなく実際の使われ方と注意点まで、出典付きで確認できます。`}
+  pagebg={true}
   jsonLd={jsonLd}
 >
-  <div class="container">
-    <p class="section-label" style="color:var(--color-sec-glossary)">GLOSSARY</p>
-    <h1>用語集</h1>
+  <header class="page-head" style="--eyebrow-dot:var(--color-sec-glossary)">
+    <div class="container-wide">
+      <p class="eyebrow">Glossary</p>
+      <h1>用語集</h1>
+      <p class="lead">投資・トレードで出てくる用語を、初心者にもわかる言葉で解説しています。意味だけでなく、実際の使われ方と注意点まで確認できます。</p>
+      <p class="count">収録 {terms.length}語 ・ 五十音順</p>
+    </div>
+  </header>
+
+  <div class="container-wide body">
     {terms.length === 0 ? <p>準備中です。</p> : (
-      <dl>{terms.map((e) => (<><dt><a href={`/glossary/${e.slug}/`}>{e.data.term}</a></dt><dd>{e.data.description}</dd></>))}</dl>
+      <>
+        <nav class="kana" aria-label="五十音索引">
+          <ul>
+            {groups.map((g) => (
+              <li>
+                {g.items.length > 0
+                  ? <a href={`#${g.id}`} aria-label={g.label}>{g.label.replace(/行$|・その他$/, "")}</a>
+                  : <span aria-disabled="true" title={`${g.label}（該当なし）`}>{g.label.replace(/行$|・その他$/, "")}</span>}
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {groups.filter((g) => g.items.length > 0).map((g) => (
+          <section class="row" id={g.id}>
+            <h2><span class="row-k">{g.label.replace(/行$/, "")}</span><span class="row-l">{g.label.endsWith("行") ? "行" : ""}</span><span class="row-n">{g.items.length}語</span></h2>
+            <dl class="terms">
+              {g.items.map((e) => (
+                <div class="term">
+                  <dt>
+                    <a href={`/glossary/${e.slug}/`}>{e.data.term}</a>
+                    {e.data.reading && <span class="rd">{e.data.reading}</span>}
+                  </dt>
+                  <dd>{e.data.description}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </>
     )}
   </div>
   <style>
-    .container { padding: 2.4rem 1.25rem 3.5rem; }
-    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
-    dt { font-weight: 700; margin-top: 1.2rem; border-bottom: 1px solid var(--color-border); padding-bottom: .4rem; }
-    dt a { color: var(--color-text); text-decoration: none; }
-    dt a:hover { color: var(--color-accent-soft); }
-    dd { margin: .3rem 0 0; color: var(--color-text-muted); }
+    .body { padding-top: 1.4rem; padding-bottom: 4rem; }
+    /* 五十音索引（辞書の爪見出し） */
+    .kana ul {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(11, minmax(0, 1fr));
+      border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg);
+      overflow: hidden;
+    }
+    .kana li + li { border-left: 1px solid var(--color-border); }
+    .kana a, .kana span {
+      display: flex; align-items: center; justify-content: center; min-height: 48px;
+      font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; text-decoration: none;
+    }
+    .kana a { color: var(--color-ink); }
+    .kana a:hover { background: var(--color-surface); color: var(--color-sec-glossary); }
+    .kana span { color: var(--color-border-strong); font-weight: 500; }
+    .kana li:last-child a, .kana li:last-child span { font-family: var(--font-sans); font-size: .78rem; font-weight: 700; }
+
+    .row { margin-top: 2.2rem; scroll-margin-top: 1rem; }
+    .row h2 {
+      display: flex; align-items: baseline; gap: .35rem; margin: 0 0 .9rem;
+      border-bottom: 1px solid var(--color-ink); padding-bottom: .4rem;
+      font-family: var(--font-display); font-weight: 800;
+    }
+    .row-k { font-size: 1.7rem; line-height: 1; color: var(--color-ink); }
+    .row-l { font-size: 1rem; }
+    .row-n { margin-left: auto; font-family: var(--font-num); font-size: .78rem; font-weight: 500; color: var(--color-text-muted); }
+
+    .terms {
+      margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: .7rem;
+    }
+    .term {
+      background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius);
+      box-shadow: var(--shadow-card); padding: .85rem 1rem .9rem; position: relative;
+      border-top: 2px solid var(--color-sec-glossary);
+    }
+    .term:hover { border-color: var(--color-border-strong); border-top-color: var(--color-sec-glossary); }
+    .term dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .6rem; }
+    .term dt a {
+      /* 明朝Webフォントは大見出しのみ。33語分の漢字で分割フォントを大量取得し LCP を悪化させるため本文ゴシック */
+      font-weight: 700; font-size: 1.05rem; line-height: 1.5;
+      color: var(--color-ink); text-decoration: none;
+    }
+    /* カード全面をタップ領域にする（リンクは1本のまま） */
+    .term dt a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+    .term dt a:hover { color: var(--color-accent); text-decoration: underline; text-decoration-thickness: 1px; }
+    .term dt a:focus-visible { outline: none; }
+    .term dt a:focus-visible::after { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .rd { font-family: var(--font-mono); font-size: .72rem; color: var(--color-text-muted); letter-spacing: .04em; }
+    .term dd {
+      margin: .35rem 0 0; font-size: .84rem; line-height: 1.75; color: var(--color-text-muted);
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    @media (max-width: 560px) {
+      .kana ul { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .kana li + li { border-left: none; }
+      .kana li { border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+      .kana li:nth-child(6n) { border-right: none; }
+      .kana li:nth-child(n+7) { border-bottom: none; }
+    }
   </style>
 </Base>

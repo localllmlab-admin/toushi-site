@@ -1,72 +1,90 @@
-/* デザイントークン v3 —「E案: ニュースポータル×求人ポータル」(2026-07-07 デザイン再構築で確定)
-   骨格=Yahoo!/ITmedia型ポータル(タブナビ・トピックス・記事リスト・右レール)、
-   トンマナ=エン転職/doda型(明るい信頼ブルー×オレンジCTA・薄青グレー地に白カード・多色バッジ)。
-   正: design/samples/e-portal-blue.html ＋ docs/tone.md（変更はこの2つから）
-   制約: 日本語Webフォント不使用（OS搭載のみ）・記事本文16px以上・行間1.7〜1.9 */
+/* デザイントークン v4 —「罫線帳と赤ペン」(2026-10-01 全面改修 / ADR-0007)
+   相場の世界の道具＝方眼の罫線帳（“罫線”はチャートの和名）に、先生の赤ペンで添削を入れる。
+   「学び舎」と「相場」を一枚の絵にするのが全体の主題。
+   - 紙と方眼: 面の基調。方眼はヒーロー・ページ見出しなど「書き込む場所」にだけ敷く
+   - 墨藍: 文字と反転面（フッター）
+   - 藍: リンク・情報の色（陰線の色でもある）
+   - 朱: 赤ペン＝強アクション・要点・陽線。乱用しない（1画面に数か所まで）
+   正: このファイル ＋ docs/tone.md（変更はこの2つから）
+   コントラスト実測（WCAG AA 4.5:1 以上）は docs/decisions/0007 に記録。 */
 :root {
   /* 紙面 */
-  --color-bg: #ffffff;             /* カード・ヘッダー面 */
-  --color-page: #f2f5f9;           /* ページ地: 薄青グレー（トップ・一覧で使用） */
-  --color-surface: #f7fafd;        /* ホバー・薄面 */
-  --color-surface-muted: #e9eef5;
-  --color-text: #26313f;
-  /* 補助テキスト。WCAG 2.1 AA(4.5:1) を、この色が載る3つの地すべてで満たす値。
-     旧 #71809a は白地3.99 / surface 3.81 / surface-muted 3.43 で全て未達だった（ADR-0005）。
-     現在値の実測: 白 5.56 / #f7fafd 5.31 / #e9eef5 4.77 */
-  --color-text-muted: #5b6980;
-  --color-border: #dde3ec;
-  --color-border-strong: #9aa9bf;
+  --color-bg: #ffffff;             /* カード面 */
+  --color-paper: #fbfcfd;          /* 紙（記事・ヘッダー） */
+  --color-page: #f3f6f9;           /* ページ地（トップ・一覧） */
+  --color-surface: #f3f6f9;        /* ホバー・薄面 */
+  --color-surface-muted: #e8eef4;
+  --color-text: #1f2a3d;
+  /* 補助テキスト。実測: 白6.13 / 紙5.97 / #f3f6f9 5.65 / 方眼面 5.54 */
+  --color-text-muted: #56627a;
+  --color-border: #dbe3ec;
+  --color-border-strong: #a3b2c6;
 
-  /* ブランド青（反転面: ヒーロー・フッター・レール見出し） */
-  --color-ink: #004f86;            /* ブランド濃青 */
-  --color-ink-2: #0075c2;          /* ブランド青（グラデ中間） */
-  --color-ink-3: #00a5e3;          /* グラデ末端の明青 */
-  --color-on-ink: #eef6fc;
-  /* 反転面（濃青 #004f86 地）の補助テキスト。旧 #9dbbd4 は 4.26 で AA 未達（ADR-0005）。
-     現在値の実測: 4.79 */
-  --color-on-ink-muted: #a8c6dd;
-  --grad-brand: linear-gradient(120deg, var(--color-ink), var(--color-ink-2) 70%, var(--color-ink-3));
+  /* 方眼（罫線帳） */
+  --color-grid: #e2ebf4;
+  --color-grid-strong: #c9d8e8;
+  --grid: 24px;
+  --grid-paper:
+    linear-gradient(var(--color-grid) 1px, transparent 1px) 0 0 / var(--grid) var(--grid),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px) 0 0 / var(--grid) var(--grid),
+    var(--color-paper);
+
+  /* 墨藍（反転面・見出しの墨） */
+  --color-ink: #142340;
+  --color-ink-2: #1f4f99;          /* 藍 */
+  --color-ink-3: #3f7cc4;
+  --color-on-ink: #eef3fa;
+  /* 墨藍地の補助テキスト。実測 7.78 */
+  --color-on-ink-muted: #a9b8d0;
+  --grad-brand: linear-gradient(120deg, var(--color-ink), #1b3566);
 
   /* アクセント */
-  /* リンク・主要アクション。旧 #0075c2 はページ地 #f2f5f9 で4.44、淡青地 #e8f3fb で4.31と
-     AA をわずかに割っていた（ADR-0005）。実測: 白5.45 / #f2f5f9 4.98 / #e8f3fb 4.84 / #e9eef5 4.67。
-     ブランド青のグラデ（--color-ink-2 = #0075c2）は装飾面なので従来値のまま。 */
-  --color-accent: #006db5;
-  --color-accent-soft: #005f9e;    /* hover（濃側に振る） */
-  --color-cta: #ff6e28;            /* オレンジ: 検索ボタン・強アクションのみ（乱用禁止） */
-  --color-cta-deep: #d95415;
-  --grad-cta: linear-gradient(180deg, #ff8a4d, var(--color-cta));
-  --color-up: #c73e2e;             /* 陽線の朱: チャート図解専用 */
+  --color-accent: #1f4f99;         /* 藍: リンク。白7.96 / #f3f6f9 7.34 */
+  --color-accent-soft: #163c78;    /* hover */
+  --color-cta: #c23a26;            /* 朱（赤ペン）: 白文字5.35。強アクション・要点のみ */
+  --color-cta-deep: #9c2c1b;
+  --grad-cta: linear-gradient(var(--color-cta), var(--color-cta));
+  --color-up: #c23a26;             /* 陽線＝赤ペンと同じ朱（意図的に統一） */
+  --color-down: #1f4f99;           /* 陰線＝藍 */
+  --color-marker: rgba(194, 58, 38, 0.14); /* 赤ペンの傍線（strong の下地） */
 
-  /* セクションカラー（カテゴリラベル・サムネ地・カード罫線） */
+  /* セクションカラー（カテゴリラベル・見出しの小さな印のみ。面で塗らない） */
   --color-sec-learn: #2b4a8b;      /* 学ぶ = 藍 */
   --color-sec-playbook: #1f6e50;   /* 手法・定石 = 深緑 */
-  --color-sec-charts: #a3690f;     /* チャート図解 = 琥珀 */
+  --color-sec-charts: #96600c;     /* チャート図解 = 琥珀 */
   --color-sec-glossary: #6b4fa0;   /* 用語集 = 菫 */
-  --color-sec-books: #8e3b46;      /* おすすめ書籍 = 蘇芳（書架の赤茶。CTA橙・朱と区別） */
+  --color-sec-books: #8e3b46;      /* おすすめ書籍 = 蘇芳 */
 
-  /* バッジ（多色・求人サイト型。意味固定で流用する） */
-  --badge-ok-bg: #e8f6ec;  --badge-ok-fg: #1d7a3e;  --badge-ok-bd: #bfe3ca;  /* 知識ゼロOK */
-  --badge-src-bg: #e9f2fb; --badge-src-fg: #1a5fa8; --badge-src-bd: #c4dcf3; /* 出典等級 */
-  --badge-lv-bg: #f3eefb;  --badge-lv-fg: #6b4fa0;  --badge-lv-bd: #ddd0f0;  /* レベル */
-  --badge-fig-bg: #fff3e6; --badge-fig-fg: #b05a12; --badge-fig-bd: #f3d6b3; /* 図解あり */
+  /* バッジ（意味固定） */
+  --badge-ok-bg: #e8f6ec;  --badge-ok-fg: #1d7a3e;  --badge-ok-bd: #bfe3ca;
+  --badge-src-bg: #eaf1fa; --badge-src-fg: #1f4f99; --badge-src-bd: #c4d6ee;
+  --badge-lv-bg: #f3eefb;  --badge-lv-fg: #5f4594;  --badge-lv-bd: #ddd0f0;
+  --badge-fig-bg: #fff3e6; --badge-fig-fg: #9a4c0c; --badge-fig-bd: #f3d6b3;
 
-  /* タイポグラフィ（OS搭載のみ） */
-  --font-sans: "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace; /* データ・日付・出典等級の声 */
-  --font-num: Roboto, "Helvetica Neue", Arial, var(--font-sans); /* 数字の声（統計・ランキング） */
+  /* タイポグラフィ
+     本文 = OS搭載ゴシック（速度・可読性）。
+     見出し = しっぽり明朝B1（教科書の声）。display=optional なので未取得時は OS 明朝のまま＝CLSを出さない。
+     データ = IBM Plex Mono（板・帳簿の声。日付・数字・出典等級のみ） */
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
+  --font-display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+  /* 等幅には和文が無い。和文の文字は等幅和文（MSゴシック等）ではなく本文と同じゴシックへ落とす */
+  --font-mono: "IBM Plex Mono", "SF Mono", Consolas, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", Meiryo, monospace;
+  --font-num: var(--font-mono);
 
-  --maxw: 760px;        /* 記事本文カラム */
-  --maxw-wide: 1040px;  /* トップ・一覧カラム */
-  --radius: 8px;
-  --radius-s: 4px;
-  --shadow-card: 0 1px 3px rgba(0, 40, 80, 0.07);
-  --shadow-float: 0 4px 14px rgba(0, 40, 80, 0.18); /* ヒーロー検索カード */
+  --maxw: 760px;         /* 記事本文カラム */
+  --maxw-wide: 1160px;   /* トップ・一覧カラム */
+  --gutter: clamp(16px, 4vw, 40px);
+  --radius: 6px;
+  --radius-s: 3px;
+  --shadow-card: 0 1px 0 rgba(20, 35, 64, 0.04), 0 1px 2px rgba(20, 35, 64, 0.06);
+  --shadow-float: 0 10px 30px -12px rgba(20, 35, 64, 0.28);
+  --ease: cubic-bezier(.2, .7, .2, 1);
 }
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 1rem; }
 body {
   margin: 0;
-  background: var(--color-bg);
+  background: var(--color-paper);
   color: var(--color-text);
   font-family: var(--font-sans);
   line-height: 1.8;
@@ -74,22 +92,141 @@ body {
   letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
   overflow-wrap: break-word;
+  line-break: strict;
 }
-a { color: var(--color-accent); text-underline-offset: 3px; }
+a { color: var(--color-accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { color: var(--color-accent-soft); }
 h1, h2, h3 {
-  line-height: 1.4;
+  line-height: 1.45;
   font-feature-settings: "palt"; /* 見出しのみ約物詰め */
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  text-wrap: balance;
+  word-break: auto-phrase; /* 日本語を文節で改行（対応ブラウザのみ） */
 }
+p, li, dd { text-wrap: pretty; }
 code {
   background: var(--color-surface-muted);
   padding: 0.15em 0.4em;
-  border-radius: 4px;
-  font-size: 0.9em;
+  border-radius: 3px;
+  font-size: 0.88em;
   font-family: var(--font-mono);
 }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: rgba(31, 79, 153, 0.18); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px; }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ===== 共通プリミティブ（全ページ共有・グローバル）=====
+   Astro の <style> はファイル単位でスコープされるため、ページをまたいで使う部品だけここに置く。 */
+
+/* 見出しの上の小さな札（英字ラベル＋朱の点）。セクションの所属を示す */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .5em;
+  font-size: .76rem; font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--color-text-muted); margin: 0 0 .5rem;
+}
+.eyebrow::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--eyebrow-dot, var(--color-cta));
+}
+
+/* 一覧・固定ページの見出し帯（方眼の上に明朝の大見出し） */
+.page-head {
+  background: var(--grid-paper);
+  border-bottom: 1px solid var(--color-grid-strong);
+  padding: clamp(1.6rem, 4vw, 2.8rem) 0 clamp(1.4rem, 3vw, 2.2rem);
+}
+.page-head h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.75rem, 4.2vw, 2.6rem); line-height: 1.3;
+  margin: 0 0 .6rem; letter-spacing: .03em;
+}
+.page-head .lead { margin: 0; max-width: 46em; color: var(--color-text); font-size: .98rem; line-height: 1.9; }
+.page-head .count { font-family: var(--font-num); color: var(--color-text-muted); font-size: .8rem; margin-top: .8rem; }
+
+/* セクション見出し（明朝＋細い罫）。1段目=見出しと「一覧へ」、2段目=説明 */
+.sec-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 1rem;
+  border-bottom: 1px solid var(--color-ink); padding-bottom: .55rem; margin: 0 0 1.1rem;
+}
+.sec-head h2 {
+  font-family: var(--font-display); font-weight: 800; margin: 0; grid-column: 1;
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem); line-height: 1.35;
+}
+.sec-head .sec-sub { grid-column: 1 / -1; grid-row: 2; font-size: .82rem; color: var(--color-text-muted); margin-top: .2rem; }
+.sec-head .more {
+  grid-column: 2; grid-row: 1; font-size: .82rem; font-weight: 700; text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: .3em; min-height: 44px; margin-bottom: -.55rem;
+}
+.sec-head .more::after { content: "→"; transition: transform .2s var(--ease); }
+.sec-head .more:hover::after { transform: translateX(3px); }
+.sec-head .more:hover { text-decoration: underline; }
+@media (max-width: 480px) { .sec-head .more { font-size: .78rem; } }
+
+/* カード */
+.card {
+  background: var(--color-bg); border: 1px solid var(--color-border);
+  border-radius: var(--radius); box-shadow: var(--shadow-card);
+}
+
+/* バッジ（frontmatter の実データからのみ生成する） */
+.bg {
+  display: inline-flex; align-items: center; font-size: .68rem; font-weight: 700; line-height: 1.5;
+  border-radius: var(--radius-s); padding: .05rem .45rem; border: 1px solid; white-space: nowrap;
+}
+.bg-src { background: var(--badge-src-bg); color: var(--badge-src-fg); border-color: var(--badge-src-bd); }
+.bg-lv { background: var(--badge-lv-bg); color: var(--badge-lv-fg); border-color: var(--badge-lv-bd); }
+.bg-fig { background: var(--badge-fig-bg); color: var(--badge-fig-fg); border-color: var(--badge-fig-bd); }
+
+/* カテゴリ札（セクション色の小さな印＋文字） */
+.cat {
+  display: inline-flex; align-items: center; gap: .4em; font-size: .72rem; font-weight: 700;
+  color: var(--cat, var(--color-text-muted)); white-space: nowrap;
+}
+.cat::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--cat, var(--color-text-muted)); }
+.cat-learn { --cat: var(--color-sec-learn); }
+.cat-playbook { --cat: var(--color-sec-playbook); }
+.cat-charts { --cat: var(--color-sec-charts); }
+.cat-glossary { --cat: var(--color-sec-glossary); }
+.cat-books { --cat: var(--color-sec-books); }
+
+/* ボタン */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5em;
+  min-height: 48px; padding: .7rem 1.4rem; border-radius: var(--radius);
+  font-weight: 700; font-size: .95rem; text-decoration: none; cursor: pointer;
+  border: 1.5px solid transparent; font-family: var(--font-sans); letter-spacing: .04em;
+  transition: background-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+.btn-primary { background: var(--color-cta); color: #fff; }
+.btn-primary:hover { background: var(--color-cta-deep); color: #fff; }
+.btn-ghost { background: var(--color-bg); color: var(--color-ink); border-color: var(--color-ink); }
+.btn-ghost:hover { background: var(--color-ink); color: #fff; }
+
+/* 記事リスト（一覧ページ・トップ共通） */
+.post-list { list-style: none; margin: 0; padding: 0; }
+.post-list > li { border-bottom: 1px solid var(--color-border); }
+.post-list > li:last-child { border-bottom: none; }
+.post-link {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem 1rem;
+  padding: .95rem .2rem; text-decoration: none; color: var(--color-text);
+}
+.post-link .pt {
+  font-weight: 700; font-size: 1rem; line-height: 1.6; color: var(--color-ink);
+  grid-column: 1;
+}
+.post-link:hover .pt { color: var(--color-accent); text-decoration: underline; text-decoration-thickness: 1px; }
+.post-link .pm { grid-column: 1; display: flex; flex-wrap: wrap; gap: .35rem .6rem; align-items: center; font-size: .75rem; color: var(--color-text-muted); }
+.post-link .pm time { font-family: var(--font-num); }
+.post-link .arrow {
+  grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--color-border-strong);
+  transition: transform .2s var(--ease), color .2s var(--ease);
+}
+.post-link:hover .arrow { transform: translateX(3px); color: var(--color-accent); }
+
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+.container-wide { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 var(--gutter); }
+[hidden] { display: none !important; }

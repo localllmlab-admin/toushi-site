@@ -15,26 +15,47 @@ const jsonLd = [{
 }];
 ---
 <Base jsonLd={jsonLd} title="編集方針" description="投資の学び舎の編集方針。出典をA（公的機関）〜E（編集部調べ）で等級表示する基準、人によるレビュー体制、広告掲載方針、免責事項を公開しています。">
-  <div class="container">
-  <h1>編集方針</h1>
+  <header class="page-head">
+    <div class="container">
+      <p class="eyebrow">Editorial Policy</p>
+      <h1>編集方針</h1>
+      <p class="lead">誰が、どういう基準で書き、どう確かめているか。出典の等級、レビューと鮮度の管理、広告掲載の方針を公開しています。</p>
+      <nav class="ptoc" aria-label="このページの目次">
+        <ol>
+          <li><a href="#promise">私たちの約束</a></li>
+          <li><a href="#grades">出典の等級制</a></li>
+          <li><a href="#review">レビューと鮮度の管理</a></li>
+          <li><a href="#dont">やらないこと</a></li>
+          <li><a href="#ads">広告掲載の方針</a></li>
+          <li><a href="#repro">再現性の担保</a></li>
+          <li><a href="#correction">訂正について</a></li>
+        </ol>
+      </nav>
+    </div>
+  </header>
+  <div class="container doc">
 
-  <h2>私たちの約束</h2>
+  <h2 id="promise">私たちの約束</h2>
   <p>
     本サイトは、投資・トレードを学ぶすべての人のための教育サイトです。
     煽らない、断定しない、根拠を示す。この3つを守り、
     「子供に見せても自信を持てる」誠実なコンテンツだけを公開します。
   </p>
 
-  <h2>出典の等級制</h2>
+  <h2 id="grades">出典の等級制</h2>
   <p>すべての記事は、以下の等級で分類した出典を明示します。事実の主張には等級A〜C（公的機関・学術・一次発表）の出典を最低1件必須としています。</p>
+  <div class="tbl-wrap">
   <table>
-    <tr><th>等級</th><th>種別</th><th>例</th></tr>
-    <tr><td>A</td><td>公的機関・規制当局・取引所</td><td>金融庁、日本取引所グループ、日本銀行、財務省</td></tr>
-    <tr><td>B</td><td>学術論文・出版された書籍</td><td>査読付き論文、学術出版</td></tr>
-    <tr><td>C</td><td>企業公式・一次発表</td><td>適時開示、公式ドキュメント</td></tr>
-    <tr><td>D</td><td>信頼できる報道</td><td>主要報道機関（Dのみでの事実掲載は行いません）</td></tr>
-    <tr><td>E</td><td>当サイト編集部調べ</td><td>業界で広く知られた手法・慣行の整理など、該当する一次資料のWebページが存在しない知見（リンクなし）</td></tr>
+    <thead><tr><th scope="col">等級</th><th scope="col">種別</th><th scope="col">例</th></tr></thead>
+    <tbody>
+    <tr><td class="g"><span class="bg bg-src">A</span></td><td>公的機関・規制当局・取引所</td><td>金融庁、日本取引所グループ、日本銀行、財務省</td></tr>
+    <tr><td class="g"><span class="bg bg-src">B</span></td><td>学術論文・出版された書籍</td><td>査読付き論文、学術出版</td></tr>
+    <tr><td class="g"><span class="bg bg-src">C</span></td><td>企業公式・一次発表</td><td>適時開示、公式ドキュメント</td></tr>
+    <tr><td class="g"><span class="bg bg-src">D</span></td><td>信頼できる報道</td><td>主要報道機関（Dのみでの事実掲載は行いません）</td></tr>
+    <tr><td class="g"><span class="bg bg-src">E</span></td><td>当サイト編集部調べ</td><td>業界で広く知られた手法・慣行の整理など、該当する一次資料のWebページが存在しない知見（リンクなし）</td></tr>
+    </tbody>
   </table>
+  </div>
   <p>
     出典リンクは、その内容を実際に確認できる記事・資料ページのみに張ります。
     トップページなど該当コンテンツのないページへの形式的なリンクは行わず、
@@ -42,7 +63,7 @@ const jsonLd = [{
     出典リンクは新しいタブで開きます。
   </p>
 
-  <h2>レビューと鮮度の管理</h2>
+  <h2 id="review">レビューと鮮度の管理</h2>
   <ul>
     <li>すべての記事は<strong>人間のレビュー承認</strong>を経てから公開されます。下書き段階の自動生成物が公開されることはありません。</li>
     <li>各記事に「最終更新日」と「レビュー日」を表示します。</li>
@@ -50,7 +71,7 @@ const jsonLd = [{
     <li>出典リンクは定期的に死活監視し、リンク切れは修正します。</li>
   </ul>
 
-  <h2>やらないこと</h2>
+  <h2 id="dont">やらないこと</h2>
   <ul>
     <li>特定の金融商品・銘柄の売買推奨、価格予想の断定</li>
     <li>未公表の重要事実（いわゆるインサイダー情報)の取り扱い。規制の解説のみ行います</li>
@@ -58,7 +79,7 @@ const jsonLd = [{
     <li>広告による中立性の毀損（記事の評価・掲載順位を広告報酬で変えることはしません。詳細は「広告掲載の方針」参照）</li>
   </ul>
 
-  <h2>広告掲載の方針</h2>
+  <h2 id="ads">広告掲載の方針</h2>
   <p>
     本サイトは、教育コンテンツを継続して提供するため、アフィリエイト広告（成果報酬型広告）を掲載しています
     （2026年7月現在、「おすすめ書籍」の書籍紹介ページにAmazonアソシエイトのリンクを掲載しています）。掲載にあたり、以下を必ず守ります。
@@ -74,20 +95,66 @@ const jsonLd = [{
     Amazonのアソシエイトとして、投資の学び舎（まなびや）は適格販売により収入を得ています。
   </p>
 
-  <h2>再現性の担保</h2>
+  <h2 id="repro">再現性の担保</h2>
   <p>
     取引手法・定石を扱う記事には「前提条件」「検証の考え方」「限界と注意」の3セクションを必須としています。
     どんな条件で成り立つ話なのか、どう自分で確かめられるのか、どこまでしか言えないのかを、必ず明示します。
   </p>
 
-  <h2>訂正について</h2>
+  <h2 id="correction">訂正について</h2>
   <p>誤りが判明した場合は速やかに訂正し、重要な訂正は記事内に訂正履歴を残します。</p>
 
   </div>
   <style>
-    .container { padding: 2.4rem 1.25rem 3.5rem; }
-    table { border-collapse: collapse; width: 100%; margin: 1rem 0; border: 1px solid var(--color-border); border-radius: var(--radius-s); overflow: hidden; }
-    th, td { border: 1px solid var(--color-border); padding: .5rem .7rem; text-align: left; }
-    th { background: var(--color-surface-muted); font-family: var(--font-mono); font-size: .85rem; }
+    .ptoc { margin-top: 1.3rem; }
+    .ptoc ol {
+      list-style: none; margin: 0; padding: 0; counter-reset: p;
+      display: flex; flex-wrap: wrap; gap: .3rem .4rem;
+    }
+    .ptoc li { counter-increment: p; }
+    .ptoc a {
+      display: inline-flex; align-items: center; gap: .45em; min-height: 44px; padding: 0 .8rem;
+      background: var(--color-bg); border: 1px solid var(--color-grid-strong); border-radius: var(--radius-s);
+      font-size: .82rem; font-weight: 700; color: var(--color-ink); text-decoration: none;
+    }
+    .ptoc a::before { content: counter(p, decimal-leading-zero); font-family: var(--font-num); font-size: .7rem; color: var(--color-cta); font-weight: 500; }
+    .ptoc a:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .doc { padding-top: 1rem; padding-bottom: 4rem; counter-reset: s; }
+    .doc h2 {
+      counter-increment: s; scroll-margin-top: 1rem;
+      font-family: var(--font-display); font-weight: 800; font-size: clamp(1.25rem, 2.6vw, 1.5rem);
+      margin: 2.6rem 0 .9rem; padding-bottom: .5rem; border-bottom: 1px solid var(--color-ink);
+      display: flex; align-items: baseline; gap: .7rem;
+    }
+    .doc h2::before {
+      content: counter(s, decimal-leading-zero);
+      font-family: var(--font-num); font-weight: 500; font-size: .82rem; color: var(--color-cta);
+    }
+    .doc p, .doc li { line-height: 1.95; }
+    .doc ul { padding-left: 1.3em; }
+    .doc li { margin: .35rem 0; }
+    .doc li::marker { color: var(--color-border-strong); }
+    .doc strong { background: linear-gradient(transparent 62%, var(--color-marker) 62%); }
+    .tbl-wrap { overflow-x: auto; margin: 1.1rem 0; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg); }
+    table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+    th, td { padding: .65rem .85rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--color-border); }
+    tbody tr:last-child td { border-bottom: none; }
+    th { background: var(--color-surface); font-size: .76rem; color: var(--color-text-muted); font-weight: 700; letter-spacing: .06em; border-bottom-color: var(--color-ink); }
+    td.g { width: 3.5rem; }
+    td.g .bg { font-size: .85rem; padding: .05rem .55rem; }
+    td:nth-child(2) { font-weight: 700; color: var(--color-ink); white-space: nowrap; }
+    td:nth-child(3) { color: var(--color-text-muted); }
+    /* 狭い画面では表を「等級＋種別／例」の2段組に組み替える（列が潰れて1文字ずつ折り返すのを防ぐ） */
+    @media (max-width: 560px) {
+      thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      table, tbody { display: block; }
+      tbody tr { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); padding: .7rem .8rem; border-bottom: 1px solid var(--color-border); }
+      tbody tr:last-child { border-bottom: none; }
+      td { display: block; padding: 0; border: none; }
+      td.g { grid-row: 1 / span 2; width: auto; }
+      td:nth-child(2) { white-space: normal; }
+      td:nth-child(3) { grid-column: 2; font-size: .84rem; margin-top: .15rem; }
+    }
   </style>
 </Base>

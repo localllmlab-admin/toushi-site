@@ -4,6 +4,13 @@ import { getCollection } from "astro:content";
 import { collectionPageJsonLd } from "../../lib/seo.mjs";
 const TYPES =["反転", "継続", "プライスアクション", "インジケーター"];
 const all = (await getCollection("charts")).filter((e) => e.data.reviewed);
+const groups = TYPES.map((t, i) => ({ type: t, id: `type-${i + 1}`, items: all.filter((e) => e.data.patternType === t) }))
+  .filter((g) => g.items.length > 0);
+// 出典等級・更新日は frontmatter の実データからのみ生成する（docs/tone.md）
+const bestGrade = (sources = []) =>
+  ["A", "B", "C", "D"].find((g) => sources.some((s) => s.grade === g)) ?? null;
+const ymd = (d) => new Date(d).toISOString().slice(0, 10);
+const fmt = (d) => ymd(d).replaceAll("-", ".");
 
 // 一覧ページの構造化データ（CollectionPage + ItemList）
 const jsonLd = [collectionPageJsonLd({
@@ -17,25 +24,80 @@ const jsonLd = [collectionPageJsonLd({
 <Base
   title="チャート図解 ― パターンと指標の見方"
   description="チャートパターン・ローソク足のプライスアクション・インジケーターを図解で解説。反転と継続の見分け方、だましの避け方まで出典付きでまとめたリファレンスです。"
+  pagebg={true}
   jsonLd={jsonLd}
 >
-  <div class="container">
-    <p class="section-label" style="color:var(--color-sec-charts)">CHARTS</p>
-    <h1>チャート図解</h1>
-    {TYPES.map((t) => {
-      const items = all.filter((e) => e.data.patternType === t);
-      return items.length > 0 && (
-        <section><h2>{t}</h2>
-          <ul>{items.map((e) => <li><a href={`/charts/${e.slug}/`}>{e.data.title}</a></li>)}</ul>
-        </section>
-      );
-    })}
+  <header class="page-head" style="--eyebrow-dot:var(--color-sec-charts)">
+    <div class="container-wide">
+      <p class="eyebrow">Charts</p>
+      <h1>チャート図解</h1>
+      <p class="lead">チャートパターン・ローソク足のプライスアクション・インジケーターを図解で整理したリファレンスです。反転と継続の見分け方、だましの避け方まで出典付きでまとめています。</p>
+      <p class="count">公開 {all.length}本 ・ {groups.length}分類</p>
+    </div>
+  </header>
+
+  <div class="container-wide body">
+    <nav class="jump" aria-label="分類へ移動">
+      <ul>
+        {groups.map((g) => (
+          <li><a href={`#${g.id}`}>{g.type}<span>{g.items.length}</span></a></li>
+        ))}
+      </ul>
+    </nav>
+
+    {groups.map((g) => (
+      <section class="group" id={g.id}>
+        <div class="sec-head">
+          <h2>{g.type}</h2>
+          <span class="sec-sub">{g.items.length}本</span>
+        </div>
+        <ul class="post-list cols">
+          {g.items.map((e) => (
+            <li>
+              <a class="post-link" href={`/charts/${e.slug}/`}>
+                <span class="pt">{e.data.title}</span>
+                <span class="pm">
+                  {bestGrade(e.data.sources) && <span class="bg bg-src">出典{bestGrade(e.data.sources)}</span>}
+                  <time datetime={ymd(e.data.updated)}>{fmt(e.data.updated)} 更新</time>
+                </span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </div>
   <style>
-    .container { padding: 2.4rem 1.25rem 3.5rem; }
-    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; margin: 0 0 .3rem; }
-    ul { list-style: none; padding: 0; }
-    li { padding: .5rem 0; border-bottom: 1px solid var(--color-border); }
-    section { margin-top: 1.8rem; }
+    .body { padding-top: 1.4rem; padding-bottom: 4rem; }
+    .jump ul { list-style: none; margin: 0 0 .6rem; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .jump a {
+      display: inline-flex; align-items: center; gap: .5em; min-height: 44px; padding: 0 .95rem;
+      border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-bg);
+      font-size: .88rem; font-weight: 700; color: var(--color-ink); text-decoration: none;
+    }
+    .jump a:hover { border-color: var(--color-sec-charts); color: var(--color-sec-charts); }
+    .jump span { font-family: var(--font-num); font-size: .72rem; color: var(--color-text-muted); font-weight: 500; }
+
+    .group { margin-top: 2.4rem; scroll-margin-top: 1rem; }
+    .group .sec-head h2::before {
+      content: ""; display: inline-block; width: .5rem; height: .5rem; border-radius: 2px;
+      background: var(--color-sec-charts); margin-right: .55rem; vertical-align: .2em;
+    }
+    /* 2段組の行リスト（白い帳面＋行罫） */
+    .cols {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem;
+      background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius);
+      box-shadow: var(--shadow-card); padding: 0 1.2rem;
+    }
+    .cols > li, .cols > li:last-child { border-bottom: 1px solid var(--color-border); }
+    /* 最終行（奇数本なら1つ・偶数本なら2つ）の罫を消す */
+    .cols > li:nth-last-child(1), .cols > li:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+    .cols .post-link { padding: .8rem .1rem; min-height: 44px; height: 100%; align-content: center; }
+    .cols .post-link .pt { font-size: .96rem; }
+    @media (max-width: 760px) {
+      .cols { grid-template-columns: minmax(0, 1fr); padding: 0 .85rem; }
+      .cols > li:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--color-border); }
+    }
   </style>
 </Base>

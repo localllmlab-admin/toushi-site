@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="投資の学び場">
-  <!-- ブランドマーク: 墨紺の角丸正方形 + 抽象ローソク足2本（陽線=朱/陰線=藍）。値は tokens.css の --color-ink/--color-up/--color-accent と同一。 -->
-  <rect width="32" height="32" rx="7" fill="#0b1f33" />
-  <line x1="12" y1="6" x2="12" y2="26" stroke="#1c5bbf" stroke-width="2" stroke-linecap="round" />
-  <rect x="9" y="13" width="6" height="9" rx="1.2" fill="#1c5bbf" />
-  <line x1="21" y1="7" x2="21" y2="24" stroke="#c73e2e" stroke-width="2" stroke-linecap="round" />
-  <rect x="18" y="11" width="6" height="8" rx="1.2" fill="#c73e2e" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="投資の学び舎">
+  <!-- ブランドマーク v4: 墨藍の方眼に陰線（藍）と陽線（朱）＝罫線帳と赤ペン。Base.astro のヘッダーマークと同一 -->
+  <rect width="32" height="32" rx="6" fill="#142340" />
+  <path d="M8 0v32M16 0v32M24 0v32M0 8h32M0 16h32M0 24h32" stroke="#ffffff" stroke-opacity=".09" />
+  <path d="M11.5 7v18" stroke="#6f9ad6" stroke-width="1.6" stroke-linecap="round" />
+  <rect x="8.5" y="11" width="6" height="9" rx="1" fill="#6f9ad6" />
+  <path d="M21 6v19" stroke="#e2574a" stroke-width="1.6" stroke-linecap="round" />
+  <rect x="18" y="9" width="6" height="11" rx="1" fill="#e2574a" />
 </svg>

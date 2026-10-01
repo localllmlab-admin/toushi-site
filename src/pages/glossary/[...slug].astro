@@ -51,15 +51,31 @@ const usedInTop = usedIn.slice(0, 5);
   )}
 </Article>
 <style is:global>
-  .reading { color: var(--color-text-muted); font-size: .85rem; font-family: var(--font-mono); margin-top: -0.5rem; }
-  .related { margin-top: 2rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem 1.2rem; }
-  .related h2 { font-size: 1rem; margin: 0 0 .5rem; border-bottom: none; }
-  .related ul { margin: 0; padding-left: 1.2em; font-size: .9rem; }
-  .related li { margin: .35rem 0; }
-  .used-in { margin-top: 1.4rem; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1rem 1.2rem; }
-  .used-in h2 { font-size: 1rem; margin: 0 0 .5rem; border-bottom: none; }
-  .used-in ul { margin: 0; padding-left: 1.2em; font-size: .9rem; }
-  .used-in li { margin: .35rem 0; }
-  .used-in a { font-weight: 700; text-decoration: none; }
-  .used-in a:hover { text-decoration: underline; }
+  /* 用語集の固有部品。Article.astro の .body h2 罫を上書きするため、クラスを重ねて詳細度を確保する */
+  .reading {
+    display: inline-flex; align-items: center; gap: .5em;
+    color: var(--color-text-muted); font-size: .8rem; font-family: var(--font-mono); letter-spacing: .06em;
+    margin-top: -0.5rem;
+  }
+  .reading::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--color-sec-glossary); }
+  .related.related, .used-in.used-in {
+    margin-top: 2rem; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 1rem 1.2rem .6rem;
+  }
+  .related.related { border-top: 2px solid var(--color-sec-glossary); }
+  .used-in.used-in { margin-top: 1.2rem; border-top: 2px solid var(--color-ink); }
+  aside.related.related > h2, aside.used-in.used-in > h2 {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+    margin: 0 0 .3rem; padding: 0; border: none; position: static;
+  }
+  aside.related.related > h2::before, aside.used-in.used-in > h2::before { content: none; }
+  .related.related ul, .used-in.used-in ul { list-style: none; margin: 0; padding: 0; font-size: .9rem; }
+  .related.related li, .used-in.used-in li {
+    margin: 0; padding: .55rem 0; border-top: 1px solid var(--color-border); line-height: 1.7;
+  }
+  .related.related li:first-child, .used-in.used-in li:first-child { border-top: none; }
+  .related.related li { color: var(--color-text-muted); font-size: .85rem; }
+  .related.related a { font-family: var(--font-display); font-weight: 800; font-size: .98rem; text-decoration: none; }
+  .used-in.used-in a { font-weight: 700; text-decoration: none; color: var(--color-ink); }
+  .related.related a:hover, .used-in.used-in a:hover { color: var(--color-accent); text-decoration: underline; }
 </style>

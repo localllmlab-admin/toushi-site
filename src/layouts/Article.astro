@@ -132,219 +132,324 @@ if (entry.collection === "glossary") {
     },
   });
 }
+
+// ── 表示用の補助値（すべて frontmatter・本文の実データから算出）──────────────
+const catClass = `cat-${entry.collection}`;
+const LV = { 1: "入門", 2: "基礎", 3: "実践", 4: "上級" };
+const levelLabel = entry.data.level ? `Lv.${entry.data.level} ${LV[entry.data.level]}` : null;
+const subLabel = entry.data.chapter ?? entry.data.kind ?? entry.data.patternType ?? entry.data.bookCategory ?? null;
+// 読了目安: 記法・URL・HTMLタグを除いた本文の文字数 ÷ 毎分500字（日本語の黙読速度の一般的な目安）
+const plain = (entry.body ?? "")
+  .replace(/^---[\s\S]*?---/, "")
+  .replace(/<[^>]+>/g, "")
+  .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1")
+  .replace(/[#>*_`|\-]/g, "")
+  .replace(/\s+/g, "");
+const readMin = Math.max(1, Math.round(plain.length / 500));
+// 出典の内訳（等級ごとの件数）。広告リンクは数えない
+const gradeCount = ["A", "B", "C", "D", "E"]
+  .map((g) => ({ g, n: sources.filter((s) => s.grade === g && !s.ad).length }))
+  .filter((x) => x.n > 0);
+const iso = (d) => new Date(d).toISOString();
+const ymd = (d) => {
+  const x = new Date(d);
+  return `${x.getFullYear()}.${String(x.getMonth() + 1).padStart(2, "0")}.${String(x.getDate()).padStart(2, "0")}`;
+};
+const hasToc = headings.filter((h) => h.depth >= 2 && h.depth <= 3).length >= 2;
 ---
+
 <Base title={title} description={description} ogImage={ogImage} jsonLd={jsonLdBlocks}>
-  <article class="container">
-    <Breadcrumb trail={trail} />
-    <!-- PR表記は isPR: true で機械挿入（ステマ規制対応・frontmatterの他項目では消せない / ADR-0003） -->
-    {entry.data.isPR && (
-      <p class="pr-note">本ページにはアフィリエイト広告（PR）が含まれます</p>
-    )}
-    <h1>{title}</h1>
-    <p class="meta">
-      最終更新: <time datetime={new Date(updated).toISOString()}>{upd}</time>
-      {rev && <>　/　レビュー日: <time datetime={new Date(reviewedAt).toISOString()}>{rev}</time> 済</>}
-    </p>
-    <Toc headings={headings} />
-    <div class="body"><slot /></div>
+  <!-- 読書進捗（CSSのスクロール連動のみ。未対応ブラウザでは何も出ない） -->
+  <div class="progress" aria-hidden="true"></div>
 
-    {sources.length > 0 && (
-      <section class="sources">
-        <h2>出典・参考</h2>
-        <ul>{sources.map((s) => (
-          <li>
-            <span class={`grade grade-${s.grade}`}>{s.grade}: {gradeLabel[s.grade]}</span>
-            {s.url
-              ? <a
-                  href={s.url}
-                  target="_blank"
-                  rel={s.ad ? "noopener noreferrer sponsored nofollow" : "noopener noreferrer nofollow"}
-                >{s.title}</a>
-              : <span>{s.title}</span>}
-            {/* アフィリリンクはリンク近傍で広告性を明示（景表法ステマ規制対応 / ADR-0003） */}
-            {s.ad && <span class="ad-badge">広告</span>}
-          </li>
-        ))}</ul>
-        <p class="grade-note"><a href="/policy/">出典等級について（編集方針）</a></p>
-      </section>
-    )}
+  <header class="a-head">
+    <div class="a-head-in">
+      <Breadcrumb trail={trail} />
+      <!-- PR表記は isPR: true で機械挿入（ステマ規制対応・frontmatterの他項目では消せない / ADR-0003） -->
+      {entry.data.isPR && (
+        <p class="pr-note">本ページにはアフィリエイト広告（PR）が含まれます</p>
+      )}
+      <p class="a-kicker">
+        <a class={`cat ${catClass}`} href={`/${entry.collection}/`}>{sectionLabel}</a>
+        {subLabel && <span class="a-sub">{subLabel}</span>}
+        {levelLabel && <span class="bg bg-lv">{levelLabel}</span>}
+      </p>
+      <h1>{title}</h1>
+      <p class="a-lead">{description}</p>
+      <dl class="a-meta">
+        <div><dt>更新</dt><dd><time datetime={iso(updated)}>{ymd(updated)}</time></dd></div>
+        {rev && <div><dt>レビュー</dt><dd><time datetime={iso(reviewedAt)}>{ymd(reviewedAt)}</time> 済</dd></div>}
+        <div><dt>読了目安</dt><dd>約{readMin}分</dd></div>
+        {gradeCount.length > 0 && (
+          <div>
+            <dt>出典</dt>
+            <dd class="a-grades">
+              {gradeCount.map((x) => <span class={`gchip gchip-${x.g}`} title={gradeLabel[x.g]}>{x.g}<small>×{x.n}</small></span>)}
+              <a href="#sources">一覧へ</a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  </header>
 
-    {related.length > 0 && (
-      <section class="related">
-        <h2>同じテーマの記事</h2>
-        <ul>
-          {related.map(({ collection, e }) => (
-            <li><a href={`/${collection}/${e.slug}/`}>{e.data.title}</a></li>
-          ))}
-        </ul>
-        <p class="related-more"><a href={`/topics/${relatedTopic.slug}/`}>「{relatedTopic.title}」の記事一覧を見る ›</a></p>
-      </section>
-    )}
+  <div class={`a-layout ${hasToc ? "has-toc" : ""}`}>
+    <article class="a-main">
+      <div class="toc-inline-wrap"><Toc headings={headings} variant="inline" /></div>
+      <div class="body"><slot /></div>
 
-    {(prev || next) && (
-      <nav class="seq" aria-label="前後の記事">
-        <p class="seq-head">
-          {groupLabel ? `「${groupLabel}」の順に読む` : "この一覧の順に読む"}
-          <a href={`/${entry.collection}/`}>一覧へ ›</a>
-        </p>
-        <div class="seq-links">
-          {prev ? (
-            <a class="seq-prev" href={`/${entry.collection}/${prev.slug}/`} rel="prev">
-              <span class="seq-label">‹ 前の記事</span>
-              <span class="seq-title">{prev.data.title}</span>
-            </a>
-          ) : <span class="seq-empty" />}
-          {next ? (
-            <a class="seq-next" href={`/${entry.collection}/${next.slug}/`} rel="next">
-              <span class="seq-label">次の記事 ›</span>
-              <span class="seq-title">{next.data.title}</span>
-            </a>
-          ) : <span class="seq-empty" />}
-        </div>
-      </nav>
-    )}
+      {sources.length > 0 && (
+        <section class="sources" id="sources" aria-labelledby="sources-h">
+          <h2 id="sources-h">出典・参考</h2>
+          <ol>{sources.map((s) => (
+            <li>
+              <span class={`grade grade-${s.grade}`}><b>{s.grade}</b><span class="grade-l">{gradeLabel[s.grade]}</span></span>
+              <span class="src-t">
+                {s.url
+                  ? <a
+                      href={s.url}
+                      target="_blank"
+                      rel={s.ad ? "noopener noreferrer sponsored nofollow" : "noopener noreferrer nofollow"}
+                    >{s.title}<span class="ext" aria-label="（新しいタブで開きます）">↗</span></a>
+                  : <span>{s.title}</span>}
+                {/* アフィリリンクはリンク近傍で広告性を明示（景表法ステマ規制対応 / ADR-0003） */}
+                {s.ad && <span class="ad-badge">広告</span>}
+              </span>
+            </li>
+          ))}</ol>
+          <p class="grade-note"><a href="/policy/">出典等級について（編集方針）</a></p>
+        </section>
+      )}
 
-    <!-- 免責は常に機械描画。frontmatter では消せない。 -->
-    <Disclaimer />
-  </article>
+      {related.length > 0 && (
+        <section class="related" aria-labelledby="related-h">
+          <h2 id="related-h">同じテーマの記事</h2>
+          <ul class="post-list">
+            {related.map(({ collection, e }) => (
+              <li>
+                <a class="post-link" href={`/${collection}/${e.slug}/`}>
+                  <span class="pt">{e.data.title}</span>
+                  <span class="pm"><span class={`cat cat-${collection}`}>{{ learn: "学ぶ", playbook: "手法・定石", charts: "チャート図解" }[collection]}</span></span>
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="related-more"><a href={`/topics/${relatedTopic.slug}/`}>「{relatedTopic.title}」の記事一覧へ</a></p>
+        </section>
+      )}
+
+      {(prev || next) && (
+        <nav class="seq" aria-label="前後の記事">
+          <p class="seq-head">
+            <span>{groupLabel ? `「${groupLabel}」の順に読む` : "この一覧の順に読む"}</span>
+            <a href={`/${entry.collection}/`}>一覧へ</a>
+          </p>
+          <div class="seq-links">
+            {prev ? (
+              <a class="seq-prev" href={`/${entry.collection}/${prev.slug}/`} rel="prev">
+                <span class="seq-label">← 前の記事</span>
+                <span class="seq-title">{prev.data.title}</span>
+              </a>
+            ) : <span class="seq-empty" />}
+            {next ? (
+              <a class="seq-next" href={`/${entry.collection}/${next.slug}/`} rel="next">
+                <span class="seq-label">次の記事 →</span>
+                <span class="seq-title">{next.data.title}</span>
+              </a>
+            ) : <span class="seq-empty" />}
+          </div>
+        </nav>
+      )}
+
+      <!-- 免責は常に機械描画。frontmatter では消せない。 -->
+      <Disclaimer />
+    </article>
+
+    {hasToc && (
+      <aside class="a-rail" aria-label="この記事の目次">
+        <Toc headings={headings} variant="rail" />
+      </aside>
+    )}
+  </div>
+
   <style>
-    .container { padding: 2.4rem 1.25rem 3.5rem; }
-    .meta {
-      color: var(--color-text-muted);
-      font-size: 0.85rem;
-      font-family: var(--font-mono);
+    /* 読書進捗バー（scroll-driven animation。JSなし） */
+    .progress {
+      position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 20; background: var(--color-cta);
+      transform-origin: 0 50%; transform: scaleX(0); display: none;
     }
-    /* PR表記（isPR時に機械挿入・ファーストビュー近傍） */
+    @supports (animation-timeline: scroll()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .progress { display: block; animation: progress linear both; animation-timeline: scroll(root); }
+        @keyframes progress { to { transform: scaleX(1); } }
+      }
+    }
+
+    /* 記事の見出し帯（方眼の上に明朝のタイトル＝罫線帳の1ページ目） */
+    .a-head { background: var(--grid-paper); border-bottom: 1px solid var(--color-grid-strong); }
+    .a-head-in { max-width: var(--maxw-wide); margin: 0 auto; padding: clamp(1.2rem, 3vw, 2rem) var(--gutter) clamp(1.6rem, 4vw, 2.4rem); }
+    .a-head :global(.breadcrumb) { margin-bottom: 1.4rem; }
     .pr-note {
-      display: inline-block;
-      font-size: .78rem;
-      font-weight: 700;
-      color: var(--color-text-muted);
-      background: var(--color-surface-muted);
-      border: 1px solid var(--color-border-strong);
-      border-radius: var(--radius-s);
-      padding: .3em .8em;
-      margin: 0 0 .6rem;
+      display: inline-block; font-size: .78rem; font-weight: 700; color: var(--color-text-muted);
+      background: var(--color-surface-muted); border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-s); padding: .3em .8em; margin: 0 0 .8rem;
     }
-    .body :global(h2) { margin-top: 2.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
+    .a-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; margin: 0 0 .8rem; }
+    .a-kicker .cat { text-decoration: none; font-size: .78rem; min-height: 28px; }
+    .a-kicker .cat:hover { text-decoration: underline; }
+    .a-sub { font-size: .78rem; color: var(--color-text-muted); }
+    .a-head h1 {
+      font-family: var(--font-display); font-weight: 800; margin: 0 0 1rem; max-width: 30em;
+      font-size: clamp(1.6rem, 3.6vw, 2.35rem); line-height: 1.45; letter-spacing: .03em;
+    }
+    .a-lead { margin: 0 0 1.4rem; max-width: 46em; font-size: 1rem; line-height: 1.95; color: var(--color-text); }
+    .a-meta { display: flex; flex-wrap: wrap; gap: .5rem 1.6rem; margin: 0; padding-top: 1rem; border-top: 1px dashed var(--color-grid-strong); }
+    .a-meta div { display: flex; align-items: baseline; gap: .55rem; }
+    .a-meta dt { font-size: .7rem; font-weight: 700; color: var(--color-text-muted); letter-spacing: .08em; }
+    .a-meta dd { margin: 0; font-family: var(--font-num); font-size: .84rem; color: var(--color-ink); }
+    .a-grades { display: inline-flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+    .a-grades a { font-family: var(--font-sans); font-size: .76rem; margin-left: .2rem; }
+    .gchip {
+      font-family: var(--font-mono); font-weight: 600; font-size: .74rem; padding: 0 .4rem; border-radius: 2px;
+      border: 1px solid var(--color-ink); color: var(--color-ink); background: var(--color-bg);
+    }
+    .gchip small { font-weight: 400; margin-left: 1px; }
+    .gchip-A { background: var(--color-ink); color: #fff; }
+    .gchip-D, .gchip-E { border-color: var(--color-border-strong); color: var(--color-text-muted); }
+
+    /* 本文＋右レール */
+    .a-layout {
+      max-width: var(--maxw-wide); margin: 0 auto; padding: clamp(1.8rem, 4vw, 2.8rem) var(--gutter) 0;
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.5rem;
+    }
+    .a-main { min-width: 0; max-width: var(--maxw); }
+    .a-rail { display: none; }
+    @media (min-width: 1100px) {
+      .a-layout.has-toc { grid-template-columns: minmax(0, var(--maxw)) 250px; justify-content: space-between; }
+      .a-rail { display: block; position: sticky; top: 1.5rem; align-self: start; }
+      .has-toc .toc-inline-wrap { display: none; }
+    }
+
+    /* ── 本文タイポグラフィ ───────────────────── */
+    .body { font-size: 1.03rem; line-height: 2; }
+    @media (max-width: 600px) { .body { font-size: 1rem; line-height: 1.95; } }
+    .body :global(p) { margin: 0 0 1.4em; }
+    .body :global(h2) {
+      font-family: var(--font-display); font-weight: 800; font-size: clamp(1.35rem, 2.6vw, 1.6rem);
+      line-height: 1.5; margin: 3.2rem 0 1.2rem; padding-top: 1rem; position: relative;
+      border-top: 1px solid var(--color-ink);
+    }
+    /* 赤ペンの短い傍線（見出しの起点を示す） */
+    .body :global(h2)::before {
+      content: ""; position: absolute; left: 0; top: -2px; width: 2.6rem; height: 3px; background: var(--color-cta);
+    }
+    .body :global(h3) {
+      font-size: 1.12rem; font-weight: 700; line-height: 1.6; margin: 2.2rem 0 .8rem;
+      padding-left: .8rem; border-left: 3px solid var(--color-ink);
+    }
+    .body :global(h4) { font-size: 1rem; margin: 1.8rem 0 .6rem; color: var(--color-ink); }
+    /* 強調 = 赤ペンの傍線（色だけに頼らず太字も維持） */
+    .body :global(strong) {
+      font-weight: 700; color: var(--color-ink);
+      background: linear-gradient(transparent 64%, var(--color-marker) 64%);
+    }
+    .body :global(a) { text-decoration-thickness: 1px; }
     /* 用語集への自動リンク（rehype-glossary-links）は点線下線で本文リンクと区別 */
-    .body :global(a.term-link) { text-decoration: underline dotted; text-underline-offset: 3px; }
+    .body :global(a.term-link) { text-decoration: underline dotted; text-underline-offset: 4px; color: inherit; text-decoration-color: var(--color-accent); }
+    .body :global(a.term-link:hover) { color: var(--color-accent); }
+    .body :global(ul), .body :global(ol) { padding-left: 1.4em; margin: 0 0 1.4em; }
+    .body :global(li) { margin: .35em 0; }
+    .body :global(ul > li::marker) { color: var(--color-cta); }
+    .body :global(ol > li::marker) { font-family: var(--font-num); color: var(--color-ink); font-weight: 600; }
+    .body :global(blockquote) {
+      margin: 1.8rem 0; padding: .4rem 0 .4rem 1.3rem; border-left: 2px solid var(--color-border-strong);
+      color: var(--color-text); font-size: .97em;
+    }
+    .body :global(blockquote p:last-child) { margin-bottom: 0; }
+    .body :global(hr) { border: 0; border-top: 1px dashed var(--color-grid-strong); margin: 2.5rem 0; }
+    .body :global(img) { max-width: 100%; height: auto; }
     .body :global(figure.diagram) {
-      margin: 1.6rem 0;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      background: #fff;
-      padding: .8rem .8rem .7rem;
+      margin: 2rem 0; border: 1px solid var(--color-grid-strong); border-radius: var(--radius);
+      background: var(--color-bg); padding: 1rem 1rem .8rem;
     }
     .body :global(figure.diagram img) { width: 100%; height: auto; display: block; }
-    .body :global(figure.diagram figcaption) {
-      font-size: .78rem;
-      color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-top: .5rem;
-    }
-    /* 本文の表（Markdown表）: 比較項目の視認性を確保。スマホは折り返しで横はみ出しを防ぐ */
+    .body :global(figure.diagram figcaption) { font-size: .78rem; color: var(--color-text-muted); line-height: 1.7; margin-top: .6rem; }
+    /* 本文の表（Markdown表）: 比較項目の視認性。スマホは折り返しで横はみ出しを防ぐ */
     .body :global(table) {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.4rem 0;
-      font-size: .9rem;
-      line-height: 1.6;
-      border: 1px solid var(--color-border-strong);
+      width: 100%; border-collapse: collapse; margin: 1.8rem 0; font-size: .9rem; line-height: 1.7;
+      border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-ink);
     }
-    .body :global(th),
-    .body :global(td) {
-      border: 1px solid var(--color-border);
-      padding: .6rem .75rem;
-      text-align: left;
-      vertical-align: top;
-      overflow-wrap: anywhere;
+    .body :global(th), .body :global(td) {
+      border-bottom: 1px solid var(--color-border); padding: .7rem .75rem; text-align: left;
+      vertical-align: top; overflow-wrap: anywhere;
     }
-    .body :global(thead th) {
-      background: var(--color-ink);
-      color: var(--color-on-ink);
-      font-weight: 700;
-      border-color: var(--color-ink);
-    }
-    .body :global(tbody tr:nth-child(even)) { background: var(--color-surface); }
-    .body :global(tbody td:first-child) { font-weight: 700; color: var(--color-text); min-width: 5.5em; }
+    .body :global(thead th) { background: var(--color-surface); color: var(--color-ink); font-weight: 700; font-size: .84rem; }
+    .body :global(tbody td:first-child) { font-weight: 700; color: var(--color-ink); min-width: 5.5em; }
     @media (max-width: 480px) {
       .body :global(table) { font-size: .84rem; }
-      .body :global(th),
-      .body :global(td) { padding: .5rem .55rem; }
+      .body :global(th), .body :global(td) { padding: .55rem .5rem; }
     }
-    .related { margin-top: 2.5rem; font-size: .92rem; }
-    .related h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
-    .related ul { list-style: none; padding: 0; margin: .6rem 0 0; }
-    .related li { padding: .45rem 0; border-bottom: 1px dashed var(--color-border); }
-    .related li a { font-weight: 700; text-decoration: none; }
-    .related li a:hover { text-decoration: underline; }
-    .related-more { font-size: .82rem; margin-top: .6rem; text-align: right; }
-    .related-more a { font-weight: 700; text-decoration: none; }
+
+    /* ── 記事末: 出典・関連・前後 ─────────────── */
+    .a-main > section > h2, .seq-head span {
+      font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; color: var(--color-ink);
+    }
+    .sources, .related, .seq { margin-top: 3.5rem; }
+    .sources h2, .related h2 { margin: 0 0 .9rem; padding-bottom: .55rem; border-bottom: 1px solid var(--color-ink); }
+    .sources ol { list-style: none; margin: 0; padding: 0; }
+    .sources li {
+      display: grid; grid-template-columns: 7.2rem minmax(0, 1fr); gap: .8rem; align-items: baseline;
+      padding: .7rem 0; border-bottom: 1px solid var(--color-border); font-size: .88rem; line-height: 1.7;
+    }
+    .src-t a { word-break: break-all; text-decoration: none; }
+    .src-t a:hover { text-decoration: underline; }
+    .ext { font-size: .8em; margin-left: .25em; color: var(--color-text-muted); }
+    /* 等級 = 四角い判子＋種別。A（公的機関）だけ墨藍で塗る＝最上位の信頼シグナル */
+    .grade { display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap; }
+    .grade b {
+      font-family: var(--font-mono); font-weight: 600; font-size: .74rem; width: 1.55rem; height: 1.55rem;
+      display: grid; place-items: center; border: 1px solid var(--color-ink); border-radius: 2px;
+      color: var(--color-ink); background: var(--color-bg);
+    }
+    .grade-A b { background: var(--color-ink); color: #fff; }
+    .grade-D b, .grade-E b { border-color: var(--color-border-strong); color: var(--color-text-muted); }
+    .grade-l { font-size: .74rem; color: var(--color-text-muted); }
+    .ad-badge {
+      display: inline-block; font-size: .7rem; font-weight: 700; padding: .05em .5em; border-radius: var(--radius-s);
+      margin-left: .5em; border: 1px solid var(--color-border-strong); background: var(--color-surface-muted); color: var(--color-text-muted);
+    }
+    .grade-note { font-size: .8rem; color: var(--color-text-muted); margin: .9rem 0 0; }
+    @media (max-width: 520px) { .sources li { grid-template-columns: minmax(0, 1fr); gap: .2rem; } }
+
+    .related .post-list { border-bottom: 1px solid var(--color-border); }
+    .related-more { font-size: .84rem; margin: .8rem 0 0; text-align: right; }
+    .related-more a { font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+    .related-more a::after { content: "→"; margin-left: .35em; }
     .related-more a:hover { text-decoration: underline; }
-    /* 前後ナビ（連続した読み順の提示・機械描画） */
-    .seq { margin-top: 2.5rem; }
+
     .seq-head {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-      font-size: .82rem; color: var(--color-text-muted); margin: 0 0 .6rem;
-      border-bottom: 1px solid var(--color-border); padding-bottom: .3rem;
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0 0 .9rem;
+      padding-bottom: .55rem; border-bottom: 1px solid var(--color-ink);
     }
-    .seq-head a { font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .seq-head a { font-size: .84rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .seq-head a::after { content: " →"; }
     .seq-head a:hover { text-decoration: underline; }
-    .seq-links { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .seq-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
     .seq-links > a {
-      display: flex; flex-direction: column; gap: .3rem;
-      border: 1px solid var(--color-border); border-radius: var(--radius);
-      padding: .8rem 1rem; text-decoration: none; background: var(--color-bg);
+      display: flex; flex-direction: column; gap: .4rem; padding: 1rem 1.1rem; text-decoration: none;
+      border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-bg);
+      transition: border-color .2s var(--ease), transform .25s var(--ease);
     }
-    .seq-links > a:hover { border-color: var(--color-accent); }
+    .seq-links > a:hover { border-color: var(--color-ink); transform: translateY(-2px); }
     .seq-next { text-align: right; }
-    .seq-label { font-size: .75rem; color: var(--color-text-muted); font-family: var(--font-mono); }
-    .seq-title { font-size: .9rem; font-weight: 700; line-height: 1.5; }
-    .seq-links > a:hover .seq-title { text-decoration: underline; }
+    .seq-label { font-size: .74rem; color: var(--color-text-muted); font-weight: 700; letter-spacing: .06em; }
+    .seq-title { font-size: .92rem; font-weight: 700; line-height: 1.6; color: var(--color-ink); }
+    .seq-links > a:hover .seq-title { color: var(--color-accent); text-decoration: underline; }
     @media (max-width: 560px) {
-      .seq-links { grid-template-columns: 1fr; }
+      .seq-links { grid-template-columns: minmax(0, 1fr); }
       .seq-next { text-align: left; }
       .seq-empty { display: none; }
     }
-
-    .sources { margin-top: 2.5rem; font-size: .9rem; }
-    .sources h2 { border-bottom: 1px solid var(--color-border); padding-bottom: .3rem; }
-    .sources li { margin: .5rem 0; }
-    .sources a { word-break: break-all; }
-    .grade {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      padding: .15em .55em;
-      border-radius: var(--radius-s);
-      margin-right: .6em;
-      border: 1px solid var(--color-border-strong);
-      color: var(--color-text);
-    }
-    /* A: 公的機関 = 墨紺地・白文字（最上位の信頼シグナル） */
-    .grade-A { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-on-ink); }
-    /* B/C: 学術・一次発表 = 罫線のみ（アクセント色） */
-    .grade-B, .grade-C { background: var(--color-bg); color: var(--color-accent); border-color: var(--color-accent); }
-    /* D: 報道 = グレー（事実単独での根拠にしないため一段控えめ） */
-    .grade-D { background: var(--color-surface-muted); color: var(--color-text-muted); }
-    /* E: 編集部調べ = リンクなしの編集責任表示（罫線のみ・控えめ） */
-    .grade-E { background: var(--color-bg); color: var(--color-text-muted); }
-    /* 広告バッジ = アフィリリンク近傍の広告明示（等級バッジと同系の機械描画） */
-    .ad-badge {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      font-weight: 700;
-      padding: .15em .55em;
-      border-radius: var(--radius-s);
-      margin-left: .5em;
-      border: 1px solid var(--color-border-strong);
-      background: var(--color-surface-muted);
-      color: var(--color-text-muted);
-    }
-    .grade-note { font-size: .8rem; color: var(--color-text-muted); }
   </style>
 </Base>

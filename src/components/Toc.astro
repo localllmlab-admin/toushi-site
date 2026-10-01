@@ -2,39 +2,84 @@
 /**
  * 目次。entry.render() が返す headings（見出し配列）を depth 2〜3 のみで表示する。
  * 該当見出しが2件未満（目次として意味が薄い）の場合は何も描画しない。
+ * variant:
+ *   "rail"   = PCの右カラムに追従表示（Article.astro が 1100px 以上でのみ見せる）
+ *   "inline" = 本文の前に折りたたみで表示（1100px 未満。長い目次で本文が押し下がらないように）
+ * JSを使わない（details 要素と position: sticky のみ）。
  */
-const { headings = [] } = Astro.props;
+const { headings = [], variant = "inline" } = Astro.props;
 const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const h2Count = items.filter((h) => h.depth === 2).length;
 ---
 {items.length >= 2 && (
-  <nav class="toc" aria-label="目次">
-    <p class="toc-title">目次</p>
-    <ul>
-      {items.map((h) => (
-        <li class={`toc-depth-${h.depth}`}>
-          <a href={`#${h.slug}`}>{h.text}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  variant === "rail" ? (
+    <nav class="toc toc-rail" aria-label="目次">
+      <p class="toc-title">目次</p>
+      <ol>
+        {items.map((h) => (
+          <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>
+        ))}
+      </ol>
+      <a class="toc-top" href="#main">ページの先頭へ</a>
+    </nav>
+  ) : (
+    <details class="toc toc-inline">
+      <summary>
+        <span class="toc-title">目次</span>
+        <span class="toc-n">見出し{h2Count}項目</span>
+      </summary>
+      <nav aria-label="目次">
+        <ol>
+          {items.map((h) => (
+            <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    </details>
+  )
 )}
 <style>
-  .toc {
-    margin: 1.5rem 0 2rem;
-    padding: 1rem 1.25rem;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    font-size: 0.92rem;
+  .toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+  .toc li.d2 { counter-increment: toc; }
+  .toc a {
+    display: grid; grid-template-columns: 1.9em minmax(0, 1fr); gap: .2rem;
+    text-decoration: none; color: var(--color-text); line-height: 1.6; padding: .38rem 0;
   }
-  .toc-title {
-    margin: 0 0 0.5rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
+  .toc li.d2 > a::before {
+    content: counter(toc, decimal-leading-zero); font-family: var(--font-num); font-size: .72rem;
+    color: var(--color-text-muted); padding-top: .15em;
   }
-  .toc ul { margin: 0; padding-left: 1.1rem; }
-  .toc li { margin: 0.25rem 0; }
-  .toc-depth-3 { margin-left: 1rem; list-style-type: circle; }
-  .toc a { color: var(--color-accent-soft); }
+  .toc li.d3 > a { padding-left: 1.9em; grid-template-columns: minmax(0, 1fr); font-size: .92em; color: var(--color-text-muted); }
+  .toc a:hover { color: var(--color-accent); text-decoration: underline; }
+  .toc-title { font-weight: 700; font-size: .8rem; letter-spacing: .1em; color: var(--color-ink); margin: 0; }
+
+  /* PC: 右カラム追従 */
+  .toc-rail { font-size: .82rem; }
+  .toc-rail .toc-title { padding-bottom: .6rem; margin-bottom: .3rem; border-bottom: 1px solid var(--color-ink); }
+  .toc-rail ol { max-height: calc(100vh - 11rem); overflow-y: auto; overscroll-behavior: contain; padding-right: .3rem; }
+  .toc-top {
+    display: inline-flex; align-items: center; min-height: 40px; margin-top: .6rem;
+    font-size: .76rem; color: var(--color-text-muted); text-decoration: none;
+  }
+  .toc-top::before { content: "↑"; margin-right: .4em; }
+  .toc-top:hover { color: var(--color-accent); }
+
+  /* スマホ・タブレット: 折りたたみ */
+  .toc-inline {
+    margin: 0 0 2rem; border: 1px solid var(--color-border); border-radius: var(--radius);
+    background: var(--color-bg); font-size: .92rem;
+  }
+  .toc-inline summary {
+    display: flex; align-items: center; gap: .7rem; min-height: 52px; padding: 0 1.1rem;
+    cursor: pointer; list-style: none;
+  }
+  .toc-inline summary::-webkit-details-marker { display: none; }
+  .toc-inline summary::after {
+    content: ""; margin-left: auto; width: 8px; height: 8px; border: solid var(--color-ink);
+    border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); transition: transform .2s var(--ease);
+  }
+  .toc-inline[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+  .toc-n { font-family: var(--font-num); font-size: .74rem; color: var(--color-text-muted); }
+  .toc-inline nav { padding: 0 1.1rem .8rem; border-top: 1px solid var(--color-border); }
+  .toc-inline a { min-height: 44px; align-items: center; }
 </style>

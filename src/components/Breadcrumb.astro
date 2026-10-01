@@ -30,6 +30,14 @@ const last = trail.length - 1;
   .breadcrumb li + li::before { content: "›"; color: var(--color-border-strong); }
   .breadcrumb a { color: var(--color-text-muted); text-decoration: none; }
   .breadcrumb a:hover { color: var(--color-accent); text-decoration: underline; }
-  /* 現在地は長くなりがちなので折り返しを許可（モバイルで横スクロールを出さない） */
-  .breadcrumb [aria-current="page"] { color: var(--color-text); font-weight: 700; overflow-wrap: anywhere; }
+  .breadcrumb a { display: inline-flex; align-items: center; min-height: 32px; }
+  /* 現在地（記事タイトル）は長いので1行に収めて省略する。完全なタイトルは直下の h1 にある。
+     構造化データ（BreadcrumbList）は省略せず全文を出す */
+  .breadcrumb ol { flex-wrap: nowrap; }
+  .breadcrumb li { flex-shrink: 0; }
+  .breadcrumb li:last-child { flex-shrink: 1; min-width: 0; }
+  .breadcrumb [aria-current="page"] {
+    color: var(--color-text); font-weight: 700; display: block;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
 </style>

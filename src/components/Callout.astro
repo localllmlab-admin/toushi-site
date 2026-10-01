@@ -13,24 +13,35 @@ const heading = title ?? labels[type] ?? labels.info;
   <div class="callout-body"><slot /></div>
 </aside>
 <style>
+  /* 赤ペンの書き込み欄: 左に細い縦罫、見出しは小さな札。warn だけ朱（要点の赤ペン） */
   .callout {
-    margin: 1.5rem 0;
-    padding: 1rem 1.25rem;
-    border-left: 4px solid var(--color-border);
-    background: var(--color-surface-muted);
-    border-radius: 6px;
+    --cl: var(--color-accent);
+    margin: 1.8rem 0;
+    padding: 1rem 1.25rem 1.05rem 1.3rem;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--cl);
+    background: var(--color-bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
     font-size: 0.95rem;
+    line-height: 1.85;
   }
   .callout-title {
-    margin: 0 0 0.4rem;
+    display: flex; align-items: center; gap: .5em;
+    margin: 0 0 0.45rem;
     font-weight: 700;
-    font-size: 0.8rem;
-    letter-spacing: 0.02em;
-    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--cl);
   }
+  .callout-title::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0;
+  }
+  .callout-body :global(p) { margin: 0 0 .7em; }
   .callout-body :global(p:last-child) { margin-bottom: 0; }
-  .callout-info { border-left-color: var(--color-accent); }
-  .callout-warn { border-left-color: var(--color-up); }
-  .callout-warn .callout-title { color: var(--color-up); }
-  .callout-note { border-left-color: var(--color-text-muted); }
+  .callout-body :global(ul), .callout-body :global(ol) { margin: .3em 0 0; padding-left: 1.3em; }
+  .callout-info { --cl: var(--color-accent); }
+  .callout-warn { --cl: var(--color-cta); background: linear-gradient(90deg, var(--color-marker), transparent 38%), var(--color-bg); }
+  /* 朱の薄地の上では朱の文字が AA を割るため、見出し文字だけ深い朱にする */
+  .callout-warn .callout-title { color: var(--color-cta-deep); }
+  .callout-note { --cl: var(--color-text-muted); background: var(--grid-paper); }
 </style>

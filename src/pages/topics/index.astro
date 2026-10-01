@@ -12,6 +12,10 @@ const all = [
   ...pub(await getCollection("charts"), "charts"),
 ];
 const topics = collectTopics(all).filter((t) => t.items.length > 0);
+// テーマの所属セクション色。topics.mjs の grad 先頭色（セクション色）から引く。面では塗らず印の色にだけ使う
+const SEC = { "#a3690f": "charts", "#1f6e50": "playbook", "#2b4a8b": "learn" };
+const secOf = (t) => SEC[(t.grad.match(/#[0-9a-f]{6}/i) ?? [""])[0].toLowerCase()] ?? "learn";
+const totalItems = new Set(topics.flatMap((t) => t.items.map(({ collection, entry }) => `${collection}/${entry.slug}`))).size;
 
 // 一覧ページの構造化データ（CollectionPage + ItemList）
 const jsonLd = [collectionPageJsonLd({
@@ -27,43 +31,64 @@ const jsonLd = [collectionPageJsonLd({
   pagebg={true}
   jsonLd={jsonLd}
 >
-  <div class="container-wide wrap">
-    <p class="section-label">TOPICS</p>
-    <h1>テーマ別に学ぶ</h1>
-    <p class="lead">章立て（<a href="/learn/">学習マップ</a>）が「教科書の順番」だとすれば、テーマ別は「関心からの入口」です。気になるテーマから読み始めて、関連記事へ横に広げてください。</p>
-    <div class="grid">
-      {topics.map((t) => (
-        <a class="tile" href={`/topics/${t.slug}/`}>
-          <span class="thumb" style={`background:${t.grad}`}>{t.thumb}</span>
-          <span class="body">
-            <span class="tt">{t.title}<span class="count">{t.items.length}本</span></span>
-            <span class="ld">{t.lead}</span>
-          </span>
-        </a>
-      ))}
+  <header class="page-head">
+    <div class="container-wide">
+      <p class="eyebrow">Topics</p>
+      <h1>テーマ別に学ぶ</h1>
+      <p class="lead">章立て（<a href="/learn/">学習マップ</a>）が「教科書の順番」だとすれば、テーマ別は「関心からの入口」です。気になるテーマから読み始めて、関連記事へ横に広げてください。</p>
+      <p class="count">{topics.length}テーマ ・ 対象記事 {totalItems}本（重複を除く）</p>
     </div>
+  </header>
+  <div class="container-wide body">
+    <ul class="grid">
+      {topics.map((t, i) => (
+        <li>
+          <a class={`tile sec-${secOf(t)}`} href={`/topics/${t.slug}/`}>
+            <span class="seal" aria-hidden="true">{t.thumb}</span>
+            <span class="tb">
+              <span class="tt">{t.title}</span>
+              <span class="ld">{t.lead}</span>
+              <span class="tm"><span class="n">{t.items.length}本</span></span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
   <style>
-    .wrap { padding: 2.4rem 1.25rem 3.5rem; }
-    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em; color: var(--color-accent); margin: 0 0 .3rem; }
-    h1 { margin: 0 0 .5rem; }
-    .lead { color: var(--color-text-muted); font-size: .9rem; margin: 0 0 1.6rem; max-width: 46em; line-height: 1.8; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .8rem; }
+    .body { padding-top: 1.8rem; padding-bottom: 4rem; }
+    .grid {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: .8rem;
+    }
+    .sec-learn { --tc: var(--color-sec-learn); }
+    .sec-playbook { --tc: var(--color-sec-playbook); }
+    .sec-charts { --tc: var(--color-sec-charts); }
     .tile {
-      display: flex; gap: .8rem; align-items: flex-start; text-decoration: none;
+      display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: start; height: 100%;
+      text-decoration: none; color: var(--color-text);
       background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius);
-      padding: .85rem .9rem; box-shadow: var(--shadow-card); min-height: 44px;
+      padding: 1.05rem 1.1rem 1rem; box-shadow: var(--shadow-card); min-height: 44px;
+      transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
     }
-    .tile:hover { border-color: var(--color-accent); }
-    .tile:hover .tt { color: var(--color-accent); text-decoration: underline; }
-    .thumb {
-      width: 52px; height: 52px; border-radius: 8px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 1.15rem; font-weight: 800;
+    .tile:hover { border-color: var(--color-border-strong); box-shadow: var(--shadow-float); }
+    .tile:hover .tt { color: var(--color-accent); text-decoration: underline; text-decoration-thickness: 1px; }
+    /* 印（はんこ）: 一文字をセクション色の細枠で囲む。面では塗らない */
+    .seal {
+      width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid var(--tc); border-radius: 4px; color: var(--tc);
+      font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0;
+      background: var(--color-paper);
+      box-shadow: inset 0 0 0 3px var(--color-bg), inset 0 0 0 4px color-mix(in srgb, var(--tc) 30%, transparent);
     }
-    .body { min-width: 0; }
-    .tt { display: block; font-weight: 800; color: var(--color-text); font-size: .95rem; }
-    .count { font-family: var(--font-num); font-size: .68rem; font-weight: 700; color: var(--color-text-muted); margin-left: .5em; }
-    .ld { display: block; font-size: .76rem; color: var(--color-text-muted); line-height: 1.65; margin-top: .3rem; }
+    .tb { display: flex; flex-direction: column; min-width: 0; height: 100%; }
+    .tt { font-family: var(--font-display); font-weight: 800; color: var(--color-ink); font-size: 1.08rem; line-height: 1.45; }
+    .ld { font-size: .8rem; color: var(--color-text-muted); line-height: 1.75; margin-top: .35rem; }
+    .tm {
+      display: flex; align-items: center; justify-content: flex-end; margin-top: auto; padding-top: .7rem;
+      font-family: var(--font-num); font-size: .74rem; color: var(--color-text-muted);
+    }
+    .tm .n::after { content: " →"; color: var(--color-border-strong); }
+    .tile:hover .tm .n::after { color: var(--color-accent); }
   </style>
 </Base>
